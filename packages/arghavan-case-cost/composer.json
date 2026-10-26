@@ -1,0 +1,17 @@
+{
+    "name": "arghavan/case-cost",
+    "version": "1.0",
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "ArghavanCaseCost\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mkhodroo",
+            "email": "mkhodroo@yahoo.com"
+        }
+    ],
+    "require": {}
+}
