@@ -15,7 +15,7 @@ $packages = [
         'provider' => 'BaleBot\\BaleBotProvider',
     ],
     'BehinFileControl\\' => [
-        'path' => dirname(__DIR__) . '/../packages/behin-file-uploader/src/',
+        'path' => dirname(__DIR__) . '/../packages/file-uploader/src/',
         'provider' => 'BehinFileControl\\BehinFileControlProvider',
     ],
     'Behin\\SimpleWorkflow\\' => [
