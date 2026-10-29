@@ -317,7 +317,7 @@ class DailyReportController extends Controller
             ->values();
 
         $users = User::query()
-            ->where('id', 68)
+            ->where('id', 1)
             ->where('sms_reminder_enabled', true)
             ->orderBy('number', 'asc')
             ->get();
