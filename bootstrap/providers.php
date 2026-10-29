@@ -35,4 +35,5 @@ return [
     UserNotification\UserNotificationProvider::class,
     SidebarManager\SidebarManagerServiceProvider::class,
     BaleBot\BaleBotProvider::class,
+    BehinFileControl\BehinFileControlProvider::class,
 ];
