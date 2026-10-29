@@ -48,7 +48,7 @@
 
         },
         "files": [
-            "packages/behin-simple-workflow/src/Helper/behin-simple-workflow.php"
+            "packages/behin-init/src/App/Helpers/behin-helpers.php"
         ]
     },
     "autoload-dev": {

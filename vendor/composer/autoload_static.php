@@ -47,7 +47,7 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'e4e590a9b5afe940db71ee1662c02677' => __DIR__ . '/..' . '/morilog/jalali/src/helpers.php',
         'd634523d799d97a8ab4807b650bf5cea' => __DIR__ . '/..' . '/pestphp/pest-plugin-laravel/src/Autoload.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
-        'ade6dd009455de1483bf74c79d14a58e' => __DIR__ . '/../..' . '/packages/behin-simple-workflow/src/Helper/behin-simple-workflow.php',
+        '1dd62bb642d9cb89aae0bb1db4f26894' => __DIR__ . '/../..' . '/packages/behin-init/src/App/Helpers/behin-helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
