@@ -1,12 +1,6 @@
 <?php
 
-use App\Providers\BladeServiceProvider;
-use Arghavan\CaseCost\ArghavanCaseCostProvider;
-use Arghavan\IncomesReport\IncomesReportServiceProvider;
-use Arghavan\OfficialOfficeTransaction\OfficialOfficeTransactionServiceProvider;
-use Arghavan\PettyCash\PettyCashServiceProvider;
-
-return [
+$providers = [
     App\Providers\AppServiceProvider::class,
     App\Providers\BroadcastServiceProvider::class,
     Barryvdh\TranslationManager\ManagerServiceProvider::class,
@@ -27,13 +21,26 @@ return [
     TodoList\TodoListProvider::class,
     UserProfile\UserProfileProvider::class,
     ShortenerUrl\Shortener\ShortenerServiceProvider::class,
-    BladeServiceProvider::class,
-    PettyCashServiceProvider::class,
-    IncomesReportServiceProvider::class,
-    OfficialOfficeTransactionServiceProvider::class,
-    ArghavanCaseCostProvider::class,
+    App\Providers\BladeServiceProvider::class,
+    Arghavan\PettyCash\PettyCashServiceProvider::class,
+    Arghavan\IncomesReport\IncomesReportServiceProvider::class,
+    Arghavan\OfficialOfficeTransaction\OfficialOfficeTransactionServiceProvider::class,
+    Arghavan\CaseCost\ArghavanCaseCostProvider::class,
     UserNotification\UserNotificationProvider::class,
     SidebarManager\SidebarManagerServiceProvider::class,
     BaleBot\BaleBotProvider::class,
     BehinFileControl\BehinFileControlProvider::class,
 ];
+
+return array_values(array_filter($providers, function ($provider) {
+
+    if (class_exists($provider)) {
+        return true;
+    }
+
+    error_log(
+        '[Laravel Provider] Provider not found: ' . $provider
+    );
+
+    return false;
+}));
