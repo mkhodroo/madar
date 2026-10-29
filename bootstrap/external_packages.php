@@ -14,6 +14,10 @@ $packages = [
         'path' => dirname(__DIR__) . '/../packages/bale-bot/src/',
         'provider' => 'BaleBot\\BaleBotProvider',
     ],
+    'BehinFileControl\\' => [
+        'path' => dirname(__DIR__) . '/../packages/behin-file-uploader/src/',
+        'provider' => 'BehinFileControl\\BehinFileControlProvider',
+    ],
 ];
 
 spl_autoload_register(function ($class) use ($packages) {
