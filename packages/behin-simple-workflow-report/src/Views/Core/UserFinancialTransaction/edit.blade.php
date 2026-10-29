@@ -110,7 +110,32 @@
 
     </div>
     <input type="submit" value="ذخیره" class="btn btn-primary m-2">
-</form>
+
+
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_issued') }}</label>
+            <select name="invoice_issued" id="invoice_issued" class="form-control">
+                <option value="0" @selected(old("invoice_issued", $financialTransaction->invoice_issued ?? 0) == 0)>خیر</option>
+                <option value="1" @selected(old("invoice_issued", $financialTransaction->invoice_issued ?? 0) == 1)>بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_received') }}</label>
+            <select name="invoice_received" id="invoice_received" class="form-control">
+                <option value="0" @selected(old("invoice_received", $financialTransaction->invoice_received ?? 0) == 0)>خیر</option>
+                <option value="1" @selected(old("invoice_received", $financialTransaction->invoice_received ?? 0) == 1)>بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_type') }}</label>
+            <select name="invoice_type" id="invoice_type" class="form-control">
+                <option value="">انتخاب کنید</option>
+                <option value="رسمی" @selected(old("invoice_type", $financialTransaction->invoice_type ?? "") === "رسمی")>رسمی</option>
+                <option value="غیررسمی" @selected(old("invoice_type", $financialTransaction->invoice_type ?? "") === "غیررسمی")>غیررسمی</option>
+            </select>
+        </div>
+
+    </form>
 
 <script>
     initial_view();

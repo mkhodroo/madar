@@ -429,8 +429,11 @@ class FinancialTransactionController extends Controller
             'destination_account_name' => $destinationCounterparty->name ?? null,
             'destination_account_number' => $destinationCounterparty->account_number ?? null,
             'official_office' => $request->official_office ?? 0,
+            'invoice_issued' => $request->invoice_issued ?? 0,
+            'invoice_received' => $request->invoice_received ?? 0,
+            'invoice_type' => $request->invoice_type ?? null,
             'file' => $fileValue ?? null,
-        ]);
+        ];
         if (isset($destinationCounterparty)) {
             $autoFinTransaction = Financial_transactions::create([
                 'case_number' => $request->case_number,
@@ -442,6 +445,9 @@ class FinancialTransactionController extends Controller
                 'invoice_or_cheque_number' => $request->invoice_or_cheque_number,
                 'transaction_or_cheque_due_date' => convertPersianToEnglish($request->transaction_or_cheque_due_date),
                 'transaction_or_cheque_due_date_alt' => $request->transaction_or_cheque_due_date_alt,
+                'invoice_issued' => $request->invoice_issued ?? 0,
+                'invoice_received' => $request->invoice_received ?? 0,
+                'invoice_type' => $request->invoice_type ?? null,
                 'file' => $fileValue ?? null,
             ]);
             $finTransaction->auto_financial_transaction_id = $autoFinTransaction->id;
@@ -503,6 +509,9 @@ class FinancialTransactionController extends Controller
             'destination_account_name' => $request->destination_account_name,
             'destination_account_number' => $request->destination_account_number,
             'official_office' => $request->official_office ?? 0,
+            'invoice_issued' => $request->invoice_issued ?? 0,
+            'invoice_received' => $request->invoice_received ?? 0,
+            'invoice_type' => $request->invoice_type ?? null,
             'file' => $fileValue ?? null
         ]);
         return redirect()->back(); //->route('simpleWorkflowReport.financial-transactions.index');
@@ -523,6 +532,9 @@ class FinancialTransactionController extends Controller
             'destination_account_number' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'official_office' => ['nullable', 'integer'],
+            'invoice_issued' => ['nullable', 'integer'],
+            'invoice_received' => ['nullable', 'integer'],
+            'invoice_type' => ['nullable', 'string'],
         ]);
 
         $amount = str_replace(',', '', $validated['amount']);
@@ -566,3 +578,4 @@ class FinancialTransactionController extends Controller
         ]);
     }
 }
+

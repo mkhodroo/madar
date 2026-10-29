@@ -121,6 +121,54 @@
             </select>
         </div>
         {{-- <div class="col-sm-4">
+
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_issued') }}</label>
+            <select name="invoice_issued" id="invoice_issued" class="form-control">
+                <option value="0">خیر</option>
+                <option value="1">بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_received') }}</label>
+            <select name="invoice_received" id="invoice_received" class="form-control">
+                <option value="0">خیر</option>
+                <option value="1">بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_type') }}</label>
+            <select name="invoice_type" id="invoice_type" class="form-control">
+                <option value="">انتخاب کنید</option>
+                <option value="رسمی">رسمی</option>
+                <option value="غیررسمی">غیررسمی</option>
+            </select>
+        </div>
+
+
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_issued') }}</label>
+            <select name="invoice_issued" id="invoice_issued" class="form-control">
+                <option value="0">خیر</option>
+                <option value="1">بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_received') }}</label>
+            <select name="invoice_received" id="invoice_received" class="form-control">
+                <option value="0">خیر</option>
+                <option value="1">بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">{{ trans('fields.invoice_type') }}</label>
+            <select name="invoice_type" id="invoice_type" class="form-control">
+                <option value="">انتخاب کنید</option>
+                <option value="رسمی">رسمی</option>
+                <option value="غیررسمی">غیررسمی</option>
+            </select>
+        </div>
+
             <div class="form-group"><label>نام مقصد حساب</label><input type="text" name="destination_account_name"
                     list="destination_account_name_list" value="" class="form-control"
                     id="destination_account_name" placeholder="" style="">
