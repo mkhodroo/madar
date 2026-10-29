@@ -149,7 +149,6 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         ),
         'M' =>
         array (
-            'MyFormBuilder\\' => 14,
             'Morilog\\Jalali\\' => 15,
             'Monolog\\' => 8,
             'Mockery\\' => 8,
@@ -505,10 +504,6 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'NunoMaduro\\Collision\\' =>
         array (
             0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
-        ),
-        'MyFormBuilder\\' =>
-        array (
-            0 => __DIR__ . '/../..' . '/packages/behin-form-builder/src',
         ),
         'Morilog\\Jalali\\' =>
         array (
@@ -4292,37 +4287,6 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'Morilog\\Jalali\\CalendarUtils' => __DIR__ . '/..' . '/morilog/jalali/src/CalendarUtils.php',
         'Morilog\\Jalali\\Converter' => __DIR__ . '/..' . '/morilog/jalali/src/Converter.php',
         'Morilog\\Jalali\\Jalalian' => __DIR__ . '/..' . '/morilog/jalali/src/Jalalian.php',
-        'MyFormBuilder\\Contracts\\FormBuilderInterface' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Contracts/FormBuilderInterface.php',
-        'MyFormBuilder\\Facades\\Form' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Facades/Form.php',
-        'MyFormBuilder\\Fields\\AbstractField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/AbstractField.php',
-        'MyFormBuilder\\Fields\\ButtonField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/ButtonField.php',
-        'MyFormBuilder\\Fields\\CheckboxField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/CheckboxField.php',
-        'MyFormBuilder\\Fields\\DateField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/DateField.php',
-        'MyFormBuilder\\Fields\\DateTimeField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/DateTimeField.php',
-        'MyFormBuilder\\Fields\\DivField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/DivField.php',
-        'MyFormBuilder\\Fields\\EmailField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/EmailField.php',
-        'MyFormBuilder\\Fields\\EntityField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/EntityField.php',
-        'MyFormBuilder\\Fields\\FieldFactory' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/FieldFactory.php',
-        'MyFormBuilder\\Fields\\FileField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/FileField.php',
-        'MyFormBuilder\\Fields\\FormattedDigitField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/FormattedDigitField.php',
-        'MyFormBuilder\\Fields\\HelpField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/HelpField.php',
-        'MyFormBuilder\\Fields\\HiddenField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/HiddenField.php',
-        'MyFormBuilder\\Fields\\LocationField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/LocationField.php',
-        'MyFormBuilder\\Fields\\SearchableInputField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/SearchableInputField.php',
-        'MyFormBuilder\\Fields\\SelectField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/SelectField.php',
-        'MyFormBuilder\\Fields\\SelectMultipleField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/SelectMultipleField.php',
-        'MyFormBuilder\\Fields\\SignatureField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/SignatureField.php',
-        'MyFormBuilder\\Fields\\SimpleSelectField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/SimpleSelectField.php',
-        'MyFormBuilder\\Fields\\SubmitField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/SubmitField.php',
-        'MyFormBuilder\\Fields\\TextField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/TextField.php',
-        'MyFormBuilder\\Fields\\TextareaField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/TextareaField.php',
-        'MyFormBuilder\\Fields\\TimeField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/TimeField.php',
-        'MyFormBuilder\\Fields\\TitleField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/TitleField.php',
-        'MyFormBuilder\\Fields\\ViewModelField' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Fields/ViewModelField.php',
-        'MyFormBuilder\\FormBuilderServiceProvider' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/FormBuilderServiceProvider.php',
-        'MyFormBuilder\\Renderers\\FormRenderer' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Renderers/FormRenderer.php',
-        'MyFormBuilder\\Services\\FormBuilder' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Services/FormBuilder.php',
-        'MyFormBuilder\\Traits\\HasAttributes' => __DIR__ . '/../..' . '/packages/behin-form-builder/src/Traits/HasAttributes.php',
         'Nette\\ArgumentOutOfRangeException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DeprecatedException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DirectoryNotFoundException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
