@@ -22,6 +22,10 @@ $packages = [
         'path' => dirname(__DIR__) . '/../packages/behin-simple-workflow-g1/src/',
         'provider' => 'Behin\\SimpleWorkflow\\SimpleWorkflowProvider',
     ],
+    'MyFormBuilder\\' => [
+        'path' => dirname(__DIR__) . '/../packages/field-builder/src/',
+        'provider' => 'MyFormBuilder\\FormBuilderServiceProvider',
+    ],
 ];
 
 spl_autoload_register(function ($class) use ($packages) {

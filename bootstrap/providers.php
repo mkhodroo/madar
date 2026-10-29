@@ -30,6 +30,7 @@ $providers = [
     SidebarManager\SidebarManagerServiceProvider::class,
     BaleBot\BaleBotProvider::class,
     BehinFileControl\BehinFileControlProvider::class,
+    MyFormBuilder\FormBuilderServiceProvider::class,
 ];
 
 return array_values(array_filter($providers, function ($provider) {
