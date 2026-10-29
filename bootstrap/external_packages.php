@@ -18,6 +18,10 @@ $packages = [
         'path' => dirname(__DIR__) . '/../packages/behin-file-uploader/src/',
         'provider' => 'BehinFileControl\\BehinFileControlProvider',
     ],
+    'Behin\\SimpleWorkflow\\' => [
+        'path' => dirname(__DIR__) . '/../packages/behin-simple-workflow-g1/src/',
+        'provider' => 'Behin\\SimpleWorkflow\\SimpleWorkflowProvider',
+    ],
 ];
 
 spl_autoload_register(function ($class) use ($packages) {
