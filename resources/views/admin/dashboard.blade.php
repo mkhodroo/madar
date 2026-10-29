@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="header-banner material-card payment-card">
-                <img src="{{ url('behin/header.png') }}" alt="Header">
+                <img src="{{ url('behin/header.jpg') }}" alt="Header">
             </div>
         </div>
         @if (auth()->user()->access('آیکون پذیرش دستگاه جدید '))
