@@ -36,7 +36,6 @@
             "UserProfile\\": "packages/behin-user-profile/src/",
             "BehinLogging\\": "packages/behin-logging/src/",
             "Behin\\Sms\\": "packages/behin-sms/src/",
-            "Behin\\PMCaseNumbering\\": "packages/behin-pm-case-numbering/src/",
             "TodoList\\": "packages/behin-todo-list/src/",
             "FileService\\": "packages/behin-file-service/src/",
             "Behin\\SimpleWorkflowReport\\": "packages/behin-simple-workflow-report/src/",

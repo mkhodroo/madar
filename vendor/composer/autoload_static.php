@@ -224,7 +224,6 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
             'Brick\\Math\\' => 11,
             'Behin\\Sms\\' => 10,
             'Behin\\SimpleWorkflowReport\\' => 27,
-            'Behin\\PMCaseNumbering\\' => 22,
             'BehinUserRoles\\' => 15,
             'BehinLogging\\' => 13,
             'BehinInit\\' => 10,
@@ -701,10 +700,6 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         array (
             0 => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src',
         ),
-        'Behin\\PMCaseNumbering\\' =>
-        array (
-            0 => __DIR__ . '/../..' . '/packages/behin-pm-case-numbering/src',
-        ),
         'BehinUserRoles\\' =>
         array (
             0 => __DIR__ . '/../..' . '/packages/behin-user-roles/src',
@@ -804,11 +799,6 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'BehinUserRoles\\Models\\User' => __DIR__ . '/../..' . '/packages/behin-user-roles/src/Models/User.php',
         'BehinUserRoles\\Models\\UserDepartment' => __DIR__ . '/../..' . '/packages/behin-user-roles/src/Models/UserDepartment.php',
         'BehinUserRoles\\UserRolesServiceProvider' => __DIR__ . '/../..' . '/packages/behin-user-roles/src/UserRolesServiceProvider.php',
-        'Behin\\PMCaseNumbering\\Controllers\\ApiKeyController' => __DIR__ . '/../..' . '/packages/behin-pm-case-numbering/src/Controllers/ApiKeyController.php',
-        'Behin\\PMCaseNumbering\\Controllers\\CaseNumberingController' => __DIR__ . '/../..' . '/packages/behin-pm-case-numbering/src/Controllers/CaseNumberingController.php',
-        'Behin\\PMCaseNumbering\\Controllers\\NewNummberController' => __DIR__ . '/../..' . '/packages/behin-pm-case-numbering/src/Controllers/NewNummberController.php',
-        'Behin\\PMCaseNumbering\\Models\\PMCaseNumbering' => __DIR__ . '/../..' . '/packages/behin-pm-case-numbering/src/Models/PMCaseNumbering.php',
-        'Behin\\PMCaseNumbering\\PackageServiceProvider' => __DIR__ . '/../..' . '/packages/behin-pm-case-numbering/src/PackageServiceProvider.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\BorrowRequestController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/BorrowRequestController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\ChequeReportController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/ChequeReportController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\ConsumablePartAdditionalInfoController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/ConsumablePartAdditionalInfoController.php',
