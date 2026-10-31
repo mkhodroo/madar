@@ -433,7 +433,7 @@ class FinancialTransactionController extends Controller
             'invoice_received' => $request->invoice_received ?? 0,
             'invoice_type' => $request->invoice_type ?? null,
             'file' => $fileValue ?? null,
-        ];
+        ]);
         if (isset($destinationCounterparty)) {
             $autoFinTransaction = Financial_transactions::create([
                 'case_number' => $request->case_number,
