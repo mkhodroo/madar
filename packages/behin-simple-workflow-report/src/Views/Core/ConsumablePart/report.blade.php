@@ -501,6 +501,9 @@
                                 @endphp
                                 <span class="badge"
                                     style="background: {{ $status['color'] ?? '#cccccc' }}">{{ $request->consumable_part_status }}</span>
+                                @if (!empty($status['assignee']))
+                                    <small class="text-muted">({{ $status['assignee'] }})</small>
+                                @endif
                             </td>
                             <td dir="ltr">
                                 @if ($request->created_at)

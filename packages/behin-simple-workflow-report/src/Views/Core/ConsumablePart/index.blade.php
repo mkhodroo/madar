@@ -118,7 +118,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($consumableParts->whereIn('consumable_part_status', ['در انتظار تحویل انبار', 'در انتظار تایید بازگشتی ها توسط انبار']) as $consumablePart)
+                        @foreach ($consumableParts->whereIn('consumable_part_status', ['در انتظار تحویل انبار', 'در انتظار تحویل بازگشتی ها توسط انبار', 'در انتظار تایید بازگشتی ها توسط انبار']) as $consumablePart)
                             <form action="{{ route('simpleWorkflowReport.consumable-parts.deliver', $consumablePart->id) }}"
                                 method="post">
                                 @csrf
@@ -181,7 +181,7 @@
                                             @foreach (collect($statuses)->whereNotIn('key', ['inquiring_price']) as $status)
                                                 <option value="{{ $status['label'] }}"
                                                     {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                    {{ $status['label'] }}</option>
+                                                    {{ $status['label'] }}@if (!empty($status['assignee'])) ({{ $status['assignee'] }})@endif</option>
                                             @endforeach
                                         </select>
                                         {{-- فیلد تعداد خرید --}}
@@ -255,7 +255,7 @@
                                             @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested']) as $status)
                                                 <option value="{{ $status['label'] }}"
                                                     {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                    {{ $status['label'] }}</option>
+                                                {{ $status['label'] }}@if (!empty($status['assignee'])) ({{ $status['assignee'] }})@endif</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -395,7 +395,7 @@
                                             @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested', 'inquiring_price', 'purchase_order_placed', 'waiting_to_receive_payment_from_the_customer']) as $status)
                                                 <option value="{{ $status['label'] }}"
                                                     {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                    {{ $status['label'] }}</option>
+                                                    {{ $status['label'] }}@if (!empty($status['assignee'])) ({{ $status['assignee'] }})@endif</option>
                                             @endforeach
                                         </select>
                                     </td>

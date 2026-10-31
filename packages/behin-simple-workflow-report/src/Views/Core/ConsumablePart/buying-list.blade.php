@@ -52,7 +52,7 @@
                                         @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested']) as $status)
                                             <option value="{{ $status['label'] }}"
                                                 {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                {{ $status['label'] }}</option>
+                                                {{ $status['label'] }}@if (!empty($status['assignee'])) ({{ $status['assignee'] }})@endif</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -110,7 +110,7 @@
                                         @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested']) as $status)
                                             <option value="{{ $status['label'] }}"
                                                 {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                {{ $status['label'] }}</option>
+                                                {{ $status['label'] }}@if (!empty($status['assignee'])) ({{ $status['assignee'] }})@endif</option>
                                         @endforeach
                                     </select>
                                 </td>

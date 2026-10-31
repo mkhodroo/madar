@@ -76,7 +76,10 @@ class ConsumablePartController extends Controller
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
             $consumablePart->save();
             return redirect()->back()->with(['success' => 'ذخیره شد']);
-        } elseif ($consumablePart->consumable_part_status == 'در انتظار تایید بازگشتی ها توسط انبار') {
+        } elseif (in_array($consumablePart->consumable_part_status, [
+            'در انتظار تایید بازگشتی ها توسط انبار',
+            'در انتظار تحویل بازگشتی ها توسط انبار',
+        ], true)) {
             $consumablePart->consumable_part_status = $request->consumable_part_status;
             $consumablePart->delivered_quantity = $request->delivered_quantity;
             $consumablePart->amount = $request->amount;
