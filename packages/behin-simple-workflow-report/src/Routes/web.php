@@ -137,18 +137,18 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
     Route::post('creditor/add-talab', [CreditorReportController::class, 'addTalab'])->name('creditor.addTalab')->middleware('access:گزارش لیست طلبکاران');
     Route::delete('creditor/delete/{id}', [CreditorReportController::class, 'delete'])->name('creditor.delete')->middleware('access:گزارش لیست طلبکاران');
 
-    Route::get('financial-transactions/user', [FinancialTransactionController::class, 'userIndex'])->name('financial-transactions.user')->middleware('access:گزارش لیست طلبکاران');
-    Route::get('financial-transactions/open-user-salary-advances/{counterparty}', [FinancialTransactionController::class, 'openUserSalaryAdvances'])->name('financial-transactions.openUserSalaryAdvances')->middleware('access:گزارش لیست طلبکاران');
+    Route::get('financial-transactions/user', [FinancialTransactionController::class, 'userIndex'])->name('financial-transactions.user')->middleware('access:گزارش دفتر معین');
+    Route::get('financial-transactions/open-user-salary-advances/{counterparty}', [FinancialTransactionController::class, 'openUserSalaryAdvances'])->name('financial-transactions.openUserSalaryAdvances')->middleware('access:گزارش دفتر معین');
     Route::post('/financial-transactions/openUserSalaryAdvances/bulk', [FinancialTransactionController::class, 'openUserSalaryAdvancesBulk'])->name('financial-transactions.openUserSalaryAdvancesBulk');
 
-    Route::get('financial-transactions/close-user-salary-advances/{counterparty}', [FinancialTransactionController::class, 'closeUserSalaryAdvances'])->name('financial-transactions.closeUserSalaryAdvances')->middleware('access:گزارش لیست طلبکاران');
-    Route::get('financial-transactions/user/export', [FinancialTransactionController::class, 'userExport'])->name('financial-transactions.user.export')->middleware('access:گزارش لیست طلبکاران');
-    Route::resource('financial-transactions', FinancialTransactionController::class)->middleware('access:گزارش لیست طلبکاران');
-    Route::get('financial-transactions/{counterparty}/show-add-credit', [FinancialTransactionController::class, 'showAddCredit'])->name('financial-transactions.showAddCredit')->middleware('access:گزارش لیست طلبکاران');
-    Route::get('financial-transactions/{counterparty?}/export', [FinancialTransactionController::class, 'export'])->name('financial-transactions.export')->middleware('access:گزارش لیست طلبکاران');
-    Route::post('financial-transactions/add-credit', [FinancialTransactionController::class, 'addCredit'])->name('financial-transactions.addCredit')->middleware('access:گزارش لیست طلبکاران');
-    Route::get('financial-transactions/{counterparty}/show-add-debit/{onlyAssignedUsers?}', [FinancialTransactionController::class, 'showAddDebit'])->name('financial-transactions.showAddDebit')->middleware('access:گزارش لیست طلبکاران');
-    Route::post('financial-transactions/add-debit', [FinancialTransactionController::class, 'addDebit'])->name('financial-transactions.addDebit')->middleware('access:گزارش لیست طلبکاران');
+    Route::get('financial-transactions/close-user-salary-advances/{counterparty}', [FinancialTransactionController::class, 'closeUserSalaryAdvances'])->name('financial-transactions.closeUserSalaryAdvances')->middleware('access:گزارش دفتر معین');
+    Route::get('financial-transactions/user/export', [FinancialTransactionController::class, 'userExport'])->name('financial-transactions.user.export')->middleware('access:گزارش دفتر معین');
+    Route::resource('financial-transactions', FinancialTransactionController::class)->middleware('access:گزارش دفتر معین');
+    Route::get('financial-transactions/{counterparty}/show-add-credit', [FinancialTransactionController::class, 'showAddCredit'])->name('financial-transactions.showAddCredit')->middleware('access:گزارش دفتر معین');
+    Route::get('financial-transactions/{counterparty?}/export', [FinancialTransactionController::class, 'export'])->name('financial-transactions.export')->middleware('access:گزارش دفتر معین');
+    Route::post('financial-transactions/add-credit', [FinancialTransactionController::class, 'addCredit'])->name('financial-transactions.addCredit')->middleware('access:گزارش دفتر معین');
+    Route::get('financial-transactions/{counterparty}/show-add-debit/{onlyAssignedUsers?}', [FinancialTransactionController::class, 'showAddDebit'])->name('financial-transactions.showAddDebit')->middleware('access:گزارش دفتر معین');
+    Route::post('financial-transactions/add-debit', [FinancialTransactionController::class, 'addDebit'])->name('financial-transactions.addDebit')->middleware('access:گزارش دفتر معین');
 
 
     Route::name('consumable-parts.')
