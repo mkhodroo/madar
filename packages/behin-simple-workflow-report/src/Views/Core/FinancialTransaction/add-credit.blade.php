@@ -125,58 +125,42 @@
             </select>
         </div>
         <div class="col-sm-4">
-            <label for="">در ریز خرج کرد ثبت شود؟</label>
-
-        <div class="col-sm-4">
-            <label for="">{{ trans('fields.invoice_issued') }}</label>
-            <select name="invoice_issued" id="invoice_issued" class="form-control">
-                <option value="0">خیر</option>
-                <option value="1">بله</option>
-            </select>
-        </div>
-        <div class="col-sm-4">
-            <label for="">{{ trans('fields.invoice_received') }}</label>
-            <select name="invoice_received" id="invoice_received" class="form-control">
-                <option value="0">خیر</option>
-                <option value="1">بله</option>
-            </select>
-        </div>
-        <div class="col-sm-4">
-            <label for="">{{ trans('fields.invoice_type') }}</label>
-            <select name="invoice_type" id="invoice_type" class="form-control">
-                <option value="">انتخاب کنید</option>
-                <option value="رسمی">رسمی</option>
-                <option value="غیررسمی">غیررسمی</option>
-            </select>
-        </div>
-
-
-        <div class="col-sm-4">
-            <label for="">{{ trans('fields.invoice_issued') }}</label>
-            <select name="invoice_issued" id="invoice_issued" class="form-control">
-                <option value="0">خیر</option>
-                <option value="1">بله</option>
-            </select>
-        </div>
-        <div class="col-sm-4">
-            <label for="">{{ trans('fields.invoice_received') }}</label>
-            <select name="invoice_received" id="invoice_received" class="form-control">
-                <option value="0">خیر</option>
-                <option value="1">بله</option>
-            </select>
-        </div>
-        <div class="col-sm-4">
-            <label for="">{{ trans('fields.invoice_type') }}</label>
-            <select name="invoice_type" id="invoice_type" class="form-control">
-                <option value="">انتخاب کنید</option>
-                <option value="رسمی">رسمی</option>
-                <option value="غیررسمی">غیررسمی</option>
-            </select>
-        </div>
-
+            <label for="">ثبت در ریزخرج‌کرد</label>
             <select name="store_in_pretty_cash" id="store_in_pretty_cash" class="form-control">
                 <option value="0">خیر</option>
                 <option value="1">بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">فاکتور صادر شده؟</label>
+            <select name="invoice_issued" id="invoice_issued" class="form-control">
+                <option value="0">خیر</option>
+                <option value="1">بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">فاکتور دریافت شده؟</label>
+            <select name="invoice_received" id="invoice_received" class="form-control">
+                <option value="0">خیر</option>
+                <option value="1">بله</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="">وضعیت صدور فاکتور</label>
+            <select name="invoice_type" id="invoice_type" class="form-control">
+                <option value="">انتخاب کنید</option>
+                <option value="رسمی">رسمی</option>
+                <option value="غیررسمی">غیررسمی</option>
+            </select>
+        </div>
+
+
+        <div class="col-sm-4">
+            <label for="">نوع فاکتور</label>
+            <select name="invoice_category" id="invoice_category" class="form-control">
+                <option value="">انتخاب کنید</option>
+                <option value="فروش">فروش</option>
+                <option value="خدمات">خدمات</option>
             </select>
         </div>
         <div class="col-sm-4">

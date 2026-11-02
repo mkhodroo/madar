@@ -493,30 +493,38 @@
                             </td>
                             <td>
                                 @if ($request->created_at)
-                                    {{ toJalali($request->created_at)->format('Y-m-d') }}
+                                    {{ toJalali($request->created_at)->format('Y-m-d H:i:s') }}
                                 @else
                                     ـ
                                 @endif
                             </td>
                             <td>
                                 @if ($request->delivered_at_alt)
-                                    {{ toJalali((int) $request->delivered_at_alt)->format('Y-m-d') }}
+                                    {{ toJalali((int) $request->delivered_at_alt)->format('Y-m-d H:i:s') }}
                                 @else
                                     ـ
                                 @endif
                             </td>
                             <td>
                                 @if ($request->expected_return_date_alt)
-                                    {{ toJalali((int) $request->expected_return_date_alt)->format('Y-m-d') }}
+                                    {{ toJalali((int) $request->expected_return_date_alt)->format('Y-m-d H:i:s') }}
                                 @else
                                     ـ
                                 @endif
                             </td>
-                            <td>{{ $request->actual_return_date }}</td>
+                            <td>
+                                @if ($request->actual_return_date_alt)
+                                    {{ toJalali((int) $request->actual_return_date_alt)->format('Y-m-d H:i:s') }}
+                                @elseif ($request->actual_return_date)
+                                    {{ toJalali($request->actual_return_date)->format('Y-m-d H:i:s') }}
+                                @else
+                                    ـ
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-muted">درخواستی ثبت نشده است.</td>
+                            <td colspan="8" class="text-center text-muted">درخواستی ثبت نشده است.</td>
                         </tr>
                     @endforelse
                 </tbody>

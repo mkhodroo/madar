@@ -432,6 +432,7 @@ class FinancialTransactionController extends Controller
             'invoice_issued' => $request->invoice_issued ?? 0,
             'invoice_received' => $request->invoice_received ?? 0,
             'invoice_type' => $request->invoice_type ?? null,
+            'invoice_category' => $request->invoice_category ?? null,
             'file' => $fileValue ?? null,
         ]);
         if (isset($destinationCounterparty)) {
@@ -448,6 +449,7 @@ class FinancialTransactionController extends Controller
                 'invoice_issued' => $request->invoice_issued ?? 0,
                 'invoice_received' => $request->invoice_received ?? 0,
                 'invoice_type' => $request->invoice_type ?? null,
+                'invoice_category' => $request->invoice_category ?? null,
                 'file' => $fileValue ?? null,
             ]);
             $finTransaction->auto_financial_transaction_id = $autoFinTransaction->id;
@@ -512,6 +514,7 @@ class FinancialTransactionController extends Controller
             'invoice_issued' => $request->invoice_issued ?? 0,
             'invoice_received' => $request->invoice_received ?? 0,
             'invoice_type' => $request->invoice_type ?? null,
+            'invoice_category' => $request->invoice_category ?? null,
             'file' => $fileValue ?? null
         ]);
         return redirect()->back(); //->route('simpleWorkflowReport.financial-transactions.index');
