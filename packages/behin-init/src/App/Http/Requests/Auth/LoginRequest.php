@@ -65,11 +65,11 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        $credentials = filter_var($identifier, FILTER_VALIDATE_EMAIL)
-            ? ['email' => $identifier, 'password' => $this->input('password')]
-            : ['number' => $identifier, 'password' => $this->input('password')];
+        // $credentials = filter_var($identifier, FILTER_VALIDATE_EMAIL)
+        //     ? ['email' => $identifier, 'password' => $this->input('password')]
+        //     : ['number' => $identifier, 'password' => $this->input('password')];
 
-        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
+        if (! Auth::attempt($identifier, $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
