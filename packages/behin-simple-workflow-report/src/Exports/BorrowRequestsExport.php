@@ -63,7 +63,7 @@ class BorrowRequestsExport implements FromCollection, WithHeadings, WithMapping,
             $this->formatTimestamp($request->created_at ?? null, true),
             $this->formatTimestamp($request->delivered_at_alt ?? null),
             $this->formatTimestamp($request->expected_return_date_alt ?? null),
-            $request->actual_return_date ?? '',
+            $this->formatTimestamp($request->actual_return_date_alt ?? $request->actual_return_date ?? null),
         ];
     }
 
@@ -75,10 +75,10 @@ class BorrowRequestsExport implements FromCollection, WithHeadings, WithMapping,
 
         try {
             if ($isCarbon) {
-                return toJalali($value)->format('Y-m-d');
+                return toJalali($value)->format('Y-m-d H:i:s');
             }
 
-            return toJalali((int) $value)->format('Y-m-d');
+            return toJalali(is_numeric($value) ? (int) $value : $value)->format('Y-m-d H:i:s');
         } catch (\Throwable) {
             return '';
         }

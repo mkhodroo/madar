@@ -213,13 +213,7 @@ class BorrowRequestController extends Controller
             $allRequests->where('item_name', 'like', '%' . $item_name . '%');
         }
         if ($status) {
-            if ($status == 'returned') {
-                $allRequests->where('status',  $status);
-            } else {
-                $allRequests->whereNot('status', 'returned')->where('status',  $status);
-            }
-        } else {
-            $allRequests->whereNot('status', 'returned');
+            $allRequests->where('status', $status);
         }
         $allRequests = $allRequests->orderByDesc($dateColumn);
 

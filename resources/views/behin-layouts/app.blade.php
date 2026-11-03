@@ -187,7 +187,7 @@
     <script src="{{ url('behin/behin-dist/plugins/mapp/js/mapp.env.js') . '?' . config('app.version') }}"></script>
 
     <script>
-        window.appUrl = "{{ env('APP_URL') }}";
+        window.appUrl = @json(rtrim(config('app.url'), '/') . '/');
     </script>
     <script src="{{ url('behin/behin-js/scripts.js') . '?' . config('app.version') }}"></script>
     <script src="{{ url('behin/behin-js/ajax.js') . '?' . config('app.version') }}"></script>

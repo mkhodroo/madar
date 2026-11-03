@@ -155,6 +155,7 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
         ->prefix('consumable-parts')
         ->group(function () {
 
+            Route::get('', [ConsumablePartController::class, 'index'])->name('index-root')->middleware('access:درخواست قطعات مصرفی');
             Route::get('index', [ConsumablePartController::class, 'index'])->name('index')->middleware('access:درخواست قطعات مصرفی');
             Route::get('create', [ConsumablePartController::class, 'create'])->name('create')->middleware('access:دریافت کالا از انبار');
             Route::post('store', [ConsumablePartController::class, 'store'])->name('store')->middleware('access:دریافت کالا از انبار');
