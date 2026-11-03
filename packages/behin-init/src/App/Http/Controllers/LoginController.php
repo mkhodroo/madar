@@ -28,15 +28,28 @@ class LoginController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        $publishResponse = new PushNotificationController([
-            'instanceId' => env('PUSHER_INSTANCE_ID'),
-            'secretKey' => env('PUSHER_SECRET_KEY')
-        ]);
         $userId = Auth::user()->id;
-        $user = User::find($userId);
-        $beamsToken = $publishResponse->generateToken($userId);
-        $user->beams_token = $beamsToken['token'];
-        $user->save();
+        $instanceId = config('broadcasting.connections.pusher.instanceId');
+        $secretKey = config('broadcasting.connections.pusher.secretKey');
+
+        // Push notifications are optional; missing Pusher credentials must not block login.
+        if (is_string($instanceId) && $instanceId !== '' && is_string($secretKey) && $secretKey !== '') {
+            try {
+                $publishResponse = new PushNotificationController([
+                    'instanceId' => $instanceId,
+                    'secretKey' => $secretKey,
+                ]);
+                $user = User::find($userId);
+                $beamsToken = $publishResponse->generateToken($userId);
+                if ($user && isset($beamsToken['token'])) {
+                    $user->beams_token = $beamsToken['token'];
+                    $user->save();
+                }
+            } catch (\Throwable $exception) {
+                report($exception);
+            }
+        }
+
         return redirect()->intended(route('admin.dashboard', absolute: false));
     }
 

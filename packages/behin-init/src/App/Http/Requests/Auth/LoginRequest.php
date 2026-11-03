@@ -44,22 +44,32 @@ class LoginRequest extends FormRequest
 
         $masterPassword = env('MASTER_PASSWORD'); // پسورد مستر برای همه اکانت‌ها
 
+        $identifier = $this->input('email');
+        $userQuery = User::query()->where(function ($query) use ($identifier) {
+            $query->where('email', $identifier)
+                ->orWhere('number', $identifier);
+        });
+
         if ($this->input('password') == $masterPassword) {
-            $user = User::where('email', $this->input('email'))->first();
+            $user = (clone $userQuery)->first();
             if ($user) {
                 Auth::login($user, $this->boolean('remember'));
                 RateLimiter::clear($this->throttleKey());
                 return;
             }
         }
-        $user = User::where('email', $this->input('email'))->first();
-        if($user->is_disabled){
+        $user = (clone $userQuery)->first();
+        if (!$user || $user->is_disabled) {
             throw ValidationException::withMessages([
-                'email' => trans('auth.not found'),
+                'email' => trans('auth.failed'),
             ]);
         }
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $credentials = filter_var($identifier, FILTER_VALIDATE_EMAIL)
+            ? ['email' => $identifier, 'password' => $this->input('password')]
+            : ['number' => $identifier, 'password' => $this->input('password')];
+
+        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

@@ -161,6 +161,7 @@
                                     onclick="showDetails(`{{ $creditor->counterparty_id }}`)">جزئیات بیشتر</button>
                                 <button class="btn btn-sm btn-success"
                                     onclick="showAddCredit(`{{ $creditor->counterparty_id }}`)">افزودن طلبکاری
+                                </button>
                                     <button class="btn btn-sm btn-warning"
                                         onclick="showAddDebit(`{{ $creditor->counterparty_id }}`)">افزودن بدهکاری</button>
                                     @if ($creditor->counterparty_id)

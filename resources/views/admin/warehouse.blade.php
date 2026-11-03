@@ -53,6 +53,28 @@
 
             </div>
         @endif
+        @if (access('گزارش قطعات درخواستی از انبار'))
+            <div class="col-lg-3 col-md-4 col-sm-6">
+
+                <div class="material-card payment-card card-cyan">
+
+                    <div class="material-card-content"
+                        onclick="window.location='{{ route('simpleWorkflowReport.consumable-parts.report') }}'">
+
+                        <div class="material-icon">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+
+                        <h3>{{ trans('گزارش قطعات درخواستی از انبار') }}</h3>
+
+                        <p>{{ trans('گزارش قطعات درخواستی از انبار') }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        @endif
         @if (access('لیست خرید داخلی و خارجی'))
             <div class="col-lg-3 col-md-4 col-sm-6">
 

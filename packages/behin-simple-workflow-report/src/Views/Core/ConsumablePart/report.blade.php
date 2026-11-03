@@ -77,9 +77,7 @@
                                 @endphp
                                 <option value="{{ $statusValue['label'] }}"
                                     {{ request('status') == $statusValue['label'] ? 'selected' : '' }}>
-                                    {{ $statusValue['label'] }}@if ($isStarredStatus)
-                                        *
-                                    @endif
+                                    {{ $statusValue['label'] }}{{ $isStarredStatus ? ' *' : '' }}{{ !empty($statusValue['assignee']) ? ' (' . $statusValue['assignee'] . ')' : '' }}
                                 </option>
                             @endforeach
 

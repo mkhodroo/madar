@@ -187,6 +187,7 @@
                         <table class="table table-bordered" id="external-reports-table">
                             <thead>
                                 <tr>
+                                    <th>تاریخ ثبت</th>
                                     <th>شروع</th>
                                     <th>پایان</th>
                                     <th>مدت تعمیرات</th>
@@ -216,6 +217,9 @@
                             <tbody>
                                 @foreach ($deviceRepairReports as $report)
                                     <tr>
+                                        <td dir="ltr">
+                                            {{ $report->created_at ? toJalali($report->created_at)->format('Y-m-d H:i:s') : '—' }}
+                                        </td>
                                         <td dir="ltr">{{ convertPersianToEnglish($report->start_date) }}
                                             {{ $report->start_time }}</td>
                                         <td dir="ltr">{{ convertPersianToEnglish($report->end_date) }}
@@ -262,7 +266,7 @@
                                 <tr>
                                     <td colspan="2"></td>
                                     <td>مجموع تعمیرات: {{ $totalDuration }} ساعت</td>
-                                    <td colspan="20"></td>
+                                    <td colspan="21"></td>
                                 </tr>
                             </tfoot>
                         </table>
