@@ -1,4 +1,3 @@
-```blade
 @extends('behin-layouts.app')
 
 @section('title')
