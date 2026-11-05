@@ -75,6 +75,7 @@ return [
             'submenu' => [
                 'case_cost_settings' => [ 'fa_name' => 'تخمین هزینه', 'route-name' => 'case-cost.settings', 'route-url' => '' ],
                 'sidebar' => [ 'fa_name' => 'سایدبار', 'route-name' => config('sidebar-manager.route_prefix', 'sidebar-manager').'.image.index', 'route-url' => '' ],
+                'ftp' => [ 'fa_name' => 'FTP', 'route-name' => 'file-upload-settings.index', 'route-url' => '' ],
             ]
         ],
         'users' => [
