@@ -40,7 +40,8 @@ function send_ajax_formdata_request(url, data, callback, erCallback = null) {
         processData: false,
         contentType: false,
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            'Accept': 'application/json'
         },
         method: 'post',
         success: function () {
