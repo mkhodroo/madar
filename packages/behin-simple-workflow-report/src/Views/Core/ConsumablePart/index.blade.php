@@ -96,8 +96,6 @@
         <div class="card">
             <div class="card-header card-header-parts">
                 <h3 class="card-title">درخواست قطعات مصرفی</h3>
-            </div>
-            <div class="d-flex flex-wrap gap-2">
                 <a href="{{ route('simpleWorkflowReport.consumable-parts.export-requests') }}" class="btn btn-success btn-sm">
                     <i class="bi bi-file-excel"></i> خروجی Excel درخواست‌ها
                 </a>
