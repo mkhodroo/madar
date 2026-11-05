@@ -25,45 +25,47 @@ function send_ajax_request(url, data, callback, erCallback = null){
 }
 
 
-function send_ajax_formdata_request(url, data, callback, erCallback = null) {
-    show_loading();
-
-    let jsonData = {};
-
-    if (data instanceof FormData) {
-        for (const [key, value] of data.entries()) {
-            jsonData[key] = value;
-        }
-    } else {
-        jsonData = data;
-    }
-
-    const errorCallback = erCallback || function (xhr) {
-        show_error(xhr.responseJSON || xhr.responseText || xhr);
-    };
-
-    return $.ajax({
-        url: url,
-        type: 'POST',
-        data: JSON.stringify(jsonData),
-        processData: false,
-        contentType: 'application/json; charset=UTF-8',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function (xhr) {
-            if (typeof callback === 'function') {
-                callback(xhr);
+function send_ajax_formdata_request_with_confirm(url, data, callback, erCallback = null, message = "مطمئنید؟") {
+    Swal.fire({
+        text: message,
+        icon: 'question',
+        showCancelButton: true, // نمایش دکمه لغو
+        confirmButtonColor: '#3085d6', // رنگ دکمه تأیید
+        cancelButtonColor: '#d33', // رنگ دکمه لغو
+        confirmButtonText: 'بله',
+        cancelButtonText: 'خیر'
+    }).then((result) => {
+        // اگر کاربر روی دکمه تأیید کلیک کرد
+        if (result.isConfirmed) {
+            show_loading()
+            if (erCallback == null) {
+                erCallback = function (data) {
+                    hide_loading();
+                    notify_error(data);
+                }
             }
-        },
-        error: function (xhr, status, error) {
-            callback(xhr);
-            errorCallback(xhr, status, error);
-        },
-        complete: function () {
-            hide_loading();
+            return $.ajax({
+                url: url,
+                data: data,
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: 'post',
+                success: function () {
+                    hide_loading();
+                },
+                error: erCallback
+            })
+                .done(callback);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // اگر کاربر روی دکمه لغو کلیک کرد
+            return false;
         }
     });
+
 }
 
 
