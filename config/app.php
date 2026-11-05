@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => 'v2.10.20 ',
+    'version' => 'v2.10.21 ',
     'main_layout' => 'behin-layouts',
 
 
