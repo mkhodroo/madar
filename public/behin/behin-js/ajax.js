@@ -277,13 +277,7 @@ function get_view_model_rows(viewModel_id, api_key) {
     return new Promise((resolve, reject) => {
         send_ajax_formdata_request(
             url, 
-            {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                viewModel_id: viewModel_id,
-                api_key: api_key,
-                inbox_id: $('#inboxId').val() ?? '',
-                case_id: $('#caseId').val() ?? ''
-            }, 
+            fd, 
             function(response){
             $(`#${viewModel_id} tbody`).html('');
             $(`#${viewModel_id} tbody`).html(response);
