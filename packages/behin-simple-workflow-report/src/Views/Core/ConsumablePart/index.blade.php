@@ -175,7 +175,7 @@
                                         </td>
                                         <td>
                                             <input type="text" name="amount" id="amount"
-                                                value="{{ $consumablePart->amount }}" dir="ltr" class="form-control"
+                                                value="{{ $consumablePart->amount }}" dir="ltr" class="form-control formatted-digit"
                                                 style="width: 150px">
                                         </td>
                                     @endif
