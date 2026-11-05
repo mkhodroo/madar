@@ -97,6 +97,11 @@
             <div class="card-header card-header-parts">
                 <h3 class="card-title">درخواست قطعات مصرفی</h3>
             </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-requests') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-excel"></i> خروجی Excel درخواست‌ها
+                </a>
+            </div>
             <div class="card-body table-responsive">
                 <table class="table table-striped table-bordered table-parts">
                     <thead>
@@ -214,6 +219,11 @@
             <div class="card-header card-header-buy-in">
                 <h3 class="card-title">لیست خرید داخلی</h3>
             </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-buying-in') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-excel"></i> خروجی Excel خرید داخلی
+                </a>
+            </div>
             <div class="card-body table-responsive">
                 <table class="table table-striped table-bordered table-buy-in">
                     <thead>
@@ -276,6 +286,11 @@
         <div class="card">
             <div class="card-header card-header-buy-out">
                 <h3 class="card-title">لیست خرید خارجی</h3>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-buying-out') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-excel"></i> خروجی Excel خرید خارجی
+                </a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-striped table-bordered table-buy-out">

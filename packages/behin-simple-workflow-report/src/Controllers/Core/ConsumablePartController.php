@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Auth;
 use Morilog\Jalali\Jalalian;
 use Behin\SimpleWorkflow\Models\Entities\Consumable_parts;
 use Behin\SimpleWorkflowReport\Exports\ConsumablePartsExport;
+use Behin\SimpleWorkflowReport\Exports\ConsumablePartsRequestsExport;
+use Behin\SimpleWorkflowReport\Exports\ConsumablePartsBuyingInExport;
+use Behin\SimpleWorkflowReport\Exports\ConsumablePartsBuyingOutExport;
 use Behin\Sms\Controllers\ArsanSmsController;
 use Brick\Math\BigInteger;
 use Illuminate\Support\Facades\Log;
@@ -185,16 +188,138 @@ class ConsumablePartController extends Controller
         ]);
     }
 
-    public function export(Request $request): BinaryFileResponse
+    public function exportRequests(Request $request): BinaryFileResponse
     {
-        $data = $this->prepareReportData($request, false);
+        $fromDate = $request->input('from_date') ?? null;
+        $toDate = $request->input('to_date') ?? null;
+        $dateColumn = $request->input('date_column') ?? 'created_at';
+        $requesterId = $request->input('requester_id') ?? null;
+        $item_name = $request->input('item_name') ?? null;
+
+        $allRequests = Consumable_parts::query()
+            ->whereIn('consumable_part_status', [
+                'در انتظار تحویل انبار',
+                'در انتظار تحویل بازگشتی ها توسط انبار',
+                'در انتظار تایید بازگشتی ها توسط انبار',
+            ])
+            ->orderByDesc($dateColumn)
+            ->with('additional_info');
+
+        if ($fromDate) {
+            $fromDate .= ' 00:00';
+            $fromDateAlt = convertPersianDateTimeToTimestamp($fromDate);
+            $fromDateAlt = date('Y-m-d H:i:s', $fromDateAlt);
+            $allRequests->where($dateColumn, '>=', $fromDateAlt);
+        }
+        if ($toDate) {
+            $toDate .= ' 23:59';
+            $toDateAlt = convertPersianDateTimeToTimestamp($toDate);
+            $toDateAlt = date('Y-m-d H:i:s', $toDateAlt);
+            $allRequests->where($dateColumn, '<=', $toDateAlt);
+        }
+        if ($requesterId) {
+            $allRequests->where('created_by', $requesterId);
+        }
+        if ($item_name) {
+            $allRequests->where('product_name', 'like', '%' . $item_name . '%');
+        }
+
+        $allRequests = $allRequests->get();
 
         $withPrices = (bool) access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت');
-
-        $fileName = sprintf('consumable-parts-report-%s.xlsx', now()->format('Y-m-d'));
+        $fileName = sprintf('consumable-parts-requests-export-%s.xlsx', now()->format('Y-m-d'));
 
         return Excel::download(
-            new ConsumablePartsExport($data['allRequests'], $withPrices),
+            new ConsumablePartsRequestsExport($allRequests, $withPrices),
+            $fileName
+        );
+    }
+
+    public function exportBuyingIn(Request $request): BinaryFileResponse
+    {
+        $fromDate = $request->input('from_date') ?? null;
+        $toDate = $request->input('to_date') ?? null;
+        $dateColumn = $request->input('date_column') ?? 'created_at';
+        $requesterId = $request->input('requester_id') ?? null;
+        $item_name = $request->input('item_name') ?? null;
+
+        $allRequests = Consumable_parts::query()
+            ->where('consumable_part_status', 'در انتظار خرید داخلی')
+            ->orderByDesc($dateColumn)
+            ->with('additional_info');
+
+        if ($fromDate) {
+            $fromDate .= ' 00:00';
+            $fromDateAlt = convertPersianDateTimeToTimestamp($fromDate);
+            $fromDateAlt = date('Y-m-d H:i:s', $fromDateAlt);
+            $allRequests->where($dateColumn, '>=', $fromDateAlt);
+        }
+        if ($toDate) {
+            $toDate .= ' 23:59';
+            $toDateAlt = convertPersianDateTimeToTimestamp($toDate);
+            $toDateAlt = date('Y-m-d H:i:s', $toDateAlt);
+            $allRequests->where($dateColumn, '<=', $toDateAlt);
+        }
+        if ($requesterId) {
+            $allRequests->where('created_by', $requesterId);
+        }
+        if ($item_name) {
+            $allRequests->where('product_name', 'like', '%' . $item_name . '%');
+        }
+
+        $allRequests = $allRequests->get();
+
+        $fileName = sprintf('consumable-parts-buying-in-export-%s.xlsx', now()->format('Y-m-d'));
+
+        return Excel::download(
+            new ConsumablePartsBuyingInExport($allRequests),
+            $fileName
+        );
+    }
+
+    public function exportBuyingOut(Request $request): BinaryFileResponse
+    {
+        $fromDate = $request->input('from_date') ?? null;
+        $toDate = $request->input('to_date') ?? null;
+        $dateColumn = $request->input('date_column') ?? 'created_at';
+        $requesterId = $request->input('requester_id') ?? null;
+        $item_name = $request->input('item_name') ?? null;
+
+        $allRequests = Consumable_parts::query()
+            ->whereIn('consumable_part_status', [
+                'در انتظار خرید خارجی',
+                'در حال استعلام قیمت خارجی',
+                'سفارش خرید خارجی گذاشته شد',
+                'در انتظار دریافت هزینه از مشتری',
+            ])
+            ->orderByDesc($dateColumn)
+            ->with('additional_info');
+
+        if ($fromDate) {
+            $fromDate .= ' 00:00';
+            $fromDateAlt = convertPersianDateTimeToTimestamp($fromDate);
+            $fromDateAlt = date('Y-m-d H:i:s', $fromDateAlt);
+            $allRequests->where($dateColumn, '>=', $fromDateAlt);
+        }
+        if ($toDate) {
+            $toDate .= ' 23:59';
+            $toDateAlt = convertPersianDateTimeToTimestamp($toDate);
+            $toDateAlt = date('Y-m-d H:i:s', $toDateAlt);
+            $allRequests->where($dateColumn, '<=', $toDateAlt);
+        }
+        if ($requesterId) {
+            $allRequests->where('created_by', $requesterId);
+        }
+        if ($item_name) {
+            $allRequests->where('product_name', 'like', '%' . $item_name . '%');
+        }
+
+        $allRequests = $allRequests->get();
+
+        $fileName = sprintf('consumable-parts-buying-out-export-%s.xlsx', now()->format('Y-m-d'));
+
+        return Excel::download(
+            new ConsumablePartsBuyingOutExport($allRequests),
             $fileName
         );
     }
