@@ -294,6 +294,102 @@
                     $('#consumable-parts .card-header').css('background', '#eebef9')
                 </script>
                     @endif
+
+                    <!-- باکس افزودن قطعه -->
+            {{-- <div class="card mb-4">
+                <div class="card-header bg-warning text-center">نصب قطعه روی دستگاه</div>
+                <div class="card-body">
+                    <form action="{{ route('simpleWorkflowReport.mapa-center.install-part', $case->id) }}" method="POST">
+                        @csrf
+                        <div class="row mb-3">
+                            <div class="col-md-5">
+                                <input type="text" name="part_name" class="form-control" placeholder="نام قطعه" required>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" name="part_value" class="form-control" placeholder="مقدار" required>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">ذخیره</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> --}}
+
+            <!-- جدول قطعات نصب‌شده -->
+            <div class="card">
+                <div class="card-header bg-warning text-center">لیست قطعات نصب‌شده</div>
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered table-striped" id="install-parts-list-table">
+                        <thead>
+                            <tr>
+                                <th>نام قطعه</th>
+                                <th>مقدار</th>
+                                <th>تاریخ ثبت</th>
+                                @if (auth()->user()->access('مپاسنتر: نمایش جزئیات فاکتور قطعات نصب شده'))
+                                    <th>منبع تامین</th>
+                                    <th>شماره فاکتور</th>
+                                    <th>تاریخ فاکتور</th>
+                                    <th>مبلغ</th>
+                                @endif
+                                <th>حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $colspan = 4;
+                                if (auth()->user()->access('مپاسنتر: نمایش جزئیات فاکتور قطعات نصب شده')) {
+                                    $colspan = 8;
+                                }
+                                $totalAmount = 0;
+                            @endphp
+                            @forelse ($installParts as $part)
+                                <tr>
+                                    <td>{{ $part->name }}</td>
+                                    <td>{{ $part->value }}</td>
+                                    <td>{{ jdate($part->created_at)->format('Y/m/d') }}</td>
+                                    @if (auth()->user()->access('مپاسنتر: نمایش جزئیات فاکتور قطعات نصب شده'))
+                                        @php
+                                            $totalAmount += (int) str_replace(',', '', $part->amount);
+                                        @endphp
+                                        <td>{{ $part->supply_source }}</td>
+                                        <td>{{ $part->invoice_number }}</td>
+                                        <td>{{ $part->invoice_date }}</td>
+                                        <td>{{ $part->amount }}</td>
+                                    @endif
+                                    <td>
+                                        @if (auth()->user()->access('مپاسنتر: امکان ویرایش قطعات نصب شده'))
+                                            <i class="btn btn-sm btn-primary fa fa-edit"
+                                                onclick="open_view_model_form(`{{ $installPartViewModelUpdateForm }}`, `{{ $installPartViewModelId }}`, `{{ $part->id }}`, `{{ $installPartViewModelApikey }}`)"></i>
+                                        @endif
+                                        @if (auth()->user()->access('مپاسنتر: امکان حذف قطعات نصب شده'))
+                                            <a href="{{ route('simpleWorkflowReport.mapa-center.delete-install-part', $part->id) }}"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="return confirm('آیا از حذف قطعه {{ $part->name }} مطمئن هستید؟')">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="{{ $colspan }}" class="text-center">قطعه‌ای ثبت نشده است.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                        @if (auth()->user()->access('مپاسنتر: نمایش جزئیات فاکتور قطعات نصب شده'))
+                            <tfoot>
+                                <tr>
+                                    <td colspan="{{ $colspan - 2 }}" class="text-center">مجموع</td>
+                                    <td>{{ number_format($totalAmount) }}</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        @endif
+                    </table>
+                </div>
+            </div>
+
             @if (auth()->user()->access('گزارش مالی مپا سنتر'))
                 @include('SimpleWorkflowView::Core.Form.field-generator', [
                     'fieldName' => 'هزینه‌های انجام شده از تنخواه',
