@@ -143,7 +143,10 @@ class ExternalAndInternalReportController extends Controller
         $mapaCenterReports = Mapa_center_fix_report::where('case_number', $caseNumber)->get();
 
         $financials = Financials::where('case_number', $caseNumber)->get();
-        $financialTransactions = Financial_transactions::where('case_number', $caseNumber)->get();
+        $financialTransactions = Financial_transactions::where('case_number', $caseNumber)
+            ->orderByRaw('COALESCE(transaction_or_cheque_due_date_alt, transaction_or_cheque_due_date) asc')
+            ->orderBy('id')
+            ->get();
         $caseCosts = Case_costs::where('case_number', $caseNumber)->get();
         $delivery = [
             'delivery_date' => $mainCase->getVariable('delivery_date'),

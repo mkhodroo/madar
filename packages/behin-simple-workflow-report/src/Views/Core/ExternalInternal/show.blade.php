@@ -3,6 +3,42 @@
 @section('title')
 @endsection
 
+@php
+    $caseFinancialTransactions = $financialTransactions ?? collect();
+
+    // دسترسی قابل تخصیص به نقش‌های مختلف (در صورت نبود، به صورت غیرفعال در لیست دسترسی‌ها ساخته می‌شود)
+    $canViewCaseFinancial = access('گزارش مالی پرونده از دفتر معین');
+
+    $caseDebitTransactions = $caseFinancialTransactions->where('financial_type', 'بدهکار');
+    $caseCreditTransactions = $caseFinancialTransactions->where('financial_type', 'بستانکار');
+
+    // محاسبه مانده تجمعی به ترتیب تاریخ
+    $runningBalance = 0;
+    $caseCumulativeTransactions = $caseFinancialTransactions
+        ->sortBy(function ($transaction) {
+            return $transaction->transaction_or_cheque_due_date_alt ?: $transaction->transaction_or_cheque_due_date;
+        })
+        ->values()
+        ->map(function ($transaction) use (&$runningBalance) {
+            $amount = (float) str_replace(',', '', (string) $transaction->amount);
+            $runningBalance += $transaction->financial_type === 'بستانکار' ? $amount : -$amount;
+            $transaction->running_balance = $runningBalance;
+            return $transaction;
+        });
+
+    $caseTotalDebit = (float) $caseFinancialTransactions
+        ->where('financial_type', 'بدهکار')
+        ->sum(fn($transaction) => (float) str_replace(',', '', (string) $transaction->amount));
+    $caseTotalCredit = (float) $caseFinancialTransactions
+        ->where('financial_type', 'بستانکار')
+        ->sum(fn($transaction) => (float) str_replace(',', '', (string) $transaction->amount));
+    $financialSummary = [
+        'total_debit' => $caseTotalDebit,
+        'total_credit' => $caseTotalCredit,
+        'balance' => $caseTotalCredit - $caseTotalDebit,
+    ];
+@endphp
+
 
 
 @section('content')
@@ -556,6 +592,178 @@
                     </div>
                 </div>
             @endif
+            @if ($canViewCaseFinancial)
+                <div class="card" id="case-financial-report">
+                    <div class="card-header text-center font-vazir-bold bg-info text-white" style="font-size: 25px">
+                        گزارش مالی دفتر معین برای پرونده شماره {{ $mainCase->number }}
+                    </div>
+                    <div class="card-body">
+                        @if ($caseFinancialTransactions->isEmpty())
+                            <div class="alert alert-warning">برای این شماره پرونده تراکنش مالی ثبت نشده است.</div>
+                        @endif
+
+                        {{-- جدول بدهکاری‌ها --}}
+                        <div class="card mb-4">
+                            <div class="card-header bg-danger text-white">جدول بدهکاری‌ها</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="case-debit-table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>تاریخ</th>
+                                                <th>طرف حساب</th>
+                                                <th>مبلغ</th>
+                                                <th>نحوه پرداخت</th>
+                                                <th>شماره چک/فاکتور</th>
+                                                <th>توضیحات</th>
+                                                <th>بابت پرونده</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($caseDebitTransactions as $transaction)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td dir="ltr"
+                                                        data-order="{{ $transaction->transaction_or_cheque_due_date_alt ?: $transaction->transaction_or_cheque_due_date }}">
+                                                        {{ $transaction->transaction_or_cheque_due_date }}</td>
+                                                    <td>{{ $transaction->counterparty()?->name ?? '' }}</td>
+                                                    <td dir="ltr">
+                                                        {{ number_format((float) str_replace(',', '', (string) $transaction->amount)) }}
+                                                    </td>
+                                                    <td>{{ $transaction->financial_method }}</td>
+                                                    <td>{{ $transaction->invoice_or_cheque_number }}</td>
+                                                    <td>{{ $transaction->description }}</td>
+                                                    <td>{{ $transaction->case_number }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="3" class="text-right">جمع بدهکاری این پرونده:</th>
+                                                <th dir="ltr">{{ number_format($financialSummary['total_debit'] ?? 0) }}</th>
+                                                <th colspan="4"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                @include('SimpleWorkflowReportView::Core.Summary.partial.case-financial-summary', [
+                                    'financialSummary' => $financialSummary,
+                                ])
+                            </div>
+                        </div>
+
+                        {{-- جدول بستانکاری‌ها --}}
+                        <div class="card mb-4">
+                            <div class="card-header bg-success text-white">جدول بستانکاری‌ها</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="case-credit-table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>تاریخ</th>
+                                                <th>طرف حساب</th>
+                                                <th>مبلغ</th>
+                                                <th>نحوه پرداخت</th>
+                                                <th>شماره چک/فاکتور</th>
+                                                <th>توضیحات</th>
+                                                <th>بابت پرونده</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($caseCreditTransactions as $transaction)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td dir="ltr"
+                                                        data-order="{{ $transaction->transaction_or_cheque_due_date_alt ?: $transaction->transaction_or_cheque_due_date }}">
+                                                        {{ $transaction->transaction_or_cheque_due_date }}</td>
+                                                    <td>{{ $transaction->counterparty()?->name ?? '' }}</td>
+                                                    <td dir="ltr">
+                                                        {{ number_format((float) str_replace(',', '', (string) $transaction->amount)) }}
+                                                    </td>
+                                                    <td>{{ $transaction->financial_method }}</td>
+                                                    <td>{{ $transaction->invoice_or_cheque_number }}</td>
+                                                    <td>{{ $transaction->description }}</td>
+                                                    <td>{{ $transaction->case_number }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="3" class="text-right">جمع بستانکاری این پرونده:</th>
+                                                <th dir="ltr">{{ number_format($financialSummary['total_credit'] ?? 0) }}</th>
+                                                <th colspan="4"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                @include('SimpleWorkflowReportView::Core.Summary.partial.case-financial-summary', [
+                                    'financialSummary' => $financialSummary,
+                                ])
+                            </div>
+                        </div>
+
+                        {{-- جدول تجمعی بدهکاری و بستانکاری --}}
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">جدول تجمعی (بدهکاری و بستانکاری)</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="case-cumulative-table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>تاریخ</th>
+                                                <th>نوع</th>
+                                                <th>طرف حساب</th>
+                                                <th>بدهکار</th>
+                                                <th>بستانکار</th>
+                                                <th>مانده تجمعی</th>
+                                                <th>توضیحات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($caseCumulativeTransactions as $transaction)
+                                                @php
+                                                    $transactionAmount = (float) str_replace(',', '', (string) $transaction->amount);
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td dir="ltr"
+                                                        data-order="{{ $transaction->transaction_or_cheque_due_date_alt ?: $transaction->transaction_or_cheque_due_date }}">
+                                                        {{ $transaction->transaction_or_cheque_due_date }}</td>
+                                                    <td>{{ $transaction->financial_type }}</td>
+                                                    <td>{{ $transaction->counterparty()?->name ?? '' }}</td>
+                                                    <td dir="ltr">
+                                                        {{ $transaction->financial_type === 'بدهکار' ? number_format($transactionAmount) : '' }}
+                                                    </td>
+                                                    <td dir="ltr">
+                                                        {{ $transaction->financial_type === 'بستانکار' ? number_format($transactionAmount) : '' }}
+                                                    </td>
+                                                    <td dir="ltr">{{ number_format($transaction->running_balance) }}</td>
+                                                    <td>{{ $transaction->description }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="4" class="text-right">جمع:</th>
+                                                <th dir="ltr">{{ number_format($financialSummary['total_debit'] ?? 0) }}</th>
+                                                <th dir="ltr">{{ number_format($financialSummary['total_credit'] ?? 0) }}</th>
+                                                <th dir="ltr">{{ number_format($financialSummary['balance'] ?? 0) }}</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                @include('SimpleWorkflowReportView::Core.Summary.partial.case-financial-summary', [
+                                    'financialSummary' => $financialSummary,
+                                ])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @if (access('گزارش پرونده: تخمین هزینه'))
                 @include('SimpleWorkflowView::Core.Form.field-generator', [
                     'fieldName' => 'تخمین هزینه پرونده',
@@ -641,6 +849,45 @@
                     [2, 'desc']
                 ]
             });
+
+            // جدول بدهکاری‌های پرونده - مرتب‌سازی بر اساس تاریخ (جدیدترین ابتدا)
+            if ($('#case-debit-table').length) {
+                $('#case-debit-table').DataTable({
+                    order: [
+                        [1, 'desc']
+                    ],
+                    pageLength: 25,
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Persian.json'
+                    }
+                });
+            }
+
+            // جدول بستانکاری‌های پرونده - مرتب‌سازی بر اساس تاریخ (جدیدترین ابتدا)
+            if ($('#case-credit-table').length) {
+                $('#case-credit-table').DataTable({
+                    order: [
+                        [1, 'desc']
+                    ],
+                    pageLength: 25,
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Persian.json'
+                    }
+                });
+            }
+
+            // جدول تجمعی پرونده - مرتب‌سازی بر اساس تاریخ (قدیمی‌ترین ابتدا تا مانده تجمعی درست باشد)
+            if ($('#case-cumulative-table').length) {
+                $('#case-cumulative-table').DataTable({
+                    order: [
+                        [1, 'asc']
+                    ],
+                    pageLength: 25,
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Persian.json'
+                    }
+                });
+            }
         });
     </script>
 @endsection
