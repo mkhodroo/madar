@@ -42,7 +42,7 @@
 
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid px-0">
         <div class="card-body table-responsive">
             {{-- <pre>
                     {{ print_r($customer) }}
