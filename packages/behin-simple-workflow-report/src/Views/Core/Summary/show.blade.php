@@ -11,7 +11,7 @@
     $financialSummary = $financialSummary ?? null;
 
     // دسترسی قابل تخصیص به نقش‌های مختلف (در صورت نبود، به صورت غیرفعال در لیست دسترسی‌ها ساخته می‌شود)
-    $canViewCaseFinancial = access('گزارش مالی پرونده از دفتر معین');
+    $canViewCaseFinancial = access('مشاهده باکس مشاهده گزارش مالی پرونده در جزئیات پرونده');
 
     $debitTransactions = $financialTransactions->where('financial_type', 'بدهکار');
     $creditTransactions = $financialTransactions->where('financial_type', 'بستانکار');
