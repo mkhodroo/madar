@@ -38,6 +38,11 @@ class BorrowRequestController extends Controller
             ->get()
             ->filter(fn($request) => $request->status === 'pending_return_confirmation');
 
+        $notAvailableRequests = Borrow_requests::whereStatus('not_available')
+            ->orderByDesc('not_available_at_alt')
+            ->orderByDesc('updated_at')
+            ->get();
+
         $statuses = config('simpleWorkflowReport.borrow_requests.statuses', []);
 
         return view('SimpleWorkflowReportView::Core.BorrowRequest.index', compact(
@@ -45,6 +50,7 @@ class BorrowRequestController extends Controller
             'pendingDeliveries',
             'deliveredRequests',
             'waitingReturnConfirmation',
+            'notAvailableRequests',
             'statuses'
         ));
     }
@@ -128,6 +134,54 @@ class BorrowRequestController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'بازگشت کالا ثبت شد و در انتظار تایید انبار است.');
+    }
+
+    /**
+     * انبار اعلام می‌کند کالای درخواست‌شده موجود نیست.
+     * این وضعیت به‌جای ثبت تحویل و بازگشت صوری، در سوابق درخواست ذخیره می‌شود.
+     */
+    public function markNotAvailable(Request $request, Borrow_requests $borrowRequest): RedirectResponse
+    {
+        if (!access('انبار گردانی کالاهای امانی')) {
+            return redirect()->back()->with('warning', 'شما دسترسی ثبت «موجود نیست» برای کالاهای امانی را ندارید.');
+        }
+
+        $validated = $request->validate([
+            'note' => 'nullable|string|max:500',
+        ]);
+
+        $requestedStatus = config('simpleWorkflowReport.borrow_requests.statuses.requested.key');
+
+        if ($borrowRequest->status !== $requestedStatus) {
+            return redirect()->back()->with('warning', 'تنها درخواست‌های در انتظار تحویل را می‌توان به‌عنوان «موجود نیست» ثبت کرد.');
+        }
+
+        if (!is_null($borrowRequest->delivered_at_alt) || !is_null($borrowRequest->actual_return_date)) {
+            return redirect()->back()->with('warning', 'برای این درخواست قبلا تحویل ثبت شده است و امکان ثبت «موجود نیست» وجود ندارد.');
+        }
+
+        $now = Jalalian::now();
+
+        $borrowRequest->forceFill([
+            'status' => config('simpleWorkflowReport.borrow_requests.statuses.not_available.key'),
+            'not_available_at' => $now->format('Y-m-d H:i'),
+            'not_available_at_alt' => $now->toCarbon()->timestamp,
+            'not_available_by' => Auth::id(),
+            'not_available_note' => $validated['note'] ?? null,
+            'delivery_id' => Auth::id(),
+            'updated_by' => Auth::id(),
+        ])->save();
+
+        if ($borrowRequest->requester_id) {
+            SendPushNotification::dispatch(
+                $borrowRequest->requester_id,
+                'کالای امانی موجود نیست',
+                'کالای «' . $borrowRequest->item_name . '» در انبار موجود نیست.',
+                route('simpleWorkflowReport.borrow-requests.index')
+            );
+        }
+
+        return redirect()->back()->with('success', 'موجود نبودن کالا ثبت شد و در سوابق درخواست ذخیره گردید.');
     }
 
     public function confirmReturn(Borrow_requests $borrowRequest): RedirectResponse

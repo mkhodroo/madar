@@ -8,6 +8,12 @@ return [
             'color' => '#f63245ff',
             'description' => 'درخواست ثبت شده و منتظر تایید و تحویل انبار است.',
         ],
+        'not_available' => [
+            'key' => 'not_available',
+            'label' => 'موجود نیست',
+            'color' => '#6c757dff',
+            'description' => 'انبار اعلام کرده است که کالا موجود نیست و درخواست بدون تحویل بسته شده است.',
+        ],
         'delivered' => [
             'key' => 'delivered',
             'label' => 'تحویل داده شد',

@@ -110,6 +110,11 @@
                             تاریخ بازگشت
                         </option>
 
+                        <option value="not_available_at_alt"
+                            {{ request('date_column') == 'not_available_at_alt' ? 'selected' : '' }}>
+                            تاریخ اعلام موجود نبودن
+                        </option>
+
                     </select>
                 </div>
 
@@ -472,6 +477,7 @@
                         <th>تاریخ تحویل</th>
                         <th>تاریخ بازگشت مورد انتظار</th>
                         <th>تاریخ بازگشت</th>
+                        <th>توضیحات موجود نبودن</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -487,7 +493,7 @@
                             <td>{{ getUserInfo($request->requester_id)->name }}</td>
                             <td>
                                 <span class="badge"
-                                    style="background-color: {{ $statuses[$request->status]['color'] }}">{{ $request->status_label }}</span>
+                                    style="background-color: {{ $statuses[$request->status]['color'] ?? '#6c757d' }}">{{ $statuses[$request->status]['label'] ?? $request->status }}</span>
                                 <div class="text-muted small">{{ $statuses[$request->status]['description'] ?? '' }}
                                 </div>
                             </td>
@@ -521,10 +527,23 @@
                                     ـ
                                 @endif
                             </td>
+                            <td>
+                                @if ($request->status === 'not_available')
+                                    <div class="text-muted small">
+                                        تاریخ اعلام: {{ $request->not_available_at ?: 'ـ' }}
+                                        @if ($request->not_available_by)
+                                            | ثبت توسط: {{ getUserInfo($request->not_available_by)?->name ?? '' }}
+                                        @endif
+                                    </div>
+                                    <div>{{ $request->not_available_note ?: 'ـ' }}</div>
+                                @else
+                                    ـ
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted">درخواستی ثبت نشده است.</td>
+                            <td colspan="9" class="text-center text-muted">درخواستی ثبت نشده است.</td>
                         </tr>
                     @endforelse
                 </tbody>

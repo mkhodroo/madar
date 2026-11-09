@@ -55,6 +55,7 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
         Route::get('report', [BorrowRequestController::class, 'report'])->name('report');
         Route::get('report/export', [BorrowRequestController::class, 'export'])->name('report.export')->middleware('access:خروجی اکسل گزارش امانات');
         Route::post('{borrowRequest}/deliver', [BorrowRequestController::class, 'deliver'])->name('deliver');
+        Route::post('{borrowRequest}/not-available', [BorrowRequestController::class, 'markNotAvailable'])->name('not-available');
         Route::post('{borrowRequest}/mark-returned', [BorrowRequestController::class, 'markReturned'])->name('mark-returned');
         Route::post('{borrowRequest}/confirm-return', [BorrowRequestController::class, 'confirmReturn'])->name('confirm-return');
     });
