@@ -64,7 +64,13 @@ class ConsumablePartController extends Controller
     public function deliver(Request $request, Consumable_parts $consumablePart)
     {
         if ($consumablePart->consumable_part_status == 'در انتظار تحویل انبار') {
-            if ($request->consumable_part_status == 'تایید' and !$request->delivered_quantity) {
+            $deliveredQuantity = $request->delivered_quantity;
+            if (
+                $deliveredQuantity === null
+                || $deliveredQuantity === ''
+                || !is_numeric($deliveredQuantity)
+                || $deliveredQuantity < 0
+            ) {
                 return redirect()->back()->with(['error' => 'تعداد تحویل داده شده الزامیست']);
             }
             if (isset($request->required_quantity_to_purchase)) {

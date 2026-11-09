@@ -110,7 +110,7 @@
                             <th>درخواست کننده</th>
                             <th>قطعه</th>
                             <th>تعداد مورد نیاز</th>
-                            <th>تعداد تحویل شده</th>
+                            <th>تعداد تحویل شده <span class="text-warning">*</span></th>
                             <th>تعداد بازگشت شده به انبار</th>
                             <th>منبع تامین</th>
                             <th>شماره فاکتور</th>
@@ -137,7 +137,8 @@
                                     <td>
                                         @if ($consumablePart->consumable_part_status == 'در انتظار تحویل انبار')
                                             <input type="number" name="delivered_quantity" id=""
-                                                value="{{ $consumablePart->delivered_quantity }}" class="form-control">
+                                                value="{{ $consumablePart->delivered_quantity }}" class="form-control"
+                                                min="0" required title="تعداد تحویل داده شده الزامیست">
                                         @else
                                             {{ $consumablePart->delivered_quantity }}
                                         @endif
