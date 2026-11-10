@@ -25,6 +25,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Behin\SimpleWorkflow\Models\Entities\Mapa_center_fix_report;
 use Behin\SimpleWorkflow\Models\Entities\Mapa_center_install_parts;
 use Behin\SimpleWorkflow\Models\Entities\Parts;
+use Behin\SimpleWorkflow\Models\Entities\Consumable_parts;
 
 class MapaCenterController extends Controller
 {
@@ -46,7 +47,8 @@ class MapaCenterController extends Controller
         ])->get();
         $financials = Financials::where('case_number', $case->number)->get();
         $installParts = Mapa_center_install_parts::where('case_number', $case->number)->get();
-        return view('SimpleWorkflowReportView::Core.MapaCenter.show', compact('case', 'reports', 'parts', 'internalCases', 'financials', 'installParts'));
+        $consumableParts = Consumable_parts::where('case_number', $case->number)->get();
+        return view('SimpleWorkflowReportView::Core.MapaCenter.show', compact('case', 'reports', 'parts', 'internalCases', 'financials', 'installParts', 'consumableParts'));
     }
 
     public function archiveShow($mapa_center)

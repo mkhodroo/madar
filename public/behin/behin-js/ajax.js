@@ -26,44 +26,30 @@ function send_ajax_request(url, data, callback, erCallback = null){
 
 
 function send_ajax_formdata_request(url, data, callback, erCallback = null) {
-    show_loading();
-
-    let jsonData = {};
-
-    if (data instanceof FormData) {
-        for (const [key, value] of data.entries()) {
-            jsonData[key] = value;
+    show_loading()
+    if (erCallback == null) {
+        erCallback = function (data) {
+            hide_loading();
+            notify_error(data);
         }
-    } else {
-        jsonData = data;
     }
-
-    const errorCallback = erCallback || function (xhr) {
-        show_error(xhr.responseJSON || xhr.responseText || xhr);
-    };
-
     return $.ajax({
         url: url,
+        data: data,
         type: 'POST',
-        data: JSON.stringify(jsonData),
         processData: false,
-        contentType: 'application/json; charset=UTF-8',
+        contentType: false,
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            'Accept': 'application/json'
         },
-        success: function (xhr) {
-            if (typeof callback === 'function') {
-                callback(xhr);
-            }
-        },
-        error: function (xhr, status, error) {
-            callback(xhr);
-            errorCallback(xhr, status, error);
-        },
-        complete: function () {
+        method: 'post',
+        success: function () {
             hide_loading();
-        }
-    });
+        },
+        error: erCallback
+    })
+        .done(callback)
 }
 
 
@@ -291,13 +277,7 @@ function get_view_model_rows(viewModel_id, api_key) {
     return new Promise((resolve, reject) => {
         send_ajax_formdata_request(
             url, 
-            {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                viewModel_id: viewModel_id,
-                api_key: api_key,
-                inbox_id: $('#inboxId').val() ?? '',
-                case_id: $('#caseId').val() ?? ''
-            }, 
+            fd, 
             function(response){
             $(`#${viewModel_id} tbody`).html('');
             $(`#${viewModel_id} tbody`).html(response);

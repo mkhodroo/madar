@@ -96,6 +96,9 @@
         <div class="card">
             <div class="card-header card-header-parts">
                 <h3 class="card-title">درخواست قطعات مصرفی</h3>
+                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-requests') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-excel"></i> خروجی Excel درخواست‌ها
+                </a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-striped table-bordered table-parts">
@@ -107,7 +110,7 @@
                             <th>درخواست کننده</th>
                             <th>قطعه</th>
                             <th>تعداد مورد نیاز</th>
-                            <th>تعداد تحویل شده</th>
+                            <th>تعداد تحویل شده <span class="text-warning">*</span></th>
                             <th>تعداد بازگشت شده به انبار</th>
                             <th>منبع تامین</th>
                             <th>شماره فاکتور</th>
@@ -134,7 +137,8 @@
                                     <td>
                                         @if ($consumablePart->consumable_part_status == 'در انتظار تحویل انبار')
                                             <input type="number" name="delivered_quantity" id=""
-                                                value="{{ $consumablePart->delivered_quantity }}" class="form-control">
+                                                value="{{ $consumablePart->delivered_quantity }}" class="form-control"
+                                                min="0" required title="تعداد تحویل داده شده الزامیست">
                                         @else
                                             {{ $consumablePart->delivered_quantity }}
                                         @endif
@@ -170,7 +174,7 @@
                                         </td>
                                         <td>
                                             <input type="text" name="amount" id="amount"
-                                                value="{{ $consumablePart->amount }}" dir="ltr" class="form-control"
+                                                value="{{ $consumablePart->amount }}" dir="ltr" class="form-control formatted-digit"
                                                 style="width: 150px">
                                         </td>
                                     @endif
@@ -213,6 +217,11 @@
         <div class="card">
             <div class="card-header card-header-buy-in">
                 <h3 class="card-title">لیست خرید داخلی</h3>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-buying-in') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-excel"></i> خروجی Excel خرید داخلی
+                </a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-striped table-bordered table-buy-in">
@@ -276,6 +285,11 @@
         <div class="card">
             <div class="card-header card-header-buy-out">
                 <h3 class="card-title">لیست خرید خارجی</h3>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-buying-out') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-excel"></i> خروجی Excel خرید خارجی
+                </a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-striped table-bordered table-buy-out">

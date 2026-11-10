@@ -55,6 +55,7 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
         Route::get('report', [BorrowRequestController::class, 'report'])->name('report');
         Route::get('report/export', [BorrowRequestController::class, 'export'])->name('report.export')->middleware('access:خروجی اکسل گزارش امانات');
         Route::post('{borrowRequest}/deliver', [BorrowRequestController::class, 'deliver'])->name('deliver');
+        Route::post('{borrowRequest}/not-available', [BorrowRequestController::class, 'markNotAvailable'])->name('not-available');
         Route::post('{borrowRequest}/mark-returned', [BorrowRequestController::class, 'markReturned'])->name('mark-returned');
         Route::post('{borrowRequest}/confirm-return', [BorrowRequestController::class, 'confirmReturn'])->name('confirm-return');
     });
@@ -162,6 +163,9 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
             Route::get('buying-list', [ConsumablePartController::class, 'buyingList'])->name('buyingList')->middleware('access:لیست خرید داخلی و خارجی');
             Route::get('report', [ConsumablePartController::class, 'report'])->name('report')->middleware('access:گزارش قطعات درخواستی از انبار');
             Route::get('report/export', [ConsumablePartController::class, 'export'])->name('report.export')->middleware('access:خروجی اکسل گزارش قطعات مصرفی');
+            Route::get('export-requests', [ConsumablePartController::class, 'exportRequests'])->name('export-requests')->middleware('access:خروجی اکسل درخواست های قطعات مصرفی');
+            Route::get('export-buying-in', [ConsumablePartController::class, 'exportBuyingIn'])->name('export-buying-in')->middleware('access:خروجی اکسل لیست خرید داخلی');
+            Route::get('export-buying-out', [ConsumablePartController::class, 'exportBuyingOut'])->name('export-buying-out')->middleware('access:خروجی اکسل لیست خرید خارجی');
             Route::name('additional-info.')->prefix('additional-info/{consumablePart}')->group(function(){
                 Route::get('show', [ConsumablePartAdditionalInfoController::class, 'show'])->name('show');
                 Route::put('update', [ConsumablePartAdditionalInfoController::class, 'update'])->name('update');

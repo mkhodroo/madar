@@ -87,9 +87,12 @@
                                 </td>
                                 <td>{{ $request->quantity }}</td>
                                 <td>
-                                    <span class="badge bg-secondary">{{ $request->status_label }}</span>
+                                    <span class="badge bg-secondary">{{ $statuses[$request->status]['label'] ?? $request->status }}</span>
                                     <div class="text-muted small">{{ $statuses[$request->status]['description'] ?? '' }}
                                     </div>
+                                    @if ($request->status === 'not_available' && $request->not_available_note)
+                                        <div class="text-muted small">توضیح انبار: {{ $request->not_available_note }}</div>
+                                    @endif
                                 </td>
                                 <td>
                                     @if ($request->delivered_at_alt)
@@ -112,10 +115,12 @@
                                             @csrf
                                             <button class="btn btn-sm btn-success" type="submit">تحویل دادم</button>
                                         </form>
-                                    @elseif ($request->status === 'pending_confirmation')
+                                    @elseif ($request->status === 'pending_return_confirmation')
                                         <span class="text-muted">در انتظار تایید انبار</span>
                                     @elseif ($request->status === 'returned')
                                         <span class="text-success">بسته شد</span>
+                                    @elseif ($request->status === 'not_available')
+                                        <span class="text-danger">کالا در انبار موجود نیست</span>
                                     @else
                                         <span class="text-muted">در انتظار انبار</span>
                                     @endif
@@ -146,6 +151,7 @@
                                     <th>درخواست‌کننده</th>
                                     <th>تعداد</th>
                                     <th>تحویل</th>
+                                    <th>موجود نیست</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -174,10 +180,27 @@
                                                 </div>
                                             </form>
                                         </td>
+                                        <td>
+                                            <form method="POST"
+                                                action="{{ route('simpleWorkflowReport.borrow-requests.not-available', $request) }}"
+                                                class="row g-1">
+                                                @csrf
+                                                <div class="col-12">
+                                                    <input type="text" name="note" class="form-control"
+                                                        placeholder="توضیح (اختیاری)" maxlength="500">
+                                                </div>
+                                                <div class="col-12 mt-2">
+                                                    <button class="btn btn-sm btn-outline-danger w-100" type="submit"
+                                                        onclick="return confirm('ثبت «موجود نیست» برای این کالا انجام شود؟ این وضعیت در سوابق درخواست ذخیره می‌شود.')">
+                                                        موجود نیست
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center text-muted">درخواستی برای تحویل وجود ندارد.
+                                        <td colspan="5" class="text-center text-muted">درخواستی برای تحویل وجود ندارد.
                                         </td>
                                     </tr>
                                 @endforelse
@@ -280,8 +303,49 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center text-muted">درخواستی در انتظار تایید نیست.
+                                        <td colspan="5" class="text-center text-muted">درخواستی در انتظار تایید نیست.
                                         </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">کالاهای اعلام‌شده «موجود نیست»</div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered align-middle">
+                            <thead>
+                                <tr>
+                                    <th>کالا</th>
+                                    <th>تعداد</th>
+                                    <th>درخواست کننده</th>
+                                    <th>تاریخ اعلام</th>
+                                    <th>ثبت توسط</th>
+                                    <th>توضیح</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($notAvailableRequests as $request)
+                                    <tr>
+                                        <td>
+                                            <div>{{ $request->item_name }}</div>
+                                            @if ($request->item_id)
+                                                <div class="text-muted small">شناسه: {{ $request->item_id }}</div>
+                                            @endif
+                                        </td>
+                                        <td>{{ $request->quantity }}</td>
+                                        <td>{{ getUserInfo($request->requester_id)?->name ?? '' }}</td>
+                                        <td>{{ $request->not_available_at ?: 'ـ' }}</td>
+                                        <td>{{ getUserInfo($request->not_available_by)?->name ?? 'ـ' }}</td>
+                                        <td>{{ $request->not_available_note ?: 'ـ' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">کالایی به‌عنوان موجود نیست ثبت نشده
+                                            است.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
