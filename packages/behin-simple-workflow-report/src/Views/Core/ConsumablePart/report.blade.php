@@ -459,6 +459,8 @@
                 <thead>
                     <tr>
                         <th>قطعه</th>
+                        <th>شماره پرونده</th>
+                        <th>نام مشتری</th>
                         <th>درخواست کننده</th>
                         <th>تعداد درخواست شده</th>
                         <th>تعداد تحویل شده</th>
@@ -487,6 +489,8 @@
                                     <div class="text-muted small">شناسه: {{ $request->item_id }}</div>
                                 @endif
                             </td>
+                            <td>{{ $request->case_number ?? '' }}</td>
+                            <td>{{ $request->case()?->customerName() ?: ($request->customer_name ?? '') }}</td>
                             <td>{{ getUserInfo($request->created_by)->name ?? '' }}</td>
                             <td>{{ $request->requested_quantity }}</td>
                             <td>{{ $request->delivered_quantity }}</td>
@@ -533,7 +537,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت') ? 16 : 10 }}"
+                            <td colspan="{{ access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت') ? 18 : 12 }}"
                                 class="text-center text-muted">درخواستی ثبت نشده است.</td>
                         </tr>
                     @endforelse
