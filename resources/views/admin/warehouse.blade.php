@@ -6,11 +6,6 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-12">
-            <div class="header-banner material-card payment-card">
-                <img src="{{ url('behin/header.png') }}" alt="Header">
-            </div>
-        </div>
         <div class="col-lg-3 col-md-4 col-sm-6">
 
             <div class="material-card payment-card card-blue">

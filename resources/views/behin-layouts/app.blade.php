@@ -106,6 +106,27 @@
             color: #666;
         }
 
+        .mapa-global-banner {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 25px;
+            padding: 15px 20px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .mapa-global-banner img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            max-height: 180px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
         /* جدول‌ها کمی متریال‌تر */
         table.dataTable {
             border-radius: 8px;
@@ -217,6 +238,9 @@
         <div class="content-wrapper">
             <section class="content">
                 <div class="container-fluid">
+                    <div class="mapa-global-banner mb-3">
+                        <img src="{{ asset('images/mapa-banner.png') }}" alt="MAPA" loading="lazy">
+                    </div>
                     @if (!isset($disableBackBtn))
                         <div class="card">
                             <div class="card-body">
