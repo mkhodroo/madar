@@ -47,7 +47,14 @@
                                     <td dir="ltr">{{ toJalali($consumablePart->created_at) }}</td>
                                     <td>{{ $consumablePart->case_number }}</td>
                                     <td>{{ $consumablePart->case()?->customerName() ?? '' }}[[ $consumablePart->customer_name ]]</td>
-                                    <td>{{ $consumablePart->product_name }}</td>
+                                    <td>
+                                        {{ $consumablePart->product_name }}
+                                        @if($consumablePart->product_sample_image)
+                                            <a href="{{ $consumablePart->product_sample_image }}" class="badge badge-info" target="_blank">
+                                                دانلود تصویر
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>{{ $consumablePart->required_quantity_to_purchase }}</td>
                                     {{-- <td>
                                         <input type="number" name="required_quantity_to_purchase" id=""
