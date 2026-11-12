@@ -34,11 +34,20 @@ class ConsumablePartController extends Controller
         return view('SimpleWorkflowReportView::Core.ConsumablePart.index', compact('consumableParts', 'statuses', 'currencies'));
     }
 
-    public function buyingList()
+    public function buyingListIn()
     {
-        $consumableParts = Consumable_parts::all();
+        $consumableParts = Consumable_parts::orderBy('created_at', 'desc')->get();
         $statuses = config('simpleWorkflowReport.consumable_parts.statuses', []);
-        return view('SimpleWorkflowReportView::Core.ConsumablePart.buying-list', compact('consumableParts', 'statuses'));
+        $currencies = config('simpleWorkflowReport.consumable_parts.currencies', []);
+        return view('SimpleWorkflowReportView::Core.ConsumablePart.buying-list-in', compact('consumableParts', 'statuses', 'currencies'));
+    }
+
+    public function buyingListOut()
+    {
+        $consumableParts = Consumable_parts::orderBy('created_at', 'desc')->get();
+        $statuses = config('simpleWorkflowReport.consumable_parts.statuses', []);
+        $currencies = config('simpleWorkflowReport.consumable_parts.currencies', []);
+        return view('SimpleWorkflowReportView::Core.ConsumablePart.buying-list-out', compact('consumableParts', 'statuses', 'currencies'));
     }
 
     public function create()

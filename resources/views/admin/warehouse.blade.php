@@ -53,6 +53,50 @@
 
             </div>
         @endif
+        @if (access('مدیریت لیست خرید داخلی'))
+            <div class="col-lg-3 col-md-4 col-sm-6">
+
+                <div class="material-card payment-card card-orange">
+
+                    <div class="material-card-content"
+                        onclick="window.location='{{ route('simpleWorkflowReport.consumable-parts.buyingListIn') }}'">
+
+                        <div class="material-icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+
+                        <h3>{{ trans('لیست خرید داخلی') }}</h3>
+
+                        <p>{{ trans('لیست خرید قطعات از منابع داخلی') }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        @endif
+        @if (access('مدیریت لیست خرید خارجی'))
+            <div class="col-lg-3 col-md-4 col-sm-6">
+
+                <div class="material-card payment-card card-red">
+
+                    <div class="material-card-content"
+                        onclick="window.location='{{ route('simpleWorkflowReport.consumable-parts.buyingListOut') }}'">
+
+                        <div class="material-icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+
+                        <h3>{{ trans('لیست خرید خارجی') }}</h3>
+
+                        <p>{{ trans('لیست خرید قطعات از منابع خارجی') }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        @endif
         @if (access('گزارش قطعات درخواستی از انبار'))
             <div class="col-lg-3 col-md-4 col-sm-6">
 
@@ -75,28 +119,7 @@
 
             </div>
         @endif
-        @if (access('لیست خرید داخلی و خارجی'))
-            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                <div class="material-card payment-card card-cyan">
-
-                    <div class="material-card-content"
-                        onclick="window.location='{{ route('simpleWorkflowReport.consumable-parts.buyingList') }}'">
-
-                        <div class="material-icon">
-                            <i class="fa fa-shopping-cart"></i>
-                        </div>
-
-                        <h3>{{ trans('لیست خرید') }}</h3>
-
-                        <p>{{ trans('لیست خرید داخلی و خارجی') }}</p>
-
-                    </div>
-
-                </div>
-
-            </div>
-        @endif
+        
         @if (access('دریافت کالا از انبار'))
             <div class="col-lg-3 col-md-4 col-sm-6">
 
