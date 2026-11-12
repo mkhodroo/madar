@@ -35,6 +35,10 @@ class OfficialOfficeTransactionExport implements FromCollection, WithHeadings, W
             'پرونده',
             'توضیحات',
             'رسید',
+            'فاکتور صادر شده؟',
+            'فاکتور دریافت شده؟',
+            'وضعیت صدور فاکتور',
+            'نوع فاکتور',
         ];
     }
 
@@ -69,6 +73,14 @@ class OfficialOfficeTransactionExport implements FromCollection, WithHeadings, W
             ? $row->fileUrl()
             : (!empty($row->file) ? url($row->file) : null);
 
+        $invoiceIssued = $row->invoice_issued == 1 ? 'بله' : 'خیر';
+        
+        $invoiceReceived = $row->invoice_received == 1 ? 'بله' : 'خیر';
+        
+        $invoiceCategory = $row->invoice_category ?? '';
+        
+        $invoiceType = $row->invoice_type ?? '';
+
         return [
             $title,
             $credit,
@@ -78,6 +90,10 @@ class OfficialOfficeTransactionExport implements FromCollection, WithHeadings, W
             $caseNumber,
             $description,
             $fileUrl ?? '',
+            $invoiceIssued,
+            $invoiceReceived,
+            $invoiceCategory,
+            $invoiceType,
         ];
     }
 
@@ -110,7 +126,7 @@ class OfficialOfficeTransactionExport implements FromCollection, WithHeadings, W
                     'D' . $totalsRow,
                     'مانده: ' . number_format($totalDebit - $totalCredit)
                 );
-                $sheet->getStyle('A' . $totalsRow . ':H' . $totalsRow)->getFont()->setBold(true);
+                $sheet->getStyle('A' . $totalsRow . ':J' . $totalsRow)->getFont()->setBold(true);
             },
         ];
     }

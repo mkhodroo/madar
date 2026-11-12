@@ -49,6 +49,10 @@
                         <th>پرونده</th>
                         <th>توضیحات</th>
                         <th>رسید</th>
+                        <th>فاکتور صادر شده؟</th>
+                        <th>فاکتور دریافت شده؟</th>
+                        <th>وضعیت صدور فاکتور</th>
+                        <th>نوع فاکتور</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,12 +69,18 @@
                             <td>{{ $item->case_number }}</td>
                             <td>{{ $item->description }}</td>
                             <td>{!! $item->fileLink() !!}</td>
+                            <td>{{ $item->invoice_issued == 1 ? trans('fields.yes') : trans('fields.no') }}</td>
+                            <td>{{ $item->invoice_received == 1 ? trans('fields.yes') : trans('fields.no') }}</td>
+                            <td>{{ $item->invoice_type ?? ''}}</td>
+                            <td>{{ $item->invoice_category ?? '' }}</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
                         <th>جمع:</th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
