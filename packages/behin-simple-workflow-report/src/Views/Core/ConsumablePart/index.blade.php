@@ -213,6 +213,7 @@
         </div>
     @endif
 
+<!-- 
     @if (access('مدیریت لیست خرید داخلی'))
         <div class="card">
             <div class="card-header card-header-buy-in">
@@ -424,7 +425,7 @@
                 </table>
             </div>
         </div>
-    @endif
+    @endif -->
 
 @endsection
 

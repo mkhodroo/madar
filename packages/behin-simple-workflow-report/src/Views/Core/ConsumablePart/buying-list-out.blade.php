@@ -24,6 +24,7 @@
                             <th>نام مشتری</th>
                             <th>قطعه</th>
                             <th>تعداد مورد نیاز برای خرید</th>
+                            <th>وضعیت</th>
                             <th>منبع تامین</th>
                             <th>شماره فاکتور</th>
                             <th class="col-invoice-date">تاریخ فاکتور</th>
@@ -33,7 +34,6 @@
                             <th>قیمت واحد</th>
                             <th>واحد پول</th>
                             <th>تعداد خریداری شده</th>
-                            <th>وضعیت</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,6 +54,16 @@
                                             value="{{ $consumablePart->required_quantity_to_purchase }}"
                                             class="form-control">
                                     </td> --}}
+                                    <td style="width: 300px">
+                                        <select name="consumable_part_status" id="" class="form-control"
+                                            style="width: 350px">
+                                            @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested', 'inquiring_price', 'purchase_order_placed', 'waiting_to_receive_payment_from_the_customer']) as $status)
+                                                <option value="{{ $status['label'] }}"
+                                                    {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
+                                                    {{ $status['label'] }}{{ !empty($status['assignee']) ? ' (' . $status['assignee'] . ')' : '' }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                                     <td>
                                         <input type="text" name="supply_source" id="supply_source"
                                             value="{{ $consumablePart->supply_source }}" class="form-control"
@@ -126,16 +136,6 @@
                                     <td>
                                         <input type="number" name="purchased_quantity" id=""
                                             value="{{ $consumablePart->purchased_quantity }}" class="form-control">
-                                    </td>
-                                    <td style="width: 250px">
-                                        <select name="consumable_part_status" id="" class="form-control"
-                                            style="width: 250px">
-                                            @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested', 'inquiring_price', 'purchase_order_placed', 'waiting_to_receive_payment_from_the_customer']) as $status)
-                                                <option value="{{ $status['label'] }}"
-                                                    {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                    {{ $status['label'] }}{{ !empty($status['assignee']) ? ' (' . $status['assignee'] . ')' : '' }}</option>
-                                            @endforeach
-                                        </select>
                                     </td>
                                     <td>
                                         <input type="submit" name="" id=""

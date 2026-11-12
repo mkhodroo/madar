@@ -50,7 +50,7 @@
                                     </td>
                                     <td style="width: 250px">
                                         <select name="consumable_part_status" id="" class="form-control"
-                                            style="width: 250px">
+                                            style="width: 350px">
                                             @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested']) as $status)
                                                 <option value="{{ $status['label'] }}"
                                                     {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
