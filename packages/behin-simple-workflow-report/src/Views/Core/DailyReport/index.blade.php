@@ -43,7 +43,7 @@
                             <label for="to_date" class="form-label fw-bold">تا تاریخ</label>
                             <input type="text" id="to_date" name="to_date"
                                 class="form-control persian-date rounded-pill shadow-sm" value="{{ $toDate }}"
-                                placeholder="مثلاً 1403/04/30" {{ request('user_id') ? '' : 'disabled' }}>
+                                placeholder="مثلاً 1403/04/30">
                         </div>
                         <div class="col-md-3">
                             <label for="user_id" class="form-label fw-bold">پرسنل</label>
@@ -198,25 +198,13 @@
             const fromDateInput = document.getElementById('from_date');
 
             function toggleDateRange() {
-                if (!userSelect || !toDateInput) {
+                if (!fromDateLabel) {
                     return;
                 }
 
-                const hasUser = !!userSelect.value;
-                if (hasUser) {
-                    toDateInput.removeAttribute('disabled');
-                    if (fromDateLabel) {
-                        fromDateLabel.textContent = 'از تاریخ';
-                    }
-                } else {
-                    if (fromDateInput) {
-                        toDateInput.value = fromDateInput.value;
-                    }
-                    toDateInput.setAttribute('disabled', 'disabled');
-                    if (fromDateLabel) {
-                        fromDateLabel.textContent = 'تاریخ';
-                    }
-                }
+                const hasUser = userSelect && !!userSelect.value;
+                fromDateLabel.textContent = hasUser ? 'از تاریخ' : 'تاریخ';
+                // فیلد «تا تاریخ» همیشه فعال می‌ماند و دیگر غیرفعال نمی‌شود
             }
 
             toggleDateRange();
