@@ -73,9 +73,9 @@ class OfficialOfficeTransactionExport implements FromCollection, WithHeadings, W
             ? $row->fileUrl()
             : (!empty($row->file) ? url($row->file) : null);
 
-        $invoiceIssued = $row->invoice_issued == 1 ? 'بله' : 'خیر';
+        $invoiceIssued = $row->invoice_issued == 1 ? trans('fields.yes') : trans('fields.no');
         
-        $invoiceReceived = $row->invoice_received == 1 ? 'بله' : 'خیر';
+        $invoiceReceived = $row->invoice_received == 1 ? trans('fields.yes') : trans('fields.no');
         
         $invoiceCategory = $row->invoice_category ?? '';
         
