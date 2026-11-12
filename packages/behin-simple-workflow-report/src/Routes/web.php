@@ -160,8 +160,8 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
             Route::get('index', [ConsumablePartController::class, 'index'])->name('index')->middleware('access:درخواست قطعات مصرفی');
             Route::get('create', [ConsumablePartController::class, 'create'])->name('create')->middleware('access:دریافت کالا از انبار');
             Route::post('store', [ConsumablePartController::class, 'store'])->name('store')->middleware('access:دریافت کالا از انبار');
-            Route::get('buying-list-in', [ConsumablePartController::class, 'buyingListIn'])->name('buyingListIn')->middleware('access:لیست خرید داخلی');
-            Route::get('buying-list-out', [ConsumablePartController::class, 'buyingListOut'])->name('buyingListOut')->middleware('access:لیست خرید خارجی');
+            Route::get('buying-list-in', [ConsumablePartController::class, 'buyingListIn'])->name('buyingListIn')->middleware('access:مدیریت لیست خرید داخلی');
+            Route::get('buying-list-out', [ConsumablePartController::class, 'buyingListOut'])->name('buyingListOut')->middleware('access:مدیریت لیست خرید خارجی');
             Route::get('report', [ConsumablePartController::class, 'report'])->name('report')->middleware('access:گزارش قطعات درخواستی از انبار');
             Route::get('report/export', [ConsumablePartController::class, 'export'])->name('report.export')->middleware('access:خروجی اکسل گزارش قطعات مصرفی');
             Route::get('export-requests', [ConsumablePartController::class, 'exportRequests'])->name('export-requests')->middleware('access:خروجی اکسل درخواست های قطعات مصرفی');
