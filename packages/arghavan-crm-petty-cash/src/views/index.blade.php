@@ -62,7 +62,8 @@
     <div class="card mb-3">
 
         <div class="card-body">
-            <table class="table table-bordered" id="petty-cash-table">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="petty-cash-table">
                 <thead>
                     <tr>
                         <th>عنوان خرج</th>
@@ -106,6 +107,7 @@
                     </tr>
                 </tfoot>
             </table>
+            </div>
         </div>
     </div>
     <div class="card">
