@@ -484,7 +484,13 @@
                     @forelse ($allRequests as $request)
                         <tr>
                             <td>
-                                <div>{{ $request->product_name }}</div>
+                                <div>
+                                    {{ $request->product_name }}<br>
+                                    <span style="width: 150px">
+                                    توضیحات: {{ $request->description ?? '' }}
+
+                                    </span>
+                                </div>
                                 @if ($request->item_id)
                                     <div class="text-muted small">شناسه: {{ $request->item_id }}</div>
                                 @endif
