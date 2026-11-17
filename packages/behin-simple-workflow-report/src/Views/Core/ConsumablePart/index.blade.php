@@ -207,10 +207,10 @@
                                                 placeholder="تعداد مورد نیاز برای خرید">
                                         </div>
                                     </td>
-                                    <td style="width: 250px">
+                                    <td style="width: 400px">
                                         <input type="text" name="description" id="description_{{ $consumablePart->id }}"
                                             value="{{ $consumablePart->description ?? '' }}"
-                                            class="form-control" placeholder="توضیحات">
+                                            class="form-control" placeholder="توضیحات" style="width: 100%">
                                     </td>
                                     <td>
                                         <input type="submit" name="" id="" class="btn btn-sm btn-primary"
@@ -281,10 +281,10 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td style="width: 250px">
+                                    <td style="width: 400px">
                                         <input type="text" name="description" id="description_{{ $consumablePart->id }}"
                                             value="{{ $consumablePart->description ?? '' }}"
-                                            class="form-control" placeholder="توضیحات">
+                                            class="form-control" placeholder="توضیحات" style="width: 100%">
                                     </td>
                                     <td>
                                         <input type="submit" name="" id="" class="btn btn-sm btn-primary"
@@ -432,10 +432,10 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td style="width: 250px">
+                                    <td style="width: 400px">
                                         <input type="text" name="description" id="description_{{ $consumablePart->id }}"
                                             value="{{ $consumablePart->description ?? '' }}"
-                                            class="form-control" placeholder="توضیحات">
+                                            class="form-control" placeholder="توضیحات" style="width: 100%">
                                     </td>
                                     <td>
                                         <input type="submit" name="" id=""
