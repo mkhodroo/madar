@@ -434,7 +434,7 @@
                                     </td>
                                     <td style="width: 250px">
                                         <input type="text" name="description" id="description_{{ $consumablePart->id }}"
-                                            value="{{ $consumablePart->description ??  }}"
+                                            value="{{ $consumablePart->description ?? '' }}"
                                             class="form-control" placeholder="توضیحات">
                                     </td>
                                     <td>
