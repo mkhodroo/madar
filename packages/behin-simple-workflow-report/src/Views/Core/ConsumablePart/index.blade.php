@@ -1,497 +1,616 @@
+
 @extends('behin-layouts.app')
 
 @section('title', 'درخواست قطعات مصرفی')
 
 @section('content')
-    <style>
-        td,
-        th {
-            white-space: nowrap;
+
+<style>
+    .parts-page {
+        --parts-primary: #315da8;
+        --parts-border: #e8edf4;
+        --parts-muted: #778397;
+        direction: rtl;
+    }
+
+    .parts-page .card {
+        border: 1px solid var(--parts-border);
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(30, 50, 80, .045);
+        overflow: hidden;
+    }
+
+    .parts-header {
+        background: linear-gradient(120deg, #1e3c72, #315da8);
+        color: white;
+        padding: 17px 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .parts-header h3 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .parts-header .subtitle {
+        font-size: 11px;
+        opacity: .8;
+        margin-top: 5px;
+    }
+
+    .parts-header .btn {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .parts-page .card-body {
+        padding: 18px;
+        background: #f6f8fc;
+    }
+
+    .parts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .part-card {
+        background: white;
+        border: 1px solid #e8edf4;
+        border-radius: 11px;
+        overflow: hidden;
+        transition: .2s;
+    }
+
+    .part-card:hover {
+        border-color: #c8d7ef;
+        box-shadow: 0 4px 14px rgba(40, 70, 120, .07);
+    }
+
+    .part-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 11px 15px;
+        background: #fbfcfe;
+        border-bottom: 1px solid #edf0f5;
+        flex-wrap: wrap;
+    }
+
+    .part-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .part-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 9px;
+        background: #edf3ff;
+        color: #315da8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 17px;
+    }
+
+    .part-title strong {
+        font-size: 13px;
+        color: #26364d;
+        display: block;
+    }
+
+    .part-title small {
+        color: var(--parts-muted);
+        font-size: 11px;
+        display: block;
+        margin-top: 3px;
+    }
+
+    .part-body {
+        padding: 13px 15px;
+    }
+
+    .part-info-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px 14px;
+    }
+
+    .info-item {
+        min-width: 0;
+    }
+
+    .info-label {
+        font-size: 10px;
+        color: #8994a5;
+        margin-bottom: 4px;
+    }
+
+    .info-value {
+        font-size: 12px;
+        color: #344258;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .part-edit-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 13px;
+        padding-top: 12px;
+        border-top: 1px dashed #e5eaf1;
+    }
+
+    .field-box {
+        min-width: 0;
+    }
+
+    .field-box label {
+        font-size: 10px;
+        color: #68768a;
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .field-box .form-control {
+        height: 33px;
+        font-size: 11px;
+        border-radius: 7px;
+        border-color: #e1e7ef;
+        box-shadow: none;
+        padding: 5px 9px;
+        min-width: 0;
+    }
+
+    .field-box .form-control:focus {
+        border-color: #6b92d2;
+        box-shadow: 0 0 0 2px rgba(49, 93, 168, .08);
+    }
+
+    .field-box .form-group {
+        margin-bottom: 0;
+    }
+
+    .part-footer {
+        background: #fafbfd;
+        border-top: 1px solid #edf0f5;
+        padding: 10px 15px;
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(180px, 1.5fr) auto;
+        gap: 10px;
+        align-items: end;
+    }
+
+    .purchase-quantity-box {
+        margin-top: 7px;
+    }
+
+    .purchase-quantity-box .alert {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+
+    .save-btn {
+        height: 33px;
+        min-width: 90px;
+        border-radius: 7px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 5px 14px;
+    }
+
+    .part-date {
+        font-size: 11px;
+        color: #778397;
+        white-space: nowrap;
+    }
+
+    .part-badge {
+        font-size: 10px;
+        background: #edf3ff;
+        color: #315da8;
+        border-radius: 6px;
+        padding: 4px 7px;
+        text-decoration: none;
+    }
+
+    .part-badge:hover {
+        color: #1e3c72;
+    }
+
+    .empty-parts {
+        padding: 40px 15px;
+        text-align: center;
+        color: #8a95a5;
+        background: white;
+        border-radius: 10px;
+    }
+
+    .empty-parts i {
+        font-size: 30px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    @media(max-width: 1100px) {
+        .part-info-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
-        /* استایل مدرن هدر جدول‌ها */
-        .table thead th {
-            text-align: center;
-            vertical-align: middle;
-            padding: 14px 10px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: .2px;
-            border: 1px solid rgba(255, 255, 255, .3) !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+        .part-edit-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media(max-width: 650px) {
+        .parts-page .card-body {
+            padding: 9px;
         }
 
-        .table thead th:first-child {
-            border-top-right-radius: .5rem;
-            border-bottom-right-radius: .5rem;
+        .part-card-header {
+            padding: 10px;
         }
 
-        .table thead th:last-child {
-            border-top-left-radius: .5rem;
-            border-bottom-left-radius: .5rem;
+        .part-body {
+            padding: 10px;
         }
 
-        /* هدر کارت‌ها */
-        .card-header {
-            padding: 14px 18px;
-            border-bottom: none;
-            border-radius: .5rem .5rem 0 0;
+        .part-info-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 8px;
         }
 
-        .card-header .card-title {
-            margin: 0;
-            text-align: center;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #fff;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+        .part-edit-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
         }
 
-        /* کارت ۱: درخواست قطعات مصرفی (آبی) */
-        .card-header-parts {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 55%, #3a7bd5 100%);
+        .part-footer {
+            grid-template-columns: 1fr;
+            padding: 10px;
         }
 
-        /* کارت ۲: لیست خرید داخلی (سبز) */
-        .card-header-buy-in {
-            background: linear-gradient(135deg, #134e5e 0%, #1b7a5a 55%, #2fb37c 100%);
+        .save-btn {
+            width: 100%;
         }
 
-        /* کارت ۳: لیست خرید خارجی (نارنجی/قرمز) */
-        .card-header-buy-out {
-            background: linear-gradient(135deg, #8a2b0f 0%, #c14a12 55%, #e8791b 100%);
+        .parts-header {
+            padding: 14px;
         }
+    }
+</style>
 
-        /* هدر جدول‌ها هماهنگ با رنگ کارت خودشان (کمرنگ‌تر) */
-        .table-parts thead th {
-            background: linear-gradient(135deg, #4a6fa5 0%, #5f8ac0 55%, #7fadde 100%);
-        }
+<div class="parts-page">
 
-        .table-buy-in thead th {
-            background: linear-gradient(135deg, #3d7a68 0%, #4e9c84 55%, #6cbda7 100%);
-        }
-
-        .table-buy-out thead th {
-            background: linear-gradient(135deg, #b06a3c 0%, #c88a4e 55%, #dda06a 100%);
-        }
-
-        /* ستون تاریخ فاکتور در لیست خرید خارجی: نمایش کامل تاریخ */
-        .table-buy-out th.col-invoice-date,
-        .table-buy-out td.col-invoice-date {
-            min-width: 170px;
-        }
-
-        .table-buy-out td.col-invoice-date .form-group {
-            margin-bottom: 0;
-            min-width: 160px;
-        }
-
-        .table-buy-out td.col-invoice-date .form-control {
-            width: 160px;
-            display: inline-block;
-        }
-    </style>
     @if (access('مدیریت انبار قطعات مصرفی'))
+
         <div class="card">
-            <div class="card-header card-header-parts">
-                <h3 class="card-title">درخواست قطعات مصرفی</h3>
-                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-requests') }}" class="btn btn-success btn-sm">
-                    <i class="bi bi-file-excel"></i> خروجی Excel درخواست‌ها
+
+            <div class="parts-header">
+                <div>
+                    <h3>
+                        <i class="fas fa-boxes ml-2"></i>
+                        درخواست قطعات مصرفی
+                    </h3>
+                    <div class="subtitle">
+                        مدیریت تحویل، تامین و وضعیت درخواست قطعات
+                    </div>
+                </div>
+
+                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-requests') }}"
+                   class="btn btn-success btn-sm">
+                    <i class="fas fa-file-excel"></i>
+                    خروجی Excel
                 </a>
             </div>
-            <div class="card-body table-responsive">
-                <table class="table table-striped table-bordered table-parts">
-                    <thead>
-                        <tr>
-                            <th>تاریخ درخواست</th>
-                            <th>شماره پرونده</th>
-                            <th>نام مشتری</th>
-                            <th>درخواست کننده</th>
-                            <th>قطعه</th>
-                            <th>تعداد مورد نیاز</th>
-                            <th>تعداد تحویل شده <span class="text-warning">*</span></th>
-                            <th>تعداد بازگشت شده به انبار</th>
-                            <th>منبع تامین</th>
-                            <th>شماره فاکتور</th>
-                            <th>تاریخ فاکتور</th>
-                            <th style="width: 250px !important">مبلغ</th>
-                            <th style="width: 250px !important">وضعیت</th>
-                            <th>توضیحات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($consumableParts->whereIn('consumable_part_status', ['در انتظار تحویل انبار', 'در انتظار تحویل بازگشتی ها توسط انبار', 'در انتظار تایید بازگشتی ها توسط انبار']) as $consumablePart)
-                            <form action="{{ route('simpleWorkflowReport.consumable-parts.deliver', $consumablePart->id) }}"
-                                method="post">
+
+            <div class="card-body">
+
+                @php
+                    $activeParts = $consumableParts->whereIn(
+                        'consumable_part_status',
+                        [
+                            'در انتظار تحویل انبار',
+                            'در انتظار تحویل بازگشتی ها توسط انبار',
+                            'در انتظار تایید بازگشتی ها توسط انبار'
+                        ]
+                    );
+                @endphp
+
+                @if($activeParts->isEmpty())
+
+                    <div class="empty-parts">
+                        <i class="fas fa-inbox"></i>
+                        در حال حاضر درخواست فعالی وجود ندارد.
+                    </div>
+
+                @else
+
+                    <div class="parts-list">
+
+                        @foreach ($activeParts as $consumablePart)
+
+                            <form class="part-card"
+                                  action="{{ route('simpleWorkflowReport.consumable-parts.deliver', $consumablePart->id) }}"
+                                  method="post">
+
                                 @csrf
                                 @method('PUT')
-                                <tr>
-                                    <td dir="ltr">{{ toJalali($consumablePart->created_at) }}</td>
-                                    <td>{{ $consumablePart->case_number ?? '' }}</td>
-                                    <td>{{ $consumablePart->case()?->customerName() ?? '' }}[[ $consumablePart->customer_name ]]</td>
-                                    <td>{{ $consumablePart->created_by ? getUserInfo($consumablePart->created_by)?->name : '' }}
-                                    </td>
-                                    <td>
-                                        {{ $consumablePart->product_name }}
-                                        @if($consumablePart->product_sample_image)
-                                            <a href="{{ $consumablePart->product_sample_image }}" class="badge badge-info" target="_blank">
-                                                دانلود تصویر
-                                            </a>
-                                        @endif
-                                    </td>
-                                    <td>{{ $consumablePart->requested_quantity }}</td>
-                                    <td>
-                                        @if ($consumablePart->consumable_part_status == 'در انتظار تحویل انبار')
-                                            <input type="number" name="delivered_quantity" id=""
-                                                value="{{ $consumablePart->delivered_quantity }}" class="form-control"
-                                                min="0" required title="تعداد تحویل داده شده الزامیست">
-                                        @else
-                                            {{ $consumablePart->delivered_quantity }}
-                                        @endif
-                                    </td>
-                                    <td>{{ $consumablePart->returned_quantity }}</td>
-                                    @if ($consumablePart->external_buying_is_done == 1)
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    @else
-                                        <td>
-                                            <input type="text" name="supply_source" id="supply_source"
-                                                value="{{ $consumablePart->supply_source }}" class="form-control"
-                                                style="width: 150px">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="invoice_number" id="invoice_number"
-                                                value="{{ $consumablePart->invoice_number }}" class="form-control"
-                                                style="width: 150px">
-                                        </td>
-                                        <td>
-                                            @include('SimpleWorkflowView::Core.Form.field-generator', [
-                                                'fieldName' => 'invoice_date',
-                                                'fieldId' => 'invoice_date_' . $consumablePart->id,
-                                                'fieldClass' => 'col-sm-12 text-center',
-                                                'readOnly' => false,
-                                                'required' => false,
-                                                'showLabel' => false,
-                                                'fieldValue' => $consumablePart->invoice_date,
-                                                'fieldValueAlt' => $consumablePart->invoice_date_alt,
-                                            ])
-                                        </td>
-                                        <td>
-                                            <input type="text" name="amount" id="amount"
-                                                value="{{ $consumablePart->amount }}" dir="ltr" class="form-control formatted-digit"
-                                                style="width: 150px">
-                                        </td>
-                                    @endif
-                                    <td style="width: 250px">
-                                        <select name="consumable_part_status" id=""
-                                            class="form-control consumable-status" data-id="{{ $consumablePart->id }}"
-                                            style="width: 250px">
-                                            @foreach (collect($statuses)->whereNotIn('key', ['inquiring_price']) as $status)
-                                                <option value="{{ $status['label'] }}"
-                                                    {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                    {{ $status['label'] }}{{ !empty($status['assignee']) ? ' (' . $status['assignee'] . ')' : '' }}</option>
-                                            @endforeach
-                                        </select>
-                                        {{-- فیلد تعداد خرید --}}
-                                        <div class="purchase-quantity-box mt-2" id="purchase-box-{{ $consumablePart->id }}"
-                                            style="display:none;">
 
-                                            <div class="alert alert-warning p-2 mb-2">
-                                                چندتا از این بخریم؟
+                                {{-- سربرگ درخواست --}}
+                                <div class="part-card-header">
+
+                                    <div class="part-title">
+
+                                        <div class="part-icon">
+                                            <i class="fas fa-cube"></i>
+                                        </div>
+
+                                        <div>
+                                            <strong>
+                                                {{ $consumablePart->product_name }}
+                                            </strong>
+
+                                            <small>
+                                                پرونده:
+                                                {{ $consumablePart->case_number ?? '---' }}
+                                            </small>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="part-date">
+                                        <i class="fa fa-calendar-alt"></i>
+                                        تاریخ درخواست
+                                        <span dir='ltr'>{{ toJalali($consumablePart->created_at) }}</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="part-body">
+
+                                    {{-- اطلاعات اصلی --}}
+                                    
+<div class="part-info-grid">
+
+    <div class="info-item">
+        <div class="info-label">نام مشتری</div>
+        <div class="info-value">
+            {{ $consumablePart->case()?->customerName() ?? $consumablePart->customer_name ?? '---' }}
+        </div>
+    </div>
+
+    <div class="info-item">
+        <div class="info-label">درخواست کننده</div>
+        <div class="info-value">
+            {{ $consumablePart->created_by ? getUserInfo($consumablePart->created_by)?->name : '---' }}
+        </div>
+    </div>
+
+    <div class="info-item">
+        <div class="info-label">تعداد مورد نیاز</div>
+        <div class="info-value">
+            {{ $consumablePart->requested_quantity }}
+        </div>
+    </div>
+
+    <div class="field-box">
+        <label>تعداد تحویل شده</label>
+
+        @if ($consumablePart->consumable_part_status == 'در انتظار تحویل انبار')
+            <input type="number"
+                   name="delivered_quantity"
+                   value="{{ $consumablePart->delivered_quantity }}"
+                   class="form-control"
+                   min="0"
+                   required
+                   title="تعداد تحویل داده شده الزامی است">
+        @else
+            <div class="info-value">
+                {{ $consumablePart->delivered_quantity ?? 0 }}
+            </div>
+        @endif
+    </div>
+
+    <div class="info-item">
+        <div class="info-label">تعداد بازگشتی</div>
+        <div class="info-value">
+            {{ $consumablePart->returned_quantity ?? 0 }}
+        </div>
+    </div>
+
+</div>
+
+
+                                    {{-- اطلاعات تامین و فاکتور --}}
+                                    @if ($consumablePart->external_buying_is_done != 1)
+
+                                        <div class="part-edit-grid">
+
+                                            <div class="field-box">
+                                                <label>منبع تامین</label>
+                                                <input type="text"
+                                                       name="supply_source"
+                                                       value="{{ $consumablePart->supply_source }}"
+                                                       class="form-control"
+                                                       placeholder="منبع تامین">
                                             </div>
 
-                                            <input type="number" name="required_quantity_to_purchase" class="form-control"
-                                                placeholder="تعداد مورد نیاز برای خرید">
+                                            <div class="field-box">
+                                                <label>شماره فاکتور</label>
+                                                <input type="text"
+                                                       name="invoice_number"
+                                                       value="{{ $consumablePart->invoice_number }}"
+                                                       class="form-control"
+                                                       placeholder="شماره فاکتور">
+                                            </div>
+
+                                            <div class="field-box">
+                                                <label>تاریخ فاکتور</label>
+
+                                                @include('SimpleWorkflowView::Core.Form.field-generator', [
+                                                    'fieldName' => 'invoice_date',
+                                                    'fieldId' => 'invoice_date_' . $consumablePart->id,
+                                                    'fieldClass' => 'col-sm-12 text-center',
+                                                    'readOnly' => false,
+                                                    'required' => false,
+                                                    'showLabel' => false,
+                                                    'fieldValue' => $consumablePart->invoice_date,
+                                                    'fieldValueAlt' => $consumablePart->invoice_date_alt,
+                                                ])
+                                            </div>
+
+                                            <div class="field-box">
+                                                <label>مبلغ</label>
+                                                <input type="text"
+                                                       name="amount"
+                                                       value="{{ $consumablePart->amount }}"
+                                                       dir="ltr"
+                                                       class="form-control formatted-digit"
+                                                       placeholder="مبلغ">
+                                            </div>
+
                                         </div>
-                                    </td>
-                                    <td style="width: 400px">
-                                        <input type="text" name="description" id="description_{{ $consumablePart->id }}"
-                                            value="{{ $consumablePart->description ?? '' }}"
-                                            class="form-control" placeholder="توضیحات" style="width: 100%">
-                                    </td>
-                                    <td>
-                                        <input type="submit" name="" id="" class="btn btn-sm btn-primary"
-                                            value="ذخیره">
-                                    </td>
-                                </tr>
-                            </form>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    @endif
 
-<!-- 
-    @if (access('مدیریت لیست خرید داخلی'))
-        <div class="card">
-            <div class="card-header card-header-buy-in">
-                <h3 class="card-title">لیست خرید داخلی</h3>
-            </div>
-            <div class="d-flex flex-wrap gap-2">
-                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-buying-in') }}" class="btn btn-success btn-sm">
-                    <i class="bi bi-file-excel"></i> خروجی Excel خرید داخلی
-                </a>
-            </div>
-            <div class="card-body table-responsive">
-                <table class="table table-striped table-bordered table-buy-in">
-                    <thead>
-                        <tr>
-                            <th>تاریخ درخواست</th>
-                            <th>شماره پرونده</th>
-                            <th>نام مشتری</th>
-                            <th>قطعه</th>
-                            <th>تعداد مورد نیاز برای خرید</th>
-                            <th>تعداد خریداری شده</th>
-                            <th>وضعیت</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($consumableParts->whereIn('consumable_part_status', ['در انتظار خرید داخلی']) as $consumablePart)
-                            <form
-                                action="{{ route('simpleWorkflowReport.consumable-parts.deliver', $consumablePart->id) }}"
-                                method="post">
-                                @csrf
-                                @method('PUT')
-                                <tr>
-                                    <td dir="ltr">{{ toJalali($consumablePart->created_at) }}</td>
-                                    <td>{{ $consumablePart->case_number }}</td>
-                                    <td>{{ $consumablePart->case()?->customerName() ?? '' }}[[ $consumablePart->customer_name ]]</td>
-                                    <td>{{ $consumablePart->product_name }}</td>
-                                    <td>{{ $consumablePart->required_quantity_to_purchase }}</td>
-                                    {{-- <td>
-                                        <input type="number" name="required_quantity_to_purchase" id=""
-                                            value="{{ $consumablePart->required_quantity_to_purchase }}"
-                                            class="form-control">
-                                    </td> --}}
-                                    <td>
-                                        <input type="number" name="purchased_quantity" id=""
-                                            value="{{ $consumablePart->purchased_quantity }}" class="form-control">
-                                    </td>
-                                    <td style="width: 250px">
-                                        <select name="consumable_part_status" id="" class="form-control"
-                                            style="width: 250px">
-                                            @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested']) as $status)
+                                    @endif
+
+                                </div>
+
+                                {{-- فیلدهای عملیاتی --}}
+                                <div class="part-footer">
+
+                                    <div class="field-box">
+
+                                        <label>وضعیت درخواست</label>
+
+                                        <select name="consumable_part_status"
+                                                class="form-control consumable-status"
+                                                data-id="{{ $consumablePart->id }}">
+
+                                            @foreach (collect($statuses)->whereNotIn('key', ['inquiring_price']) as $status)
+
                                                 <option value="{{ $status['label'] }}"
                                                     {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                {{ $status['label'] }}{{ !empty($status['assignee']) ? ' (' . $status['assignee'] . ')' : '' }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td style="width: 400px">
-                                        <input type="text" name="description" id="description_{{ $consumablePart->id }}"
-                                            value="{{ $consumablePart->description ?? '' }}"
-                                            class="form-control" placeholder="توضیحات" style="width: 100%">
-                                    </td>
-                                    <td>
-                                        <input type="submit" name="" id="" class="btn btn-sm btn-primary"
-                                            value="ذخیره">
-                                    </td>
-                                </tr>
-                            </form>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    @endif
 
-    @if (access('مدیریت لیست خرید خارجی'))
-        <div class="card">
-            <div class="card-header card-header-buy-out">
-                <h3 class="card-title">لیست خرید خارجی</h3>
-            </div>
-            <div class="d-flex flex-wrap gap-2">
-                <a href="{{ route('simpleWorkflowReport.consumable-parts.export-buying-out') }}" class="btn btn-success btn-sm">
-                    <i class="bi bi-file-excel"></i> خروجی Excel خرید خارجی
-                </a>
-            </div>
-            <div class="card-body table-responsive">
-                <table class="table table-striped table-bordered table-buy-out">
-                    <thead>
-                        <tr>
-                            <th>تاریخ درخواست</th>
-                            <th>شماره پرونده</th>
-                            <th>نام مشتری</th>
-                            <th>قطعه</th>
-                            <th>تعداد مورد نیاز برای خرید</th>
-                            <th>منبع تامین</th>
-                            <th>شماره فاکتور</th>
-                            <th class="col-invoice-date">تاریخ فاکتور</th>
-                            <th class="col-invoice-date">تاریخ سفارش</th>
-                            <th class="col-invoice-date">تاریخ دریافت</th>
-                            <th style="width: 250px !important">مبلغ</th>
-                            <th>قیمت واحد</th>
-                            <th>واحد پول</th>
-                            <th>تعداد خریداری شده</th>
-                            <th>وضعیت</th>
-                            <th>توضیحات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($consumableParts->whereIn('consumable_part_status', ['در انتظار خرید خارجی', 'در حال استعلام قیمت خارجی', 'سفارش خرید خارجی گذاشته شد', 'در انتظار دریافت هزینه از مشتری']) as $consumablePart)
-                            <form
-                                action="{{ route('simpleWorkflowReport.consumable-parts.store-external-buying-info', $consumablePart->id) }}"
-                                method="post">
-                                @csrf
-                                @method('PUT')
-                                <tr>
-                                    <td dir="ltr">{{ toJalali($consumablePart->created_at) }}</td>
-                                    <td>{{ $consumablePart->case_number }}</td>
-                                    <td>{{ $consumablePart->case()?->customerName() ?? '' }}[[ $consumablePart->customer_name ]]</td>
-                                    <td>{{ $consumablePart->product_name }}</td>
-                                    <td>{{ $consumablePart->required_quantity_to_purchase }}</td>
-                                    {{-- <td>
-                                        <input type="number" name="required_quantity_to_purchase" id=""
-                                            value="{{ $consumablePart->required_quantity_to_purchase }}"
-                                            class="form-control">
-                                    </td> --}}
-                                    <td>
-                                        <input type="text" name="supply_source" id="supply_source"
-                                            value="{{ $consumablePart->supply_source }}" class="form-control"
-                                            style="width: 150px">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="invoice_number" id="invoice_number"
-                                            value="{{ $consumablePart->invoice_number }}" class="form-control"
-                                            style="width: 150px">
-                                    </td>
-                                    <td class="col-invoice-date">
-                                        @include('SimpleWorkflowView::Core.Form.field-generator', [
-                                            'fieldName' => 'invoice_date',
-                                            'fieldId' => 'invoice_date_' . $consumablePart->id,
-                                            'fieldClass' => 'col-sm-12 text-center',
-                                            'readOnly' => false,
-                                            'required' => false,
-                                            'showLabel' => false,
-                                            'fieldValue' => $consumablePart->invoice_date,
-                                            'fieldValueAlt' => $consumablePart->invoice_date_alt,
-                                        ])
-                                    </td>
-                                    <td class="col-invoice-date">
-                                        @include('SimpleWorkflowView::Core.Form.field-generator', [
-                                            'fieldName' => 'order_date',
-                                            'fieldId' => 'order_date_' . $consumablePart->id,
-                                            'fieldClass' => 'col-sm-12 text-center',
-                                            'readOnly' => false,
-                                            'required' => false,
-                                            'showLabel' => false,
-                                            'fieldValue' => $consumablePart->additional_info?->order_date,
-                                            'fieldValueAlt' => $consumablePart->additional_info?->order_date_alt,
-                                        ])
-                                    </td>
-                                    <td class="col-invoice-date">
-                                        @include('SimpleWorkflowView::Core.Form.field-generator', [
-                                            'fieldName' => 'receipt_date',
-                                            'fieldId' => 'receipt_date_' . $consumablePart->id,
-                                            'fieldClass' => 'col-sm-12 text-center',
-                                            'readOnly' => false,
-                                            'required' => false,
-                                            'showLabel' => false,
-                                            'fieldValue' => $consumablePart->additional_info?->receipt_date,
-                                            'fieldValueAlt' => $consumablePart->additional_info?->receipt_date_alt,
-                                        ])
-                                    </td>
-                                    <td style="width:100px">
-                                        <input type="text" name="amount" id="amount"
-                                                value="{{ $consumablePart->amount }}" dir="ltr" class="form-control formatted-digit"
-                                                style="width: 150px">
-                                        
-                                    </td>
-                                    <td>
-                                        <input type="text" name="unit_price" id="unit_price_{{ $consumablePart->id }}"
-                                            value="{{ $consumablePart->additional_info?->unit_price }}" dir="ltr"
-                                            class="form-control formatted-digit" style="width: 150px">
-                                    </td>
-                                    <td>
-                                        <select name="currency" id="currency_{{ $consumablePart->id }}" class="form-control"
-                                            style="width: 120px">
-                                            <option value="">انتخاب کنید</option>
-                                            @foreach ($currencies ?? [] as $currency)
-                                                <option value="{{ $currency['key'] }}"
-                                                    {{ ($consumablePart->additional_info?->currency ?? '') == $currency['key'] ? 'selected' : '' }}>
-                                                    {{ $currency['label'] }}
+                                                    {{ $status['label'] }}
+                                                    {{ !empty($status['assignee']) ? ' (' . $status['assignee'] . ')' : '' }}
+
                                                 </option>
+
                                             @endforeach
+
                                         </select>
-                                    </td>
-                                    <td>
-                                        <input type="number" name="purchased_quantity" id=""
-                                            value="{{ $consumablePart->purchased_quantity }}" class="form-control">
-                                    </td>
-                                    <td style="width: 250px">
-                                        <select name="consumable_part_status" id="" class="form-control"
-                                            style="width: 250px">
-                                            @foreach (collect($statuses)->whereIn('key', ['pending_buy_in', 'pending_buy_out', 'requested', 'inquiring_price', 'purchase_order_placed', 'waiting_to_receive_payment_from_the_customer']) as $status)
-                                                <option value="{{ $status['label'] }}"
-                                                    {{ $status['label'] == $consumablePart->consumable_part_status ? 'selected' : '' }}>
-                                                    {{ $status['label'] }}{{ !empty($status['assignee']) ? ' (' . $status['assignee'] . ')' : '' }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td style="width: 400px">
-                                        <input type="text" name="description" id="description_{{ $consumablePart->id }}"
-                                            value="{{ $consumablePart->description ?? '' }}"
-                                            class="form-control" placeholder="توضیحات" style="width: 100%">
-                                    </td>
-                                    <td>
-                                        <input type="submit" name="" id=""
-                                            class="btn btn-sm btn-primary" value="ذخیره">
-                                    </td>
-                                </tr>
+
+                                        <div class="purchase-quantity-box"
+                                             id="purchase-box-{{ $consumablePart->id }}"
+                                             style="display:none;">
+
+                                            <div class="alert alert-warning mb-1">
+                                                تعداد مورد نیاز برای خرید
+                                            </div>
+
+                                            <input type="number"
+                                                   name="required_quantity_to_purchase"
+                                                   class="form-control"
+                                                   placeholder="تعداد"
+                                                   min="1"
+                                                   value="{{ $consumablePart->required_quantity_to_purchase }}">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="field-box">
+                                        <label>توضیحات</label>
+
+                                        <input type="text"
+                                               name="description"
+                                               value="{{ $consumablePart->description ?? '' }}"
+                                               class="form-control"
+                                               placeholder="توضیحات درخواست">
+                                    </div>
+
+                                    <div>
+                                        <button type="submit" class="btn btn-primary save-btn">
+                                            <i class="fas fa-save"></i>
+                                            ذخیره تغییرات
+                                        </button>
+                                    </div>
+
+                                </div>
+
                             </form>
+
                         @endforeach
-                    </tbody>
-                </table>
+
+                    </div>
+
+                @endif
+
             </div>
+
         </div>
-    @endif -->
+
+    @endif
+
+</div>
 
 @endsection
 
 @section('script')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
 
-            const selects = document.querySelectorAll('.consumable-status');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
 
-            selects.forEach(function(select) {
+        document.querySelectorAll('.consumable-status').forEach(function (select) {
 
-                function togglePurchaseField() {
+            function togglePurchaseField() {
 
-                    const selectedValue = select.value;
-                    const id = select.dataset.id;
+                const id = select.dataset.id;
+                const box = document.getElementById('purchase-box-' + id);
 
-                    const box = document.getElementById('purchase-box-' + id);
+                if (!box) return;
 
-                    if (
-                        selectedValue === 'در انتظار خرید داخلی' ||
-                        selectedValue === 'در انتظار خرید خارجی'
-                    ) {
-                        box.style.display = 'block';
-                    } else {
-                        box.style.display = 'none';
-                    }
-                }
+                const selectedValue = select.value;
 
-                // بار اول
-                togglePurchaseField();
+                box.style.display = [
+                    'در انتظار خرید داخلی',
+                    'در انتظار خرید خارجی'
+                ].includes(selectedValue) ? 'block' : 'none';
 
-                // هنگام تغییر
-                select.addEventListener('change', togglePurchaseField);
-            });
+            }
+
+            togglePurchaseField();
+
+            select.addEventListener('change', togglePurchaseField);
 
         });
-    </script>
-    <script>
-        function showAdditionalInfoModal(consumablePartId){
-            
-            var url = `[[ route('simpleWorkflowReport.consumable-parts.additional-info.show', 'consumablePart') ]]`;
-            url = url.replace('consumablePart', consumablePartId);
-            open_admin_modal(url);
-        }
-    </script>
+
+    });
+</script>
+
+<script>
+    function showAdditionalInfoModal(consumablePartId) {
+
+        var url = `{{ route('simpleWorkflowReport.consumable-parts.additional-info.show', 'consumablePart') }}`;
+
+        url = url.replace('consumablePart', consumablePartId);
+
+        open_admin_modal(url);
+
+    }
+</script>
+
 @endsection
