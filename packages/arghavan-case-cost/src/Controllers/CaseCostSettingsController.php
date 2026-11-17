@@ -23,16 +23,16 @@ class CaseCostSettingsController
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'job_rank_1_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_2_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_3_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_4_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_5_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_6_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_7_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_8_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_9_percentage'  => ['required', 'numeric', 'min:0', 'max:100'],
-            'job_rank_10_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
+            'job_rank_1_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_2_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_3_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_4_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_5_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_6_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_7_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_8_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_9_percentage'  => ['required', 'numeric', 'min:0'],
+            'job_rank_10_percentage' => ['required', 'numeric', 'min:0'],
         ]);
 
         foreach ($validated as $name => $percentage) {

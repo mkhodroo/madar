@@ -27,7 +27,7 @@
                                 <td>{{ $setting?->label }}</td>
                                 <td>
                                     <input type="number" name="job_rank_{{ $i }}_percentage"
-                                        value="{{ $setting?->percentage }}" min="0" max="100" step="1"
+                                        value="{{ $setting?->percentage }}" min="0" step="1"
                                         class="form-control">
                                 </td>
                             </tr>
@@ -39,7 +39,18 @@
                             <td>[[ $setting?->label ]]</td>
                             <td>
                                 <input type="number" name="overhead_cost"
-                                    value="{{ $setting?->percentage }}" min="0" max="100" step="0.01"
+                                    value="{{ $setting?->percentage }}" min="0" step="0.01"
+                                    class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                             @php
+                                $setting = $settings->where('name', 'round_trip_repair_cost')->first();
+                            @endphp
+                            <td>[[ $setting?->label ]]</td>
+                            <td>
+                                <input type="number" name="round_trip_repair_cost"
+                                    value="{{ $setting?->percentage }}" min="0" step="0.01"
                                     class="form-control">
                             </td>
                         </tr>
