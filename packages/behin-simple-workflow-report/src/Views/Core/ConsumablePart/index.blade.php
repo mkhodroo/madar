@@ -117,7 +117,7 @@
                             <th>تاریخ فاکتور</th>
                             <th style="width: 250px !important">مبلغ</th>
                             <th style="width: 250px !important">وضعیت</th>
-                            <th></th>
+                            <th>توضیحات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -207,6 +207,11 @@
                                                 placeholder="تعداد مورد نیاز برای خرید">
                                         </div>
                                     </td>
+                                    <td style="width: 250px">
+                                        <input type="text" name="description" id="description_{{ $consumablePart->id }}"
+                                            value="{{ $consumablePart->description ?? '' }}"
+                                            class="form-control" placeholder="توضیحات">
+                                    </td>
                                     <td>
                                         <input type="submit" name="" id="" class="btn btn-sm btn-primary"
                                             value="ذخیره">
@@ -276,6 +281,11 @@
                                             @endforeach
                                         </select>
                                     </td>
+                                    <td style="width: 250px">
+                                        <input type="text" name="description" id="description_{{ $consumablePart->id }}"
+                                            value="{{ $consumablePart->description ?? '' }}"
+                                            class="form-control" placeholder="توضیحات">
+                                    </td>
                                     <td>
                                         <input type="submit" name="" id="" class="btn btn-sm btn-primary"
                                             value="ذخیره">
@@ -318,6 +328,7 @@
                             <th>واحد پول</th>
                             <th>تعداد خریداری شده</th>
                             <th>وضعیت</th>
+                            <th>توضیحات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -420,6 +431,11 @@
                                                     {{ $status['label'] }}{{ !empty($status['assignee']) ? ' (' . $status['assignee'] . ')' : '' }}</option>
                                             @endforeach
                                         </select>
+                                    </td>
+                                    <td style="width: 250px">
+                                        <input type="text" name="description" id="description_{{ $consumablePart->id }}"
+                                            value="{{ $consumablePart->description ??  }}"
+                                            class="form-control" placeholder="توضیحات">
                                     </td>
                                     <td>
                                         <input type="submit" name="" id=""

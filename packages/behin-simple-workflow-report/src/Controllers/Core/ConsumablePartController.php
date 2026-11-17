@@ -62,6 +62,7 @@ class ConsumablePartController extends Controller
             'customer_name' => 'nullable',
             'product_name' => 'required',
             'requested_quantity' => 'required',
+            'description' => 'nullable',
         ]);
         $validated['created_by'] = Auth::id();
         $row = Consumable_parts::create($validated);
@@ -92,6 +93,7 @@ class ConsumablePartController extends Controller
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
+            $consumablePart->description = $request->description ?? '';
             $consumablePart->save();
             return redirect()->back()->with(['success' => 'ذخیره شد']);
         } elseif (in_array($consumablePart->consumable_part_status, [
@@ -105,6 +107,7 @@ class ConsumablePartController extends Controller
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
+            $consumablePart->description = $request->description ?? '';
             $consumablePart->save();
             return redirect()->back()->with(['success' => 'ذخیره شد']);
         } else {
@@ -120,6 +123,7 @@ class ConsumablePartController extends Controller
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
+            $consumablePart->description = $request->description ?? '';
             $consumablePart->save();
             return redirect()->back()->with(['success' => 'ذخیره شد']);
         }
@@ -141,6 +145,7 @@ class ConsumablePartController extends Controller
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
+            $consumablePart->description = $request->description ?? '';
             $consumablePart->save();
 
             $this->saveAdditionalInfo($request, $consumablePart, $validCurrencyKeys);
