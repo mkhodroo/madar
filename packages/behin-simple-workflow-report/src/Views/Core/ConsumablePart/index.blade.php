@@ -542,6 +542,17 @@
                                                placeholder="توضیحات درخواست">
                                     </div>
 
+                                    <div class="field-box">
+                                        <label>قیمت واحد</label>
+
+                                        <input type="text"
+                                               name="unit_price"
+                                               value="{{ $consumablePart->additional_info?->unit_price ?? '' }}"
+                                               dir="ltr"
+                                               class="form-control formatted-digit"
+                                               placeholder="قیمت واحد">
+                                    </div>
+
                                     <div>
                                         <button type="submit" class="btn btn-primary save-btn">
                                             <i class="fas fa-save"></i>

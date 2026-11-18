@@ -74,7 +74,8 @@ class ConsumablePartController extends Controller
     public function deliver(Request $request, Consumable_parts $consumablePart)
     {
         if ($consumablePart->consumable_part_status == 'در انتظار تحویل انبار') {
-            $deliveredQuantity = $request->delivered_quantity;
+            $deliveredQuantity = $request->delivered_quantity ?? 0;
+            $returnedQuantity = $request->returned_quantity ?? 0;
             if (
                 $deliveredQuantity === null
                 || $deliveredQuantity === ''
@@ -87,28 +88,60 @@ class ConsumablePartController extends Controller
                 $consumablePart->required_quantity_to_purchase = $request->required_quantity_to_purchase;
             }
             $consumablePart->consumable_part_status = $request->consumable_part_status;
-            $consumablePart->delivered_quantity = $request->delivered_quantity;
-            $consumablePart->amount = $request->amount;
+            $consumablePart->delivered_quantity = $deliveredQuantity;
+            $consumablePart->returned_quantity = $returnedQuantity;
+            // Calculate amount: (delivered - returned) * unit_price
+            $additionalInfo = $consumablePart->additional_info;
+            $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
+            $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
             $consumablePart->supply_source = $request->supply_source;
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
             $consumablePart->description = $request->description ?? '';
             $consumablePart->save();
+
+            // Save unit_price to additional_info
+            $unitPriceData = [
+                'unit_price' => $request->unit_price,
+            ];
+            $additionalInfo = $consumablePart->additional_info;
+            if (!$additionalInfo) {
+                $additionalInfo = $consumablePart->additional_info()->create($unitPriceData);
+            }
+            $additionalInfo->update($unitPriceData);
+
             return redirect()->back()->with(['success' => 'ذخیره شد']);
         } elseif (in_array($consumablePart->consumable_part_status, [
             'در انتظار تایید بازگشتی ها توسط انبار',
             'در انتظار تحویل بازگشتی ها توسط انبار',
         ], true)) {
             $consumablePart->consumable_part_status = $request->consumable_part_status;
-            $consumablePart->delivered_quantity = $request->delivered_quantity;
-            $consumablePart->amount = $request->amount;
+            $deliveredQuantity = $request->delivered_quantity ?? 0;
+            $returnedQuantity = $request->returned_quantity ?? 0;
+            $consumablePart->delivered_quantity = $deliveredQuantity;
+            $consumablePart->returned_quantity = $returnedQuantity;
+            // Calculate amount: (delivered - returned) * unit_price
+            $additionalInfo = $consumablePart->additional_info;
+            $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
+            $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
             $consumablePart->supply_source = $request->supply_source;
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
             $consumablePart->description = $request->description ?? '';
             $consumablePart->save();
+
+            // Save unit_price to additional_info
+            $unitPriceData = [
+                'unit_price' => $request->unit_price,
+            ];
+            $additionalInfo = $consumablePart->additional_info;
+            if (!$additionalInfo) {
+                $additionalInfo = $consumablePart->additional_info()->create($unitPriceData);
+            }
+            $additionalInfo->update($unitPriceData);
+
             return redirect()->back()->with(['success' => 'ذخیره شد']);
         } else {
             $consumablePart->consumable_part_status = $request->consumable_part_status;
@@ -118,13 +151,31 @@ class ConsumablePartController extends Controller
             if (isset($request->purchased_quantity)) {
                 $consumablePart->purchased_quantity = $request->purchased_quantity;
             }
-            $consumablePart->amount = $request->amount;
+            $deliveredQuantity = $request->delivered_quantity ?? 0;
+            $returnedQuantity = $request->returned_quantity ?? 0;
+            $consumablePart->delivered_quantity = $deliveredQuantity;
+            $consumablePart->returned_quantity = $returnedQuantity;
+            // Calculate amount: (delivered - returned) * unit_price
+            $additionalInfo = $consumablePart->additional_info;
+            $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
+            $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
             $consumablePart->supply_source = $request->supply_source;
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
             $consumablePart->invoice_date_alt = $request->invoice_date_alt;
             $consumablePart->description = $request->description ?? '';
             $consumablePart->save();
+
+            // Save unit_price to additional_info
+            $unitPriceData = [
+                'unit_price' => $request->unit_price,
+            ];
+            $additionalInfo = $consumablePart->additional_info;
+            if (!$additionalInfo) {
+                $additionalInfo = $consumablePart->additional_info()->create($unitPriceData);
+            }
+            $additionalInfo->update($unitPriceData);
+
             return redirect()->back()->with(['success' => 'ذخیره شد']);
         }
     }
