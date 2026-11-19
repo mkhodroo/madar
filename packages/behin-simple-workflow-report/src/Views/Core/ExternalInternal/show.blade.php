@@ -711,7 +711,7 @@
                 {{-- جدول بدهکاری‌ها --}}
                 @if(access('جزئیات پرونده: جدول دریافتی ها'))
                 <div class="card mb-4">
-                    <div class="card-header bg-danger text-white">جدول دریافتی ها</div>
+                    <div class="card-header font-weight-bold" style="font-size: 1.25rem; background-color: #f5f5f5;">گزارش هزینه های دریافتی</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="case-debit-table">
