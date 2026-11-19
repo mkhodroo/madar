@@ -556,6 +556,7 @@
                                                 <td>{{ $cp->supply_source }}</td>
                                                 <td>{{ $cp->invoice_number }}</td>
                                                 <td>{{ $cp->invoice_date }}</td>
+                                                <td>{{ $part->additional_info?->unit_price ?? '' }}</td>
                                                 <td>{{ $cp->amount }}</td>
                                             @endif
                                             <td>
