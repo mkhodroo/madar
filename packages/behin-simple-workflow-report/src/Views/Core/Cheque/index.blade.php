@@ -284,7 +284,7 @@
                             </td>
                             <td>
                                 @foreach ($group as $cheque)
-                                    {{ $cheque->transaction_or_cheque_due_date }}
+                                    {{ convertPersianToEnglish($cheque->transaction_or_cheque_due_date) }}
                                     @if (!$loop->last)
                                         <br>
                                     @endif
