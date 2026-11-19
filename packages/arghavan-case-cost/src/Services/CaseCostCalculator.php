@@ -95,7 +95,7 @@ class CaseCostCalculator
             $jobRank = $r->part()?->job_rank;
             switch ($jobRank) {
                 case 'ندارد':
-                    $jobRank = $this->settings->where('name', 'job_rank_1_percentage')->first()?->percentage;
+                    $jobRank = $this->settings->where('name', 'job_rank_0_percentage')->first()?->percentage;
                     break;
                 case '1':
                     $jobRank = $this->settings->where('name', 'job_rank_1_percentage')->first()?->percentage;
@@ -178,7 +178,7 @@ class CaseCostCalculator
             $jobRank = $row->job_rank;
             switch ($jobRank) {
                 case 'ندارد':
-                    $jobRank = $this->settings->where('name', 'job_rank_1_percentage')->first()?->percentage;
+                    $jobRank = $this->settings->where('name', 'job_rank_0_percentage')->first()?->percentage;
                     break;
                 case '1':
                     $jobRank = $this->settings->where('name', 'job_rank_1_percentage')->first()?->percentage;
