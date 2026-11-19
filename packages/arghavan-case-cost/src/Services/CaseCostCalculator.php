@@ -36,7 +36,8 @@ class CaseCostCalculator
         $mapaCenterFixReport = $this->mapaCenterFixReport($caseNumber);
 
         $total = $consumable + $partRepair + $deviceRepair + $roundTripRepairCost + $missionCost + $petty + $mapaCenterFixReport;
-        $overheadCost = $total * $this->settings->where('name', 'overhead_cost')->first()?->percentage / 100;
+        $totalWithoutConsumable = $partRepair + $deviceRepair + $roundTripRepairCost + $missionCost + $petty + $mapaCenterFixReport;
+        $overheadCost = $totalWithoutConsumable * $this->settings->where('name', 'overhead_cost')->first()?->percentage / 100;
         return [
             'consumable_parts_cost' => round($consumable),
             'part_repair_cost' => round($partRepair),
