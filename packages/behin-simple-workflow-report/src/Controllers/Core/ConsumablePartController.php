@@ -95,7 +95,7 @@ class ConsumablePartController extends Controller
 
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
-            $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
+            $unitPrice = $request->unit_price ?? 0;
             $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
 
             $consumablePart->supply_source = $request->supply_source;
@@ -128,7 +128,7 @@ class ConsumablePartController extends Controller
 
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
-            $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
+            $unitPrice = $request->unit_price ?? 0;
             $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
 
             $consumablePart->supply_source = $request->supply_source;
@@ -164,7 +164,7 @@ class ConsumablePartController extends Controller
 
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
-            $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
+            $unitPrice = $request->unit_price ?? 0;
             $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
 
             $consumablePart->supply_source = $request->supply_source;
