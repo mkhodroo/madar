@@ -642,7 +642,7 @@
             @if (auth()->user()->access('امور جاری - جزئیات مالی'))
                 <div class="card">
                     <div class="card-header text-center font-vazir-bold bg-primary" style="font-size: 25px">گزارش
-                        دریافتی مالی
+                     مالی
                         <br>
                         <a class="btn btn-sm btn-warning" style="color: black !important" target="_blank"
                             href="{{ route('simpleWorkflowReport.financial-transactions.index') . '?filter=all&case_number=' . $mainCase->number }}">گزارش
@@ -667,7 +667,7 @@
                 
                 @if(access('جزئیات پرونده: گزارش هزینه های ریز خرجکرد'))    
                 <div class="card">
-                    <div class="card-header bg-primary">
+                    <div class="card-header bg-primary font-weight-bold" style="font-size: 1.25rem">
                         گزارش هزینه های ریز خرجکرد (خانم حاجی بابا)
                     </div>
                     <div class="card-body">
