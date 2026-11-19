@@ -406,6 +406,8 @@ class ConsumablePartController extends Controller
         $perPage = $request->input('per_page') ?? 25;
         $item_name = $request->input('item_name') ?? null;
         $requesterId = $request->input('requester_id') ?? null;
+        $fromAmount = $request->input('from_amount') ?? null;
+        $toAmount = $request->input('to_amount') ?? null;
         $status = $request->input('status') ?? null;
         $users = User::all();
         $statuses = config('simpleWorkflowReport.consumable_parts.statuses', []);
@@ -425,6 +427,12 @@ class ConsumablePartController extends Controller
         }
         if ($requesterId) {
             $allRequests->where('created_by', $requesterId);
+        }
+        if ($fromAmount !== null) {
+            $allRequests->where('amount', '>=', $fromAmount);
+        }
+        if ($toAmount !== null) {
+            $allRequests->where('amount', '<=', $toAmount);
         }
         if ($item_name) {
             $allRequests->where('product_name', 'like', '%' . $item_name . '%');

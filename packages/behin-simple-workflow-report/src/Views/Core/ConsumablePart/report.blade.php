@@ -82,7 +82,6 @@
                             @endforeach
 
                         </select>
-
                         <small class="text-muted d-block mt-1">
                             گزینه «همه وضعیت‌های ستاره دار (به جز تایید)» یعنی همه وضعیت‌هایی که ستاره دارند؛ وضعیت «تایید»
                             فقط زمانی نمایش داده می‌شود که خودش انتخاب شود.
@@ -132,6 +131,28 @@
 
                             <input type="text" class="form-control material-input persian-date" name="to_date"
                                 value="{{ request('to_date') }}" placeholder="تا تاریخ">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <label class="filter-label">
+                            از مبلغ
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fa fa-cube"></i>
+                            <input type="number" class="form-control material-input" name="from_amount"
+                                value="{{ request('from_amount') }}" placeholder="از مبلغ">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <label class="filter-label">
+                            تا مبلغ
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fa fa-cube"></i>
+                            <input type="number" class="form-control material-input" name="to_amount"
+                                value="{{ request('to_amount') }}" placeholder="تا مبلغ">
                         </div>
                     </div>
 
@@ -523,7 +544,7 @@
                             @if (access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت'))
                                 <td>[[ $request->amount ? number_format($request->amount) : $request->amount ]]</td>
                                 <td>[[ $request->additional_info?->unit_price ?
-                                    number_format($request->additional_info->unit_price) :
+                                    number_format($request->additional_info?->unit_price) :
                                     $request->additional_info?->unit_price ]]</td>
                                 <td>{{ $request->additional_info?->currencyLabel() }}</td>
                                 <td>{{ $request->supply_source }}</td>
