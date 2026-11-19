@@ -458,7 +458,7 @@
                         $canViewInvoiceDetails = auth()->user()->access('مپاسنتر: نمایش جزئیات فاکتور قطعات نصب شده');
                         $consumableStatuses = collect(config('simpleWorkflowReport.consumable_parts.statuses', []))->keyBy('label');
                         $mergedTotalAmount = 0;
-                        $mergedColspan = $canViewInvoiceDetails ? 10 : 6;
+                        $mergedColspan = $canViewInvoiceDetails ? 11 : 7;
                     @endphp
                     <!-- جدول یکپارچه قطعات (نصب‌شده و مورد نیاز از انبار) -->
                     <div class="card">

@@ -11,7 +11,9 @@ use Behin\SimpleWorkflow\Models\Entities\Mapa_center_fix_report;
 use Behin\SimpleWorkflow\Models\Entities\Missions;
 use Behin\SimpleWorkflow\Models\Entities\Part_reports;
 use Behin\SimpleWorkflow\Models\Entities\Repair_reports;
+use Behin\SimpleWorkflow\Models\Entities\Mapa_center_install_parts;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Morilog\Jalali\Jalalian;
 
 class CaseCostCalculator
@@ -60,8 +62,10 @@ class CaseCostCalculator
         // Sum `amount` from wf_entity_consumable_parts; column is numeric/bigint
         $sum = Consumable_parts::where('case_number', $caseNumber)
             ->sum('amount');
+        $sumInstallParts = Mapa_center_install_parts::where('case_number', $caseNumber)->sum(DB::raw("CAST(REPLACE(amount, ',', '') AS DECIMAL(15,2))"));
 
-        return (float) $sum;
+
+        return (float) ($sum + $sumInstallParts);
     }
 
     private function pettyCashCost(string $caseNumber): float
