@@ -31,7 +31,7 @@ use Morilog\Jalali\Jalalian;
 use Behin\SimpleWorkflow\Models\Entities\Financial_transactions;
 use Behin\SimpleWorkflow\Models\Entities\Consumable_parts;
 use Behin\SimpleWorkflow\Models\Entities\Mapa_center_install_parts;
-use Behin\SimpleWorkflow\Models\Entities\Petty_cash_transactions;
+use Behin\SimpleWorkflowReport\Models\PettyCash;
 
 
 
@@ -158,7 +158,7 @@ class ExternalAndInternalReportController extends Controller
             'delivery_description' => $mainCase->getVariable('delivery_description'),
         ];
 
-        $pettyCash = Petty_cash_transactions::where('case_number', $caseNumber)->get();
+        $pettyCash = PettyCash::where('case_number', $caseNumber)->get();
         return view(
             'SimpleWorkflowReportView::Core.ExternalInternal.show',
             compact('mainCase', 'customer', 'devices', 'deviceRepairReports', 'totalDuration', 'parts', 'financials', 'financialTransactions', 'caseCosts', 'delivery', 'mapaCenterReports', 'consumableParts', 'installParts', 'pettyCash')
