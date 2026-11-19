@@ -387,21 +387,6 @@
                                 </div>
                             @endif
 
-                            @if (auth()->user()->access('بایگانی: گزارش پرونده های بایگانی شده'))
-                                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                                    <div class="report-box report-box-cyan">
-                                        <div class="report-box-icon">
-                                            <i class="fa fa-archive"></i>
-                                        </div>
-                                        <div class="report-box-content">
-                                            <h5>گزارش بایگانی</h5>
-                                            <p>گزارش کامل پرونده های بایگانی شده</p>
-                                            <a href="{{ route('simpleWorkflowReport.external-internal-archive') }}"
-                                                class="btn btn-light btn-sm">مشاهده گزارش</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
 
                             @if (auth()->user()->access('مپا سنتر: پرونده های پایان یافته'))
                                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
