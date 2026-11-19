@@ -508,7 +508,7 @@
                                                 <td>{{ $part->supply_source }}</td>
                                                 <td>{{ $part->invoice_number }}</td>
                                                 <td>{{ $part->invoice_date }}</td>
-                                                <td>{{ $part->additional_info?->unit_price ?? '' }}</td>
+                                                <td></td>
                                                 <td>{{ $part->amount }}</td>
                                             @endif
                                             <td>
@@ -556,7 +556,7 @@
                                                 <td>{{ $cp->supply_source }}</td>
                                                 <td>{{ $cp->invoice_number }}</td>
                                                 <td>{{ $cp->invoice_date }}</td>
-                                                <td>{{ $part->additional_info?->unit_price ?? '' }}</td>
+                                                <td>{{ $cp->additional_info?->unit_price ?? '' }}</td>
                                                 <td>{{ $cp->amount }}</td>
                                             @endif
                                             <td>
