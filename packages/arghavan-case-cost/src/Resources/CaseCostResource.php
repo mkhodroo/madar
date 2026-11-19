@@ -11,7 +11,11 @@ class CaseCostResource extends JsonResource
         return [
             'consumable_parts_cost' => $this->resource['consumable_parts_cost'] ?? 0,
             'part_repair_cost' => $this->resource['part_repair_cost'] ?? 0,
+            'part_repair_total' => $this->resource['part_repair_total'] ?? 0,
+            'part_repair_rank' => $this->resource['part_repair_rank'] ?? 0,
             'device_repair_cost' => $this->resource['device_repair_cost'] ?? 0,
+            'device_repair_total' => $this->resource['device_repair_total'] ?? 0,
+            'device_repair_rank' => $this->resource['device_repair_rank'] ?? 0,
             'round_trip_repair_cost' => $this->resource['round_trip_repair_cost'] ?? 0,
             'mission_cost' => $this->resource['mission_cost'] ?? 0,
             'petty_cash_cost' => $this->resource['petty_cash_cost'] ?? 0,

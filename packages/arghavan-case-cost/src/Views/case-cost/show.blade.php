@@ -7,7 +7,11 @@
 
         @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Consumable Parts Cost', 'value' => $data['consumable_parts_cost'] ?? 0])
         @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Part Repair Cost', 'value' => $data['part_repair_cost'] ?? 0])
+        @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Part Repair Total', 'value' => $data['part_repair_total'] ?? 0])
+        @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Part Repair Rank', 'value' => $data['part_repair_rank'] ?? 0])
         @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Device Repair Cost', 'value' => $data['device_repair_cost'] ?? 0])
+        @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Device Repair Total', 'value' => $data['device_repair_total'] ?? 0])
+        @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Device Repair Rank', 'value' => $data['device_repair_rank'] ?? 0])
         @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Petty Cash Cost', 'value' => $data['petty_cash_cost'] ?? 0])
 
         @include('CaseCostView::case-cost.partials.cost-summary-card', ['label' => 'Total Cost', 'value' => $data['total_cost'] ?? 0])

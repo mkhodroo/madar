@@ -24,8 +24,12 @@ class CaseCostCalculator
     public function calculate(string $caseNumber): array
     {
         $consumable = $this->consumablePartsCost($caseNumber);
-        $partRepair = $this->partRepairCost($caseNumber);
-        $deviceRepair = $this->deviceRepairCost($caseNumber);
+        $partRepair = $this->partRepairCost($caseNumber)['total'];
+        $partRepairTotal = $this->partRepairCost($caseNumber)['part_repair_total'];
+        $partRepairRank = $this->partRepairCost($caseNumber)['part_repair_rank_total'];
+        $deviceRepair = $this->deviceRepairCost($caseNumber)['total'];
+        $deviceRepairTotal = $this->deviceRepairCost($caseNumber)['device_repair_total'];
+        $deviceRepairRank = $this->deviceRepairCost($caseNumber)['device_repair_rank_total'];
         $roundTripRepairCost = $this->roundTripRepairCost($caseNumber);
         $missionCost = $this->caseMissionCost($caseNumber);
         $petty = $this->pettyCashCost($caseNumber);
@@ -36,7 +40,11 @@ class CaseCostCalculator
         return [
             'consumable_parts_cost' => round($consumable),
             'part_repair_cost' => round($partRepair),
+            'part_repair_total' => round($partRepairTotal),
+            'part_repair_rank' => round($partRepairRank),
             'device_repair_cost' => round($deviceRepair),
+            'device_repair_total' => round($deviceRepairTotal),
+            'device_repair_rank' => round($deviceRepairRank),
             'round_trip_repair_cost' => round($roundTripRepairCost),
             'mission_cost' => round($missionCost),
             'petty_cash_cost' => round($petty),
@@ -69,7 +77,7 @@ class CaseCostCalculator
         return (float) ($sum ?? 0);
     }
 
-    private function partRepairCost(string $caseNumber): float
+    private function partRepairCost(string $caseNumber): array
     {
         // Join part reports to employee salaries via registered_by -> employee_salary_user_column
         // ASSUMPTION: values stored in `registered_by` (part reports) and `mapa_expert` (repair reports)
@@ -77,6 +85,8 @@ class CaseCostCalculator
         // `config('case_cost_config.employee_salary_user_column')`. Verify this against real data.
         $rows = Part_reports::where('case_number', $caseNumber)->get();
         $total = 0.0;
+        $partRepairTotal = 0.0;
+        $partRepairRankTotal = 0.0;
 
         foreach ($rows as $r) {
             $duration = (float) $r->repair_duration; // assumed hours
@@ -123,16 +133,24 @@ class CaseCostCalculator
             }
             if ($salary) {
                 $total += $duration * $hourlySalary * (1 + $jobRank /100);
+                $partRepairTotal += $duration * $hourlySalary ;
+                $partRepairRankTotal += $duration * $hourlySalary * ($jobRank /100);
             }
         }
         // return $jobRank;
-        return $total;
+        return [
+            'total' => $total,
+            'part_repair_total' => $partRepairTotal,
+            'part_repair_rank_total' => $partRepairRankTotal,
+        ];  
     }
 
-    private function deviceRepairCost(string $caseNumber): float
+    private function deviceRepairCost(string $caseNumber): array
     {
         $rows = Repair_reports::where('case_number', $caseNumber)->get();
         $total = 0.0;
+        $deviceRepairTotal = 0.0;
+        $deviceRepairRankTotal = 0.0;
         foreach ($rows as $row) {
             $startDate = convertPersianToEnglish($row->start_date);
             $startTime = convertPersianToEnglish($row->start_time);
@@ -203,10 +221,16 @@ class CaseCostCalculator
             $hourlySalary = $this->hourlySalary($salary->real_salary);
             if ($salary) {
                 $total += ($duration * $hourlySalary) * (1 + $jobRank / 100);
+                $deviceRepairTotal += $duration * $hourlySalary;
+                $deviceRepairRankTotal += $duration * $hourlySalary * ($jobRank / 100);
             }
         }
 
-        return round($total);
+        return [
+            'total' => $total,
+            'device_repair_total' => $deviceRepairTotal,
+            'device_repair_rank_total' => $deviceRepairRankTotal,
+        ];
     }
 
     private function roundTripRepairCost(string $caseNumber): float
