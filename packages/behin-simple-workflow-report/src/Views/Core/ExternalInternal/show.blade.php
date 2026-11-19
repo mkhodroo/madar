@@ -4,6 +4,8 @@
 @endsection
 
 @php
+    use Behin\SimpleWorkflow\Controllers\Core\ViewModelController;
+
     $caseFinancialTransactions = $financialTransactions ?? collect();
 
     // دسترسی قابل تخصیص به نقش‌های مختلف (در صورت نبود، به صورت غیرفعال در لیست دسترسی‌ها ساخته می‌شود)
@@ -37,6 +39,17 @@
         'total_credit' => $caseTotalCredit,
         'balance' => $caseTotalCredit - $caseTotalDebit,
     ];
+
+    $installPartViewModelId = '218c2926-67c3-4344-a54d-5f718eba3882';
+    $installPartViewModel = ViewModelController::getById($installPartViewModelId);
+    $installPartViewModelCreateForm = $installPartViewModel->create_form;
+    $installPartViewModelUpdateForm = $installPartViewModel->update_form;
+    $installPartViewModelApikey = $installPartViewModel->api_key;
+    $consumablePartViewModelId = '608bf9ee-ad4e-4931-80ae-d27ca8537dad';
+    $consumablePartViewModel = ViewModelController::getById($consumablePartViewModelId);
+    $consumablePartViewModelCreateForm = $consumablePartViewModel->create_form;
+    $consumablePartViewModelUpdateForm = $consumablePartViewModel->update_form;
+    $consumablePartViewModelApikey = $consumablePartViewModel->api_key;
 @endphp
 
 
@@ -441,44 +454,124 @@
                         </div>
                     </div>
 
+                    @php
+                        $canViewInvoiceDetails = auth()->user()->access('مپاسنتر: نمایش جزئیات فاکتور قطعات نصب شده');
+                        $consumableStatuses = collect(config('simpleWorkflowReport.consumable_parts.statuses', []))->keyBy('label');
+                        $mergedTotalAmount = 0;
+                        $mergedColspan = $canViewInvoiceDetails ? 10 : 6;
+                    @endphp
+                    <!-- جدول یکپارچه قطعات (نصب‌شده و مورد نیاز از انبار) -->
                     <div class="card">
-                        <div class="card-header text-center" style="background-color: #e2f7a2">
-                            قطعات مصرفی از انبار
-                        </div>
+                        <div class="card-header bg-warning text-center">لیست قطعات (نصب‌شده و مورد نیاز از انبار)</div>
                         <div class="card-body table-responsive">
-                            <table class="table table-striped table-bordered">
-                                <tr>
-                                    <th>نام محصول</th>
-                                    <th>تعداد استفاده شده</th>
-                                    @if (auth()->user()->access('مشاهده ستون قیمت در قطعات مصرفی انبار در خلاصه گزارش پرونده'))
-                                        <th>قیمت</th>
-                                    @endif
-                                </tr>
-                                @php
-                                    $totalConsumablePartAmount = 0;
-                                @endphp
-                                @foreach ($consumableParts as $consumablePart)
-                                    @php
-                                        $totalConsumablePartAmount += $consumablePart->amount;
-                                    @endphp
+                            <div class="mb-2 text-right">
+                                <button type="button" class="btn btn-sm btn-info"
+                                    onclick="open_view_model_create_new_form('{{ $consumablePartViewModelCreateForm }}', '{{ $consumablePartViewModelId }}', '{{ $consumablePartViewModelApikey }}')">
+                                    <i class="fa fa-plus"></i> افزودن قطعه مورد نیاز از انبار
+                                </button>
+                            </div>
+                            <table class="table table-bordered table-striped" id="merged-parts-list-table">
+                                <thead>
                                     <tr>
-                                        <td>{{ $consumablePart->product_name }}</td>
-                                        <td>{{ $consumablePart->usedQuantity() ?? '' }}</td>
-                                        @if (auth()->user()->access('مشاهده ستون قیمت در قطعات مصرفی انبار در خلاصه گزارش پرونده'))
-                                            <td>{{ $consumablePart->formatedAmount() ?? '' }}</td>
+                                        <th>نوع/منبع</th>
+                                        <th>نام قطعه</th>
+                                        <th>مقدار</th>
+                                        <th>وضعیت</th>
+                                        <th>تاریخ ثبت</th>
+                                        @if ($canViewInvoiceDetails)
+                                            <th>منبع تامین</th>
+                                            <th>شماره فاکتور</th>
+                                            <th>تاریخ فاکتور</th>
+                                            <th>مبلغ</th>
                                         @endif
+                                        <th>عملیات</th>
                                     </tr>
-                                @endforeach
-                                @if (auth()->user()->access('مشاهده ستون قیمت در قطعات مصرفی انبار در خلاصه گزارش پرونده'))
+                                </thead>
+                                <tbody>
+                                    @foreach ($installParts as $part)
+                                        <tr>
+                                            <td><span class="badge badge-warning">نصب‌شده</span></td>
+                                            <td>{{ $part->name }}</td>
+                                            <td>{{ $part->value }}</td>
+                                            <td>—</td>
+                                            <td>{{ $part->created_at ? jdate($part->created_at)->format('Y/m/d') : '' }}</td>
+                                            @if ($canViewInvoiceDetails)
+                                                @php
+                                                    $mergedTotalAmount += (int) str_replace(',', '', $part->amount);
+                                                @endphp
+                                                <td>{{ $part->supply_source }}</td>
+                                                <td>{{ $part->invoice_number }}</td>
+                                                <td>{{ $part->invoice_date }}</td>
+                                                <td>{{ $part->amount }}</td>
+                                            @endif
+                                            <td>
+                                                @if (auth()->user()->access('مپاسنتر: امکان ویرایش قطعات نصب شده'))
+                                                    <i class="btn btn-sm btn-primary fa fa-edit"
+                                                        onclick="open_view_model_form(`{{ $installPartViewModelUpdateForm }}`, `{{ $installPartViewModelId }}`, `{{ $part->id }}`, `{{ $installPartViewModelApikey }}`)"></i>
+                                                @endif
+                                                @if (auth()->user()->access('مپاسنتر: امکان حذف قطعات نصب شده'))
+                                                    <a href="{{ route('simpleWorkflowReport.mapa-center.delete-install-part', $part->id) }}"
+                                                        class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('آیا از حذف قطعه {{ $part->name }} مطمئن هستید؟')">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach ($consumableParts as $cp)
+                                        <tr>
+                                            <td><span class="badge badge-info">مورد نیاز از انبار</span></td>
+                                            <td>{{ $cp->product_name }}</td>
+                                            <td>
+                                                درخواستی: {{ $cp->requested_quantity }}
+                                                @if (!is_null($cp->delivered_quantity) && $cp->delivered_quantity !== '')
+                                                    <br>تحویلی: {{ $cp->delivered_quantity }}
+                                                @endif
+                                                @if (!is_null($cp->returned_quantity) && $cp->returned_quantity != 0)
+                                                    <br>برگشتی: {{ $cp->returned_quantity }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @php $statusInfo = $consumableStatuses[$cp->consumable_part_status] ?? null; @endphp
+                                                @if ($statusInfo)
+                                                    <span class="badge"
+                                                        style="background: {{ $statusInfo['color'] }}">{{ $statusInfo['label'] }}</span>
+                                                @else
+                                                    {{ $cp->consumable_part_status }}
+                                                @endif
+                                            </td>
+                                            <td>{{ $cp->created_at ? jdate($cp->created_at)->format('Y/m/d') : '' }}</td>
+                                            @if ($canViewInvoiceDetails)
+                                                @php
+                                                    $mergedTotalAmount += (int) str_replace(',', '', $cp->amount);
+                                                @endphp
+                                                <td>{{ $cp->supply_source }}</td>
+                                                <td>{{ $cp->invoice_number }}</td>
+                                                <td>{{ $cp->invoice_date }}</td>
+                                                <td>{{ $cp->amount }}</td>
+                                            @endif
+                                            <td>
+                                                <i class="btn btn-sm btn-primary fa fa-edit"
+                                                    onclick="open_view_model_form(`{{ $consumablePartViewModelUpdateForm }}`, `{{ $consumablePartViewModelId }}`, `{{ $cp->id }}`, `{{ $consumablePartViewModelApikey }}`)"></i>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @if ($installParts->isEmpty() && $consumableParts->isEmpty())
+                                        <tr>
+                                            <td colspan="{{ $mergedColspan }}" class="text-center">قطعه‌ای ثبت نشده است.</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                                @if ($canViewInvoiceDetails)
                                     <tfoot>
-                                        <tr style="background: rgb(247, 255, 187)">
-                                            <td>مجموع</td>
+                                        <tr>
+                                            <td colspan="{{ $mergedColspan - 2 }}" class="text-center">مجموع</td>
+                                            <td>{{ number_format($mergedTotalAmount) }}</td>
                                             <td></td>
-                                            <td>[[ number_format($totalConsumablePartAmount) ]]</td>
                                         </tr>
                                     </tfoot>
                                 @endif
-
                             </table>
                         </div>
                     </div>
@@ -888,6 +981,15 @@
                     }
                 });
             }
+
+            $('#merged-parts-list-table').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/fa.json'
+                },
+                order: [
+                    [4, 'desc']
+                ]
+            });
         });
     </script>
 @endsection

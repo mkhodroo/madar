@@ -30,6 +30,8 @@ use Illuminate\Support\Facades\DB;
 use Morilog\Jalali\Jalalian;
 use Behin\SimpleWorkflow\Models\Entities\Financial_transactions;
 use Behin\SimpleWorkflow\Models\Entities\Consumable_parts;
+use Behin\SimpleWorkflow\Models\Entities\Mapa_center_install_parts;
+
 
 
 
@@ -139,6 +141,7 @@ class ExternalAndInternalReportController extends Controller
             }
         }
         $parts = Parts::where('case_number', $caseNumber)->get();
+        $installParts = Mapa_center_install_parts::where('case_number', $caseNumber)->get();
         $consumableParts = Consumable_parts::where('case_number', $caseNumber)->get();
         $mapaCenterReports = Mapa_center_fix_report::where('case_number', $caseNumber)->get();
 
@@ -155,7 +158,7 @@ class ExternalAndInternalReportController extends Controller
         ];
         return view(
             'SimpleWorkflowReportView::Core.ExternalInternal.show',
-            compact('mainCase', 'customer', 'devices', 'deviceRepairReports', 'totalDuration', 'parts', 'financials', 'financialTransactions', 'caseCosts', 'delivery', 'mapaCenterReports', 'consumableParts')
+            compact('mainCase', 'customer', 'devices', 'deviceRepairReports', 'totalDuration', 'parts', 'financials', 'financialTransactions', 'caseCosts', 'delivery', 'mapaCenterReports', 'consumableParts', 'installParts')
         );
     }
 
