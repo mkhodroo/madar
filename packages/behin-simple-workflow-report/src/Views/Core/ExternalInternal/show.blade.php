@@ -491,7 +491,12 @@
                                     @foreach ($installParts as $part)
                                         <tr>
                                             <td><span class="badge badge-warning">نصب‌شده</span></td>
-                                            <td>{{ $part->name }}</td>
+                                            <td>
+                                                {{ $part->name }}
+                                                @if ($part->description)
+                                                    <br><small class="text-muted">{{ $part->description }}</small>
+                                                @endif
+                                            </td>
                                             <td>{{ $part->value }}</td>
                                             <td>—</td>
                                             <td>{{ $part->created_at ? jdate($part->created_at)->format('Y/m/d') : '' }}</td>
