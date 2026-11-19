@@ -542,7 +542,7 @@
                                 @endif
                             </td>
                             @if (access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت'))
-                                <td>[[ $request->amount ? number_format($request->amount) : $request->amount ]]</td>
+                                <td style="color:red">[[ $request->amount ? number_format($request->amount) : $request->amount ]]</td>
                                 <td>[[ $request->additional_info?->unit_price ?
                                     number_format($request->additional_info?->unit_price) :
                                     $request->additional_info?->unit_price ]]</td>
