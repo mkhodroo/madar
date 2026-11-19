@@ -488,6 +488,7 @@
                         <th>تعداد بازگشت داده شده</th>
                         <th>وضعیت</th>
                         <th>تاریخ درخواست</th>
+                        <th>تاریخ تحویل به پرسنل</th>
                         @if (access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت'))
                             <th>قیمت</th>
                             <th>قیمت واحد</th>
@@ -537,6 +538,13 @@
                             <td dir="ltr">
                                 @if ($request->created_at)
                                     {{ toJalali($request->created_at)->format('Y-m-d H:i') }} <br>
+                                @else
+                                    ـ
+                                @endif
+                            </td>
+                            <td dir="ltr">
+                                @if ($request->delivery_date_to_staff)
+                                    {{ $request->delivery_date_to_staff }} <br>
                                 @else
                                     ـ
                                 @endif
