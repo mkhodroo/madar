@@ -667,7 +667,7 @@
                 
                 @if(access('جزئیات پرونده: گزارش هزینه های ریز خرجکرد'))    
                 <div class="card">
-                    <div class="card-header" style="background-color: #00ffe1ff;">
+                    <div class="card-header bg-primary">
                         گزارش هزینه های ریز خرجکرد (خانم حاجی بابا)
                     </div>
                     <div class="card-body">
