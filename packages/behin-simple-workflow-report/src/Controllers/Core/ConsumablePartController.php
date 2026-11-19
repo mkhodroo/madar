@@ -462,4 +462,49 @@ class ConsumablePartController extends Controller
         $consumablePart->delete();
         return redirect()->back()->with(['success' => 'حذف شد']);
     }
+
+    public function edit($id)
+    {
+        $consumablePart = Consumable_parts::findOrFail($id);
+        $data = $this->prepareReportData(request());
+        $statuses = $data['statuses'];
+        $users = $data['users'];
+        return view('SimpleWorkflowReportView::Core.ConsumablePart.edit', compact('consumablePart', 'statuses', 'users'));
+    }
+
+    public function update(Request $request, Consumable_parts $consumablePart)
+    {
+        $validated = $request->validate([
+            'product_name' => 'required',
+            'amount' => 'nullable',
+            'description' => 'nullable',
+            'unit_price' => 'nullable',
+            'consumable_part_status' => 'nullable',
+            'requester_id' => 'nullable',
+        ]);
+
+        $unitPrice = $request->unit_price ? floatval(str_replace(',', '', $request->unit_price)) : 0;
+        $deliveredQuantity = $consumablePart->delivered_quantity ?? 0;
+        $returnedQuantity = $consumablePart->returned_quantity ?? 0;
+
+        if ($unitPrice > 0) {
+            $validated['amount'] = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
+        }
+
+        $consumablePart->update($validated);
+
+        $additionalInfoData = [
+            'unit_price' => $request->unit_price,
+        ];
+
+        $additionalInfo = $consumablePart->additional_info;
+
+        if (!$additionalInfo) {
+            $consumablePart->additional_info()->create($additionalInfoData);
+        } else {
+            $additionalInfo->update($additionalInfoData);
+        }
+
+        return redirect()->back()->with(['success' => 'به‌روزرسانی شد']);
+    }
 }

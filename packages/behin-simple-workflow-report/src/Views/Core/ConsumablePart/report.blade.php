@@ -560,6 +560,12 @@
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 @endif
+
+                                @if (access('گزارش قطعات درخواستی از انبار - ویرایش'))
+                                    <button class="btn btn-sm btn-primary" onclick="show_edit_modal(`{{ $request->id }}`)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @empty
@@ -589,11 +595,19 @@
 
 @endsection
 
+
+
 <script>
     function confirmDelete(url) {
         if (confirm("آیا مطمئن هستید؟")) {
             window.location.href = url
         }
         return null;
+    }
+    
+    function show_edit_modal(id) {
+        let url = '{{ route('simpleWorkflowReport.consumable-parts.edit', ':id') }}';
+        url = url.replace(':id', id);
+        open_admin_modal(url);
     }
 </script>

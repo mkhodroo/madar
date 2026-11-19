@@ -174,6 +174,8 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
             Route::put('{consumablePart}/deliver', [ConsumablePartController::class, 'deliver'])->name('deliver')->middleware('access:درخواست قطعات مصرفی');
             Route::put('{consumablePart}/store-external-buying-info', [ConsumablePartController::class, 'storeExternalBuyingInfo'])->name('store-external-buying-info')->middleware('access:مدیریت لیست خرید خارجی');
             Route::get('{consumablePart}/delete', [ConsumablePartController::class, 'destroy'])->name('delete')->middleware('access:گزارش قطعات درخواستی از انبار');
+            Route::get('{consumablePart}/edit', [ConsumablePartController::class, 'edit'])->name('edit')->middleware('access:ویرایش قطعات درخواستی از انبار');
+            Route::put('{consumablePart}/update', [ConsumablePartController::class, 'update'])->name('update')->middleware('access:ویرایش قطعات درخواستی از انبار');
         });
 
     Route::name('parts.')
