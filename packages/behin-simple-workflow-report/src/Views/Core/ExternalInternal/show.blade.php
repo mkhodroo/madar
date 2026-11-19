@@ -664,6 +664,38 @@
                     'fieldValue' => null,
                     'fieldValueAlt' => null,
                 ])
+                
+                @if(access('جزئیات پرونده: گزارش هزینه های ریز خرجکرد'))    
+                <div class="card">
+                    <div class="card-header" style="background-color: #bbff00ff;">
+                        گزارش هزینه های ریز خرجکرد (خانم حاجی بابا)
+                    </div>
+                    <div class="card-body">
+                        <div class="row table-responsive" id="pettyCash">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>شرح</th>
+                                        <th>مبلغ</th>
+                                        <th>تاریخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pettyCash as $item)
+                                        <tr>
+                                            <td>{{ $item->title }}</td>
+                                            <td>{{ number_format($item->amount) }}</td>
+                                            <td>{{ toJalali($item->paid_at)->format('Y-m-d') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+
                 <div class="card">
                     <div
                         class="card-header text-center font-vazir-bold {{ count($caseCosts) ? 'bg-success' : 'bg-primary' }}">
