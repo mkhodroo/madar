@@ -90,10 +90,12 @@ class ConsumablePartController extends Controller
             $consumablePart->consumable_part_status = $request->consumable_part_status;
             $consumablePart->delivered_quantity = $deliveredQuantity;
             $consumablePart->returned_quantity = $returnedQuantity;
+
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
             $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
             $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
+
             $consumablePart->supply_source = $request->supply_source;
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
@@ -121,10 +123,12 @@ class ConsumablePartController extends Controller
             $returnedQuantity = $request->returned_quantity ?? 0;
             $consumablePart->delivered_quantity = $deliveredQuantity;
             $consumablePart->returned_quantity = $returnedQuantity;
+
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
             $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
             $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
+
             $consumablePart->supply_source = $request->supply_source;
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
@@ -155,10 +159,12 @@ class ConsumablePartController extends Controller
             $returnedQuantity = $request->returned_quantity ?? 0;
             $consumablePart->delivered_quantity = $deliveredQuantity;
             $consumablePart->returned_quantity = $returnedQuantity;
+
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
             $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
             $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
+            
             $consumablePart->supply_source = $request->supply_source;
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
