@@ -745,18 +745,8 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="3" class="text-right">جمع بدهکاری این پرونده:</th>
-                                        <th dir="ltr">{{ number_format($financialSummary['total_debit'] ?? 0) }}</th>
-                                        <th colspan="4"></th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
-                        @include('SimpleWorkflowReportView::Core.Summary.partial.case-financial-summary', [
-                            'financialSummary' => $financialSummary,
-                        ])
                     </div>
                 </div>
                 @endif
