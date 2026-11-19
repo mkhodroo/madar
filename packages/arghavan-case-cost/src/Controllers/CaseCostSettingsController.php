@@ -23,6 +23,7 @@ class CaseCostSettingsController
     public function update(Request $request)
     {
         $validated = $request->validate([
+            'job_rank_0_percentage'  => ['required', 'numeric', 'min:0'],
             'job_rank_1_percentage'  => ['required', 'numeric', 'min:0'],
             'job_rank_2_percentage'  => ['required', 'numeric', 'min:0'],
             'job_rank_3_percentage'  => ['required', 'numeric', 'min:0'],
