@@ -387,23 +387,6 @@
                                 </div>
                             @endif
 
-
-                            @if (auth()->user()->access('مپا سنتر: پرونده های پایان یافته'))
-                                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                                    <div class="report-box report-box-indigo">
-                                        <div class="report-box-icon">
-                                            <i class="fa fa-check-circle"></i>
-                                        </div>
-                                        <div class="report-box-content">
-                                            <h5>گزارش مپاسنتر: پرونده های پایان یافته</h5>
-                                            <p>گزارش کامل پرونده های پایان یافته مپاسنتر</p>
-                                            <a href="{{ route('simpleWorkflowReport.mapa-center-archive') }}"
-                                                class="btn btn-light btn-sm">مشاهده گزارش</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-
                             @if (auth()->user()->access('گزارش درآمد تقریبی'))
                                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                                     <div class="report-box report-box-teal">
