@@ -681,14 +681,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $mergedTotalAmount = 0;
+                                    @endphp
                                     @foreach ($pettyCash as $item)
                                         <tr>
                                             <td>{{ $item->title }}</td>
                                             <td>{{ number_format($item->amount) }}</td>
                                             <td>{{ toJalali($item->paid_at)->format('Y-m-d') }}</td>
                                         </tr>
+                                        @php
+                                            $mergedTotalAmount += (int) str_replace(',', '', $item->amount);
+                                        @endphp
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr style="background-color: #f2f2f2; font-weight: bold;">
+                                        <td>مجموع</td>
+                                        <td>{{ number_format($mergedTotalAmount) }}</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
