@@ -174,7 +174,7 @@ class CaseCostCalculator
                 ->toCarbon()
                 ->timestamp;
 
-            $row->duration = round((($row->end ?? 0) - ($row->start ?? 0)) / 3600, 2);
+            $row->duration = abs(round((($row->end ?? 0) - ($row->start ?? 0)) / 3600, 2));
             $jobRank = $row->job_rank;
             switch ($jobRank) {
                 case 'ندارد':
