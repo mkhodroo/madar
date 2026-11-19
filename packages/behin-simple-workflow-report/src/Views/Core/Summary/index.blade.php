@@ -585,8 +585,8 @@
                                             <i class="fa fa-shopping-basket"></i>
                                         </div>
                                         <div class="report-box-content">
-                                            <h5>گزارش ریز خرج کرد</h5>
-                                            <p>گزارش تنخواه</p>
+                                            <h5>گزارش تنخواه خانم رحمتی</h5>
+                                            <p>گزارش تنخواه خانم رحمتی</p>
                                             <a href="{{ route('simpleWorkflowReport.petty-cash.index') }}"
                                                 class="btn btn-light btn-sm">مشاهده گزارش</a>
                                         </div>
@@ -697,8 +697,8 @@
                                             <i class="fa fa-calculator"></i>
                                         </div>
                                         <div class="report-box-content">
-                                            <h5>تنخواه گردانی</h5>
-                                            <p>تنخواه گردانی</p>
+                                            <h5>گزارش تنخواه خانم حاجی بابا</h5>
+                                            <p>گزارش تنخواه خانم حاجی بابا</p>
                                             <a href="{{ route('petty-cash.index') }}"
                                                 class="btn btn-light btn-sm">مشاهده گزارش</a>
                                         </div>
