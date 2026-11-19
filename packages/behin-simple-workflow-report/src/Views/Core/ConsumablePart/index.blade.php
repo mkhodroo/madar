@@ -438,7 +438,20 @@
                                     @if ($consumablePart->external_buying_is_done != 1)
 
                                         <div class="part-edit-grid">
+                                            <div class="field-box">
+                                                <label>تاریخ تحویل به پرسنل</label>
 
+                                                @include('SimpleWorkflowView::Core.Form.field-generator', [
+                                                    'fieldName' => 'delivery_date_to_staff',
+                                                    'fieldId' => 'delivery_date_to_staff_' . $consumablePart->id,
+                                                    'fieldClass' => 'col-sm-12 text-center',
+                                                    'readOnly' => false,
+                                                    'required' => false,
+                                                    'showLabel' => false,
+                                                    'fieldValue' => $consumablePart->delivery_date_to_staff,
+                                                    'fieldValueAlt' => $consumablePart->delivery_date_to_staff_alt,
+                                                ])
+                                            </div>
                                             <div class="field-box">
                                                 <label>منبع تامین</label>
                                                 <input type="text"

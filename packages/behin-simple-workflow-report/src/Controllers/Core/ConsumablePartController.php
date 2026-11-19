@@ -90,6 +90,8 @@ class ConsumablePartController extends Controller
             $consumablePart->consumable_part_status = $request->consumable_part_status;
             $consumablePart->delivered_quantity = $deliveredQuantity;
             $consumablePart->returned_quantity = $returnedQuantity;
+            $consumablePart->delivery_date_to_staff = $request->delivery_date_to_staff;
+            $consumablePart->delivery_date_to_staff_alt = $request->delivery_date_to_staff_alt;
 
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
@@ -164,7 +166,7 @@ class ConsumablePartController extends Controller
             $additionalInfo = $consumablePart->additional_info;
             $unitPrice = $additionalInfo ? ($additionalInfo->unit_price ?? 0) : 0;
             $consumablePart->amount = ($deliveredQuantity - $returnedQuantity) * $unitPrice;
-            
+
             $consumablePart->supply_source = $request->supply_source;
             $consumablePart->invoice_number = $request->invoice_number;
             $consumablePart->invoice_date = $request->invoice_date;
