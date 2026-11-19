@@ -4,6 +4,8 @@
     مپا سنتر
 @endsection
 
+
+
 @section('content')
     <div class="card">
         <div class="card-header">
@@ -27,14 +29,20 @@
                     </thead>
                     <tbody>
                         @foreach ($process->cases->where('parent_id', null) as $case)
+                        @php
+                            $showLinkUrl = route('simpleWorkflowReport.mapa-center.show', ['mapa_center' => $case->id]);
+                            if ($showLink == 'report') {
+                                $showLinkUrl = route('simpleWorkflowReport.external-internal.show', ['external_internal' => $case->number]);
+                            }
+                        @endphp
                             @if ($case->getVariable('end_of_repair') != 'yes')
                                 <tr
-                                    ondblclick="window.location.href='{{ route('simpleWorkflowReport.external-internal.show', ['external_internal' => $case->number]) }}'">
+                                    ondblclick="window.location.href='{{ $showLinkUrl }}'">
                                     {{-- <td>{{ $loop->iteration }}</td> --}}
                                     <td class="d-none">{{ $case->id }}</td>
                                     <td>{{ $case->number }}
                                         <a
-                                            href="{{ route('simpleWorkflowReport.external-internal.show', ['external_internal' => $case->number]) }}"><i
+                                            href="{{ $showLinkUrl }}"><i
                                                 class="fa fa-external-link"></i></a>
                                     </td>
                                     <td>{{ $case->getVariable('device_name') }}</td>
@@ -43,7 +51,7 @@
                                     <td>{{ $case->getVariable('mapa_serial') }}</td>
                                     <td dir="ltr">{{ toJalali($case->created_at)->format('Y-m-d H:i') }}</td>
                                     <td><a
-                                            href="{{ route('simpleWorkflowReport.mapa-center.show', ['mapa_center' => $case->id]) }}"><button
+                                            href="{{ $showLinkUrl }}"><button
                                                 class="btn btn-primary btn-sm">{{ trans('fields.Show More') }}</button></a>
                                     </td>
                                 </tr>

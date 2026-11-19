@@ -29,11 +29,14 @@ use Behin\SimpleWorkflow\Models\Entities\Consumable_parts;
 
 class MapaCenterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $process= ProcessController::getById('ab17ef68-6ec7-4dc8-83b0-5fb6ffcedc50');
+        $showLink = $request->has('show-link');
+
         return view('SimpleWorkflowReportView::Core.MapaCenter.index', compact(
             'process',
+            'showLink'
         ));
     }
 

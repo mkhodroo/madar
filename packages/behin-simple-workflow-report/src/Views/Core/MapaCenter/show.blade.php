@@ -272,7 +272,7 @@
             <div class="card mb-3" id="required-parts-details">
                 <div class="card-body">
                     @php
-                        $canViewInvoiceDetails = auth()->user()->access('مپاسنتر: نمایش جزئیات فاکتور قطعات نصب شده');
+                        $canViewInvoiceDetails = auth()->user()->access('مپاسنتر تعمیرکار: نمایش جزئیات فاکتور قطعات نصب شده');
                         $consumableStatuses = collect(config('simpleWorkflowReport.consumable_parts.statuses', []))->keyBy('label');
                         $mergedTotalAmount = 0;
                         $mergedColspan = $canViewInvoiceDetails ? 10 : 6;
@@ -393,7 +393,7 @@
                         </div>
                     </div>
 
-            @if (auth()->user()->access('گزارش مالی مپا سنتر'))
+            @if (auth()->user()->access('مپاسنتر تعمیرکار: گزارش مالی مپا سنتر'))
                 @include('SimpleWorkflowView::Core.Form.field-generator', [
                     'fieldName' => 'هزینه‌های انجام شده از تنخواه',
                     'fieldId' => 'hazinehaye_tankhah',
@@ -403,11 +403,11 @@
                     'fieldValue' => null,
                     'fieldValueAlt' => null,
                 ])
-                    @endif
+            @endif
 
 
 
-            @if (auth()->user()->access('گزارش مالی مپا سنتر'))
+            @if (auth()->user()->access('مپاسنتر تعمیرکار: گزارش مالی مپا سنتر'))
                 <div class="card">
                     <div class="card-header bg-info text-center">گزارش مالی</div>
                     <div class="card-body row table-responsive">
@@ -482,7 +482,7 @@
                     <input type="submit" value="ذخیره" class="btn btn-primary m-2">
                 </form>
             </div>
-            @if (access('مپاسنتر: تخمین هزینه'))
+            @if (access('مپاسنتر تعمیرکار: تخمین هزینه'))
                 @include('SimpleWorkflowView::Core.Form.field-generator', [
                     'fieldName' => 'تخمین هزینه پرونده',
                     'fieldId' => 'case_cost_estimate',

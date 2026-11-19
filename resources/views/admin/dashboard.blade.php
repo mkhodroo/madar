@@ -153,7 +153,7 @@
                 <div class="material-card payment-card card-blue">
 
                     <div class="material-card-content"
-                        onclick="window.location='{{ route('simpleWorkflowReport.summary-report.show', 'ab17ef68-6ec7-4dc8-83b0-5fb6ffcedc50') }}'">
+                        onclick="window.location='{{ route('simpleWorkflowReport.mapa-center.index') }}'">
 
                         <div class="material-icon">
                             <i class="fa fa-cogs"></i>

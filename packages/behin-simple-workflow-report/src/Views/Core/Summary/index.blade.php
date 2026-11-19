@@ -332,7 +332,7 @@
                                         <div class="report-box-content">
                                             <h5>گزارش مپاسنتر</h5>
                                             <p>گزارش مپاسنتر</p>
-                                            <a href="{{ route('simpleWorkflowReport.mapa-center.index') }}"
+                                            <a href="{{ route('simpleWorkflowReport.mapa-center.index') }}?show-link=report"
                                                 class="btn btn-light btn-sm">مشاهده گزارش</a>
                                         </div>
                                     </div>
