@@ -482,6 +482,7 @@
                                             <th>منبع تامین</th>
                                             <th>شماره فاکتور</th>
                                             <th>تاریخ فاکتور</th>
+                                            <th>مبلغ واحد</th>
                                             <th>مبلغ</th>
                                         @endif
                                         <th>عملیات</th>
@@ -507,6 +508,7 @@
                                                 <td>{{ $part->supply_source }}</td>
                                                 <td>{{ $part->invoice_number }}</td>
                                                 <td>{{ $part->invoice_date }}</td>
+                                                <td>{{ $part->additional_info?->unit_price ?? '' }}</td>
                                                 <td>{{ $part->amount }}</td>
                                             @endif
                                             <td>
