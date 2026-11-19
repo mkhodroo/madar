@@ -19,6 +19,7 @@ class CaseCostResource extends JsonResource
             'round_trip_repair_cost' => $this->resource['round_trip_repair_cost'] ?? 0,
             'mission_cost' => $this->resource['mission_cost'] ?? 0,
             'petty_cash_cost' => $this->resource['petty_cash_cost'] ?? 0,
+            'hajibaba_petty_cash_cost' => $this->resource['hajibaba_petty_cash_cost'] ?? 0,
             'mapa_center_fix_report' => $this->resource['mapa_center_fix_report'] ?? 0,
             'total_cost' => $this->resource['total_cost'] ?? 0,
             'overhead_cost' => $this->resource['overhead_cost'] ?? 0,

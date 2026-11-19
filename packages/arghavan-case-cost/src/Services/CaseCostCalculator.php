@@ -15,6 +15,7 @@ use Behin\SimpleWorkflow\Models\Entities\Mapa_center_install_parts;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Morilog\Jalali\Jalalian;
+use Behin\SimpleWorkflowReport\Models\PettyCash;
 
 class CaseCostCalculator
 {
@@ -35,6 +36,7 @@ class CaseCostCalculator
         $roundTripRepairCost = $this->roundTripRepairCost($caseNumber);
         $missionCost = $this->caseMissionCost($caseNumber);
         $petty = $this->pettyCashCost($caseNumber);
+        $hajibabaPettyCash = $this->hajibabaPettyCashCost($caseNumber);
         $mapaCenterFixReport = $this->mapaCenterFixReport($caseNumber);
 
         $total = $consumable + $partRepair + $deviceRepair + $roundTripRepairCost + $missionCost + $petty + $mapaCenterFixReport;
@@ -51,6 +53,7 @@ class CaseCostCalculator
             'round_trip_repair_cost' => round($roundTripRepairCost),
             'mission_cost' => round($missionCost),
             'petty_cash_cost' => round($petty),
+            'hajibaba_petty_cash_cost' => round($hajibabaPettyCash),
             'mapa_center_fix_report' => round($mapaCenterFixReport),
             'total_cost' => round($total),
             'overhead_cost' => round($overheadCost),
@@ -78,6 +81,15 @@ class CaseCostCalculator
             ->whereIn('counterparty_id', $ids)
             ->where('financial_type', $creditType)
             ->sum('amount');
+
+        return (float) ($sum ?? 0);
+    }
+
+    private function hajibabaPettyCashCost(string $caseNumber): float
+    {
+        // Use Eloquent sum to stay DB-agnostic (works for SQLite in tests)
+        $sum = PettyCash::where('case_number', $caseNumber)
+            ->sum(DB::raw("CAST(REPLACE(amount, ',', '') AS DECIMAL(15,2))"));
 
         return (float) ($sum ?? 0);
     }
