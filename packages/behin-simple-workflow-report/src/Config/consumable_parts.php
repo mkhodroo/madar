@@ -12,7 +12,7 @@ return [
         [
             'key' => 'waiting_inquiring_price',
             'label' => 'در انتظار استعلام قیمت',
-            'assignee' => 'خانم کرم‌زاده',
+            'assignee' => '',
             'color' => '#f632468f',
             'description' => 'درخواست ثبت شده و منتظر استعلام قیمت است.',
         ],
