@@ -465,6 +465,39 @@ class ConsumablePartController extends Controller
         return compact('allRequests', 'users', 'statuses');
     }
 
+    public function export(Request $request)
+    {
+        $status = $request->input('status');
+        $dateColumn = $request->input('date_column');
+        $fromAmount = $request->input('from_amount');
+        $toAmount = $request->input('to_amount');
+
+        $query = Consumable_parts::query();
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        if ($dateColumn) {
+            $query->whereDate($dateColumn, '>=', now()->subMonth());
+        }
+
+        if ($fromAmount !== null && $toAmount !== null) {
+            $query->whereBetween('amount', [$fromAmount, $toAmount]);
+        } elseif ($fromAmount !== null) {
+            $query->where('amount', '>=', $fromAmount);
+        } elseif ($toAmount !== null) {
+            $query->where('amount', '<=', $toAmount);
+        }
+
+        $consumableParts = $query->get();
+
+        return Excel::download(
+            new ConsumablePartsExport($consumableParts),
+            'consumable_parts_' . now()->format('Y_m_d') . '.xlsx'
+        );
+    }
+
     public function destroy(Consumable_parts $consumablePart)
     {
         $consumablePart->delete();
