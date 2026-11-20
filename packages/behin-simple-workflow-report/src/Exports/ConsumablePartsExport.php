@@ -20,6 +20,46 @@ class ConsumablePartsExport implements FromCollection, WithHeadings, WithMapping
     public function map($model): array
     {
         $additionalInfo = $model->additional_info ?? (object)[];
+
+        return [
+            toJalali($model->created_at)->format('Y-m-d H:i'),
+            $model->case_number ?? '',
+            number_format($additionalInfo->unit_price ?? 0),
+            number_format($model->amount ?? 0),
+            $additionalInfo->currencyLabel() ?? '',
+            $model->delivered_quantity ?? 0,
+            $model->returned_quantity ?? 0,
+            $model->status ?? '',
+        ];
+    }
+
+    /**
+     * @param Consumable_parts $model
+     * @return array
+     */
+    public function map($model): array
+    {
+        $additionalInfo = $model->additional_info ?? (object)[];
+
+        return [
+            toJalali($model->created_at)->format('Y-m-d H:i'),
+            $model->case_number ?? '',
+            number_format($additionalInfo->unit_price ?? 0),
+            number_format($model->amount ?? 0),
+            $additionalInfo->currencyLabel() ?? '',
+            $model->delivered_quantity ?? 0,
+            $model->returned_quantity ?? 0,
+            $model->status ?? '',
+        ];
+    }
+
+    /**
+     * @param Consumable_parts $model
+     * @return array
+     */
+    public function map($model): array
+    {
+        $additionalInfo = $model->additional_info ?? (object)[];
         
         return [
             toJalali($model->created_at)->format('Y-m-d H:i'),
