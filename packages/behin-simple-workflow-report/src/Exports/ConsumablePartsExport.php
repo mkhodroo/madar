@@ -28,7 +28,8 @@ class ConsumablePartsExport implements FromCollection, WithHeadings, WithMapping
     {
         $headings = [
             'قطعه',
-            'شناسه کالا',
+            'شماره پرونده',
+            'نام مشتری',
             'درخواست کننده',
             'تعداد درخواست شده',
             'تعداد تحویل شده',
@@ -37,18 +38,18 @@ class ConsumablePartsExport implements FromCollection, WithHeadings, WithMapping
             'تاریخ درخواست',
         ];
 
-        if ($this->withPrices) {
-            $headings = array_merge($headings, [
-                'قیمت',
-                'قیمت واحد',
-                'واحد پول',
-                'منبع تامین',
-                'تاریخ فاکتور',
-                'شماره فاکتور',
-                'تاریخ سفارش',
-                'تاریخ دریافت',
-            ]);
-        }
+        // if ($this->withPrices) {
+        //     $headings = array_merge($headings, [
+        //         'قیمت',
+        //         'قیمت واحد',
+        //         'واحد پول',
+        //         'منبع تامین',
+        //         'تاریخ فاکتور',
+        //         'شماره فاکتور',
+        //         'تاریخ سفارش',
+        //         'تاریخ دریافت',
+        //     ]);
+        // }
 
         return $headings;
     }
@@ -67,38 +68,39 @@ class ConsumablePartsExport implements FromCollection, WithHeadings, WithMapping
 
         $row = [
             $request->product_name ?? '',
-            $request->item_id ?? ($request->product_id ?? ''),
-            $requesterName,
-            $request->requested_quantity ?? '',
-            $request->delivered_quantity ?? '',
-            $request->returned_quantity ?? '',
+            $request->case_number,
+            $request->case()?->customerName() ?: ($request->customer_name ?? ''),
+            getUserInfo($request->created_by)->name ?? '',
+            $request->requested_quantity,
+            $request->delivered_quantity,
+            $request->returned_quantity,
             $request->consumable_part_status ?? '',
             $this->formatCarbon($request->created_at ?? null),
         ];
 
-        if ($this->withPrices) {
-            $additional = is_array($request->additional_info ?? null)
-                ? (object) $request->additional_info
-                : ($request->additional_info ?? null);
+        // if ($this->withPrices) {
+        //     $additional = is_array($request->additional_info ?? null)
+        //         ? (object) $request->additional_info
+        //         : ($request->additional_info ?? null);
 
-            $currencyLabel = '';
-            if ($additional && method_exists($additional, 'currencyLabel')) {
-                $currencyLabel = $additional->currencyLabel();
-            } elseif ($additional && !empty($additional->currency)) {
-                $currencyLabel = $additional->currency;
-            }
+        //     $currencyLabel = '';
+        //     if ($additional && method_exists($additional, 'currencyLabel')) {
+        //         $currencyLabel = $additional->currencyLabel();
+        //     } elseif ($additional && !empty($additional->currency)) {
+        //         $currencyLabel = $additional->currency;
+        //     }
 
-            $row = array_merge($row, [
-                $request->amount ?? '',
-                $additional->unit_price ?? '',
-                $currencyLabel,
-                $request->supply_source ?? '',
-                $request->invoice_date ?? '',
-                $request->invoice_number ?? '',
-                $additional->order_date ?? '',
-                $additional->receipt_date ?? '',
-            ]);
-        }
+        //     $row = array_merge($row, [
+        //         $request->amount ?? '',
+        //         $additional->unit_price ?? '',
+        //         $currencyLabel,
+        //         $request->supply_source ?? '',
+        //         $request->invoice_date ?? '',
+        //         $request->invoice_number ?? '',
+        //         $additional->order_date ?? '',
+        //         $additional->receipt_date ?? '',
+        //     ]);
+        // }
 
         return $row;
     }
