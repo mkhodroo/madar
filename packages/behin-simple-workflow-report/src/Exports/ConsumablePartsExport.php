@@ -15,8 +15,11 @@ class ConsumablePartsExport implements FromCollection, WithHeadings, WithMapping
 
     public function __construct(
         private readonly Collection $requests,
-        private readonly bool $withPrices = false
+        private bool $withPrices = false
     ) {
+        if(access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت')){
+            $this->withPrices = true;
+        }
     }
 
     public function collection(): Collection
@@ -38,18 +41,18 @@ class ConsumablePartsExport implements FromCollection, WithHeadings, WithMapping
             'تاریخ درخواست',
         ];
 
-        // if ($this->withPrices) {
-        //     $headings = array_merge($headings, [
-        //         'قیمت',
-        //         'قیمت واحد',
-        //         'واحد پول',
-        //         'منبع تامین',
-        //         'تاریخ فاکتور',
-        //         'شماره فاکتور',
-        //         'تاریخ سفارش',
-        //         'تاریخ دریافت',
-        //     ]);
-        // }
+        if ($this->withPrices) {
+            $headings = array_merge($headings, [
+                'قیمت',
+                'قیمت واحد',
+                'واحد پول',
+                'منبع تامین',
+                'تاریخ فاکتور',
+                'شماره فاکتور',
+                'تاریخ سفارش',
+                'تاریخ دریافت',
+            ]);
+        }
 
         return $headings;
     }
@@ -78,29 +81,29 @@ class ConsumablePartsExport implements FromCollection, WithHeadings, WithMapping
             $this->formatCarbon($request->created_at ?? null),
         ];
 
-        // if ($this->withPrices) {
-        //     $additional = is_array($request->additional_info ?? null)
-        //         ? (object) $request->additional_info
-        //         : ($request->additional_info ?? null);
+        if ($this->withPrices) {
+            $additional = is_array($request->additional_info ?? null)
+                ? (object) $request->additional_info
+                : ($request->additional_info ?? null);
 
-        //     $currencyLabel = '';
-        //     if ($additional && method_exists($additional, 'currencyLabel')) {
-        //         $currencyLabel = $additional->currencyLabel();
-        //     } elseif ($additional && !empty($additional->currency)) {
-        //         $currencyLabel = $additional->currency;
-        //     }
+            $currencyLabel = '';
+            if ($additional && method_exists($additional, 'currencyLabel')) {
+                $currencyLabel = $additional->currencyLabel();
+            } elseif ($additional && !empty($additional->currency)) {
+                $currencyLabel = $additional->currency;
+            }
 
-        //     $row = array_merge($row, [
-        //         $request->amount ?? '',
-        //         $additional->unit_price ?? '',
-        //         $currencyLabel,
-        //         $request->supply_source ?? '',
-        //         $request->invoice_date ?? '',
-        //         $request->invoice_number ?? '',
-        //         $additional->order_date ?? '',
-        //         $additional->receipt_date ?? '',
-        //     ]);
-        // }
+            $row = array_merge($row, [
+                $request->amount ?? '',
+                $additional->unit_price ?? '',
+                $currencyLabel,
+                $request->supply_source ?? '',
+                $request->invoice_date ?? '',
+                $request->invoice_number ?? '',
+                $additional->order_date ?? '',
+                $additional->receipt_date ?? '',
+            ]);
+        }
 
         return $row;
     }

@@ -467,7 +467,7 @@ class ConsumablePartController extends Controller
 
     public function export(Request $request)
     {
-        $data = $this->prepareReportData(request());
+        $data = $this->prepareReportData(request(), false);
 
         return Excel::download(
             new ConsumablePartsExport($data['allRequests']),
