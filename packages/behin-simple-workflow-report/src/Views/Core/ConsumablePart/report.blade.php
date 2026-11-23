@@ -544,7 +544,7 @@
                             </td>
                             <td dir="ltr">
                                 @if ($request->delivery_date_to_staff)
-                                    {{ $request->delivery_date_to_staff }} <br>
+                                    {{ convertPersianToEnglish($request->delivery_date_to_staff) }} <br>
                                 @else
                                     ـ
                                 @endif
