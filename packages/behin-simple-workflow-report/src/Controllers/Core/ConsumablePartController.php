@@ -90,8 +90,8 @@ class ConsumablePartController extends Controller
             $consumablePart->consumable_part_status = $request->consumable_part_status;
             $consumablePart->delivered_quantity = $deliveredQuantity;
             $consumablePart->returned_quantity = $returnedQuantity;
-            $consumablePart->delivery_date_to_staff = $request->delivery_date_to_staff;
-            $consumablePart->delivery_date_to_staff_alt = $request->delivery_date_to_staff_alt;
+            $consumablePart->delivery_date_to_staff = now();//$request->delivery_date_to_staff;
+            $consumablePart->delivery_date_to_staff_alt = now()->timestamp * 1000; //$request->delivery_date_to_staff_alt;
 
             // Calculate amount: (delivered - returned) * unit_price
             $additionalInfo = $consumablePart->additional_info;
