@@ -41,6 +41,8 @@ use Behin\SimpleWorkflowReport\Controllers\Scripts\TotalTimeoff;
 use Behin\SimpleWorkflowReport\Controllers\Scripts\UserTimeoffs;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+use Behin\SimpleWorkflowReport\Controllers\Core\ImportCatalogListController;
+use Behin\SimpleWorkflowReport\Controllers\Core\ConsumablePartStatusHistoryController;
 
 Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['web', 'auth'])->group(function () {
     Route::get('index', [ReportController::class, 'index'])->name('index');
@@ -49,6 +51,8 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
     Route::resource('role', RoleReportFormController::class);
     Route::resource('fin-report', FinReportController::class);
     Route::resource('external-internal', ExternalAndInternalReportController::class);
+
+//کالای امانی
     Route::prefix('borrow-requests')->name('borrow-requests.')->group(function () {
         Route::get('', [BorrowRequestController::class, 'index'])->name('index');
         Route::post('', [BorrowRequestController::class, 'store'])->name('store');
@@ -58,7 +62,14 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
         Route::post('{borrowRequest}/not-available', [BorrowRequestController::class, 'markNotAvailable'])->name('not-available');
         Route::post('{borrowRequest}/mark-returned', [BorrowRequestController::class, 'markReturned'])->name('mark-returned');
         Route::post('{borrowRequest}/confirm-return', [BorrowRequestController::class, 'confirmReturn'])->name('confirm-return');
+
+        //import catalog list view page
+        Route::get('import-catalog-list', [ImportCatalogListController::class, 'index'])->name('import-catalog-list.index');
+        //import catalog list from excel
+        Route::post('import-catalog-list', [ImportCatalogListController::class, 'importCatalogListFromExcel'])->name('import-catalog-list');
     });
+
+
     Route::post('external-internal/search', [ExternalAndInternalReportController::class, 'search'])->name('external-internal.search');
     Route::get('external-internal-archive', [ExternalAndInternalReportController::class, 'archive'])->name('external-internal-archive');
 
@@ -176,6 +187,12 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
             Route::get('{consumablePart}/delete', [ConsumablePartController::class, 'destroy'])->name('delete')->middleware('access:گزارش قطعات درخواستی از انبار');
             Route::get('{consumablePart}/edit', [ConsumablePartController::class, 'edit'])->name('edit')->middleware('access:ویرایش قطعات درخواستی از انبار');
             Route::put('{consumablePart}/update', [ConsumablePartController::class, 'update'])->name('update')->middleware('access:ویرایش قطعات درخواستی از انبار');
+        });
+
+    Route::name('consumable-part-history.')
+        ->prefix('consumable-part-history')
+        ->group(function () {
+            Route::get('{consumablePartId}/show', [ConsumablePartStatusHistoryController::class, 'show'])->name('show');
         });
 
     Route::name('parts.')

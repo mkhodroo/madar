@@ -201,8 +201,8 @@
 
         <style>
             /* =========================
-                   Filter Card
-                ========================= */
+                       Filter Card
+                    ========================= */
 
             .filter-card {
                 background: #fff;
@@ -507,9 +507,15 @@
                         <tr>
                             <td>
                                 <div>
+                                    <span
+                                        class="bg-info rounded-circle d-inline-flex align-items-center justify-content-center"
+                                        style="width: 30px; height: 30px; cursor: pointer;"
+                                        onclick="showHistory('{{ $request->id }}')">
+                                        <i class="fa fa-info text-white"></i>
+                                    </span>
                                     {{ $request->product_name }}<br>
                                     <span style="width: 150px">
-                                    توضیحات: {{ $request->description ?? '' }}
+                                        توضیحات: {{ $request->description ?? '' }}
 
                                     </span>
                                 </div>
@@ -518,7 +524,7 @@
                                 @endif
                             </td>
                             <td>{{ $request->case_number ?? '' }}</td>
-                            <td>{{ $request->case()?->customerName() ?: ($request->customer_name ?? '') }}</td>
+                            <td>{{ $request->case()?->customerName() ?: $request->customer_name ?? '' }}</td>
                             <td>{{ getUserInfo($request->created_by)->name ?? '' }}</td>
                             <td>{{ $request->requested_quantity }}</td>
                             <td>{{ $request->delivered_quantity }}</td>
@@ -550,7 +556,8 @@
                                 @endif
                             </td>
                             @if (access('گزارش قطعات درخواستی از انبار - مشاهده ستون های مرتبط با قیمت'))
-                                <td style="color:red">[[ $request->amount ? number_format($request->amount) : $request->amount ]]</td>
+                                <td style="color:red">[[ $request->amount ? number_format($request->amount) :
+                                    $request->amount ]]</td>
                                 <td>[[ $request->additional_info?->unit_price ?
                                     number_format($request->additional_info?->unit_price) :
                                     $request->additional_info?->unit_price ]]</td>
@@ -570,7 +577,8 @@
                                 @endif
 
                                 @if (access('گزارش قطعات درخواستی از انبار - ویرایش'))
-                                    <button class="btn btn-sm btn-primary" onclick="show_edit_modal(`{{ $request->id }}`)">
+                                    <button class="btn btn-sm btn-primary"
+                                        onclick="show_edit_modal(`{{ $request->id }}`)">
                                         <i class="fa fa-edit"></i>
                                     </button>
                                 @endif
@@ -612,10 +620,17 @@
         }
         return null;
     }
-    
+
     function show_edit_modal(id) {
         let url = '{{ route('simpleWorkflowReport.consumable-parts.edit', ':id') }}';
         url = url.replace(':id', id);
         open_admin_modal(url);
+    }
+
+    function showHistory(consumableId) {
+        url = '{{ route('simpleWorkflowReport.consumable-part-history.show', 'CONSUMABLE_PART_ID') }}';
+        url = url.replace('CONSUMABLE_PART_ID', consumableId);
+        open_admin_modal(url);
+
     }
 </script>

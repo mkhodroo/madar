@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
+use Behin\SimpleWorkflowReport\Controllers\Core\ConsumablePartStatusHistoryController;
 
 class ConsumablePartController extends Controller
 {
@@ -73,6 +74,7 @@ class ConsumablePartController extends Controller
 
     public function deliver(Request $request, Consumable_parts $consumablePart)
     {
+        ConsumablePartStatusHistoryController::store($request, $consumablePart);
         if ($consumablePart->consumable_part_status == 'در انتظار تحویل انبار') {
             $deliveredQuantity = $request->delivered_quantity ?? 0;
             $returnedQuantity = $request->returned_quantity ?? 0;

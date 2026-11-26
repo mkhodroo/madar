@@ -11,10 +11,10 @@ return [
         ],
         [
             'key' => 'waiting_inquiring_price',
-            'label' => 'در انتظار استعلام قیمت',
-            'assignee' => '',
-            'color' => '#f632468f',
-            'description' => 'درخواست ثبت شده و منتظر استعلام قیمت است.',
+            'label' => 'درحال بررسی بازار',
+            'assignee' => 'خانم کرم‌زاده',
+            'color' => '#ffe09c',
+            'description' => 'درخواست ثبت شده و منتظر تهیه قطعه است.',
         ],
         [
             'key' => 'returned',
