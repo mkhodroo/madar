@@ -63,7 +63,7 @@
                                             <td>{{ $user->number }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td><a href="{{ $user->role()->id ? route('role.show', $user->role()->id) : '' }}" class="text-primary">{{ $user->role()?->name ?? '' }}</a></td>
+                                            <td><a href="{{ $user->role()?->id ? route('role.show', $user->role()->id) : '' }}" class="text-primary">{{ $user->role()?->name ?? '' }}</a></td>
                                             <td><span class="badge bg-success">فعال</span></td>
                                             <td class="text-center">
                                                 <a href="{{ $user->id }}" class="text-decoration-none">
